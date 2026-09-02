@@ -1,38 +1,27 @@
 ﻿import React from 'react';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 import { PAGE_URLS, generateSchema, SITE_CONFIG, getFullUrl } from '../lib/seo';
-import HomeHeroSection from '../components/home/HomeHeroSection';
-import HomeSymptomsSection from '../components/home/HomeSymptomsSection';
-import HomeHowItWorksSection from '../components/home/HomeHowItWorksSection';
-import HomeTestimonialsSection from '../components/home/HomeTestimonialsSection';
-import HomePricingSection from '../components/home/HomePricingSection';
-import HomeQuizCTASection from '../components/home/HomeQuizCTASection';
-import FAQ from '../components/FAQ';
-import FAQSection from '@/components/product-page/FAQSection';
+import HolisHome from '../components/home/HolisHome';
 
 const Home: React.FC = () => {
   // SEO configuration for home page
   useSeoMeta(
     {
-      title: 'Prostanone | Premium Prostate Health Supplement',
-      description: 'Discover Prostanone - NAFDAC certified, 100% natural herbal supplement for prostate health. Improve urinary function, reduce nighttime urgency, and boost wellness.',
+      title: 'Holis Botanicals | Wellness, Rooted in Nature',
+      description: 'Thoughtfully sourced botanical wellness products for the needs of modern life.',
       keywords: [
-        'prostate health',
-        'prostate supplement',
-        'natural remedy',
-        'urinary health',
-        'NAFDAC certified',
-        'herbal supplement',
-        'prostate problem solution',
+        'botanical wellness',
+        "women's wellness",
+        "men's wellness",
       ],
       url: PAGE_URLS.home,
       image: SITE_CONFIG.defaultImage,
-      imageAlt: 'Prostanone Premium Prostate Health Supplement',
+      imageAlt: 'Holis botanical wellness',
       type: 'website',
     },
     {
       schema: generateSchema('WebSite', {
-        name: 'Prostanone',
+        name: 'Holis Botanicals',
         url: SITE_CONFIG.domain,
         potentialAction: {
           '@type': 'SearchAction',
@@ -47,15 +36,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="overflow-x-hidden">
-      <HomeHeroSection />
-      <HomeSymptomsSection />
-      <HomeHowItWorksSection />
-      <HomeTestimonialsSection />
-      <HomePricingSection />
-      <FAQSection />
-      <HomeQuizCTASection />
-    </div>
+    <HolisHome />
   );
 };
 

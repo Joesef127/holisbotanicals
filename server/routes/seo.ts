@@ -37,7 +37,8 @@ seo.get('/sitemap-static.xml', (c) => {
   const staticPages = [
     { loc: `${baseUrl}/`, changefreq: 'weekly', priority: '1.0' },
     { loc: `${baseUrl}/about`, changefreq: 'monthly', priority: '0.9' },
-    { loc: `${baseUrl}/product`, changefreq: 'weekly', priority: '1.0' },
+    { loc: `${baseUrl}/prostanone`, changefreq: 'weekly', priority: '1.0' },
+    { loc: `${baseUrl}/menoset`, changefreq: 'weekly', priority: '1.0' },
     { loc: `${baseUrl}/science`, changefreq: 'yearly', priority: '0.8' },
     { loc: `${baseUrl}/reviews`, changefreq: 'weekly', priority: '0.8' },
     { loc: `${baseUrl}/quiz`, changefreq: 'weekly', priority: '0.7' },

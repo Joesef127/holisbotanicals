@@ -5,7 +5,8 @@
 User-agent: *
 Allow: /
 Allow: /about
-Allow: /product
+Allow: /prostanone
+Allow: /menoset
 Allow: /science
 Allow: /reviews
 Allow: /blog

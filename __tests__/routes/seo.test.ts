@@ -52,7 +52,7 @@ ${sitemaps.map(s => `  <sitemap><loc>${s.url}</loc></sitemap>`).join('\n')}
       const pages = [
         { loc: 'https://holisbotanicals.com/', changefreq: 'daily', priority: '1.0' },
         { loc: 'https://holisbotanicals.com/about', changefreq: 'monthly', priority: '0.8' },
-        { loc: 'https://holisbotanicals.com/product', changefreq: 'weekly', priority: '0.9' },
+        { loc: 'https://holisbotanicals.com/prostanone', changefreq: 'weekly', priority: '0.9' },
         { loc: 'https://holisbotanicals.com/blog', changefreq: 'weekly', priority: '0.8' },
         { loc: 'https://holisbotanicals.com/quiz', changefreq: 'monthly', priority: '0.7' },
       ];
@@ -75,7 +75,7 @@ ${pages.map(page => `  <url>
       // Check for key static pages
       expect(xml).toContain('holisbotanicals.com/');
       expect(xml).toContain('holisbotanicals.com/about');
-      expect(xml).toContain('holisbotanicals.com/product');
+      expect(xml).toContain('holisbotanicals.com/prostanone');
       expect(xml).toContain('holisbotanicals.com/blog');
       expect(xml).toContain('holisbotanicals.com/quiz');
     });
@@ -84,7 +84,7 @@ ${pages.map(page => `  <url>
       const pages = [
         { loc: 'https://holisbotanicals.com/', priority: '1.0' },
         { loc: 'https://holisbotanicals.com/about', priority: '0.8' },
-        { loc: 'https://holisbotanicals.com/product', priority: '0.9' },
+        { loc: 'https://holisbotanicals.com/prostanone', priority: '0.9' },
       ];
 
       pages.forEach(page => {

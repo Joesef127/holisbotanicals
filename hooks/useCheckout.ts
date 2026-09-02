@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { PACKAGES, API_BASE } from '../lib/constants';
+import { ALL_PACKAGES, API_BASE } from '../lib/constants';
 import { calcDeliveryFee } from '../utils/delivery';
 import { useModal } from '../context/ModalContext';
 import { useSendOrderNotification } from './useSendOrderNotification';
@@ -72,7 +72,7 @@ export function useCheckout() {
   const subtotal = useMemo(
     () =>
       cart.reduce((acc, item) => {
-        const pkg = PACKAGES.find(p => p.id === item.packageId);
+        const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
         return acc + (pkg ? pkg.price * item.quantity : 0);
       }, 0),
     [cart],
@@ -81,7 +81,7 @@ export function useCheckout() {
   const totalPacks = useMemo(
     () =>
       cart.reduce((acc, item) => {
-        const pkg = PACKAGES.find(p => p.id === item.packageId);
+        const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
         return acc + (pkg ? pkg.containers * item.quantity : 0);
       }, 0),
     [cart],
@@ -104,7 +104,7 @@ export function useCheckout() {
   const buildOrderSummary = () =>
     cart
       .map(item => {
-        const pkg = PACKAGES.find(p => p.id === item.packageId);
+        const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
         return `${item.quantity}x ${pkg?.name} (₦${pkg?.price.toLocaleString()})`;
       })
       .join(', ');

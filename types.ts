@@ -9,6 +9,7 @@ export interface Testimonial {
 
 export interface ProductPackage {
   id: string;
+  productId?: 'prostanone' | 'menoset';
   name: string;
   containers: number;
   price: number;
