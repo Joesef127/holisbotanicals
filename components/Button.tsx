@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 
 interface ButtonProps extends HTMLMotionProps<"button"> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'hero';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   children?: React.ReactNode;
@@ -24,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
     secondary: "bg-accent text-white hover:bg-yellow-600 focus:ring-accent",
     outline: "border-2 border-primary text-primary hover:bg-primary/5 focus:ring-primary",
     ghost: "text-primary hover:bg-primary/5",
+    hero: "bg-[#cbdc89] text-[#18352c] hover:bg-white focus:border-0"
   };
 
   const sizes = {

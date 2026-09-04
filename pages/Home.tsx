@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 import { PAGE_URLS, generateSchema, SITE_CONFIG, getFullUrl } from '../lib/seo';
-import HolisHome from '../components/home/HolisHome';
+import HolisHome from '../components/new-home/HolisHome';
 
 const Home: React.FC = () => {
   // SEO configuration for home page

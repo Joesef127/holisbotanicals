@@ -62,7 +62,7 @@ const AdminProfile = lazy(() => import("./pages/AdminProfile"));
 
 // Wake up Render backend on first load (prevents cold-start delay on first real request)
 if (API_BASE) {
-  fetch(`${API_BASE}/api/ping`).catch(() => {});
+  fetch(`${API_BASE}/api/ping`).catch(() => { });
 }
 
 const ScrollToTop = () => {
