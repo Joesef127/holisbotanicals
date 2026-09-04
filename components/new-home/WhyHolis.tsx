@@ -10,7 +10,7 @@ const WhyHolis: React.FC<{ reveal: any }> = ({ reveal }) => {
                     <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#527130]">
                         Why Holis
                     </p>
-                    <h2 className="mt-4 text-4xl font-bold">
+                    <h2 className="mt-4 text-4xl font-bold text-[#18352C]">
                         A thoughtful way forward.
                     </h2>
                 </div>
@@ -35,7 +35,7 @@ const WhyHolis: React.FC<{ reveal: any }> = ({ reveal }) => {
                     ].map(([title, copy]) => (
                         <article key={title} className="bg-[#eef3e7] p-7">
                             <Leaf className="h-6 w-6 text-[#527130]" />
-                            <h3 className="mt-5 text-xl font-bold">
+                            <h3 className="mt-5 text-xl font-bold text-[#18352C]">
                                 {title}
                             </h3>
                             <p className="mt-3 text-sm leading-relaxed text-[#496158]">
