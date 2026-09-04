@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-white/10 pt-8 mt-8 text-center max-w-4xl mx-auto">
-          <p className="text-gray-500 text-xs">
+          <p className="text-gray-300 text-xs">
             © {new Date().getFullYear()} Prostanone. NAFDAC Certified. All rights reserved. Distributed by Holis Botanical Gardens.
           </p>
         </div>

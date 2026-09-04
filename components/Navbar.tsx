@@ -69,9 +69,7 @@ const Navbar: React.FC = () => {
                 onClick={() => setProductsOpen((open) => !open)}
                 aria-haspopup="menu"
                 aria-expanded={productsOpen}
-                className={`flex items-center gap-1 text-xs lg:text-sm rounded-lg py-1 lg:py-1.5 px-1.5 lg:px-2.5 font-medium transition-colors ${
-                  isAddedPage ? "text-white hover:bg-white hover:text-primary" : isHomePage ? `${scrolled ? "text-primary" : "text-white"} hover:bg-primary hover:text-white` : "text-gray-600 hover:text-primary"
-                }`}
+                className={`flex items-center gap-1 text-xs lg:text-sm rounded-lg py-1 lg:py-1.5 px-1.5 lg:px-2.5 font-medium transition-colors ${isAddedPage ? "text-white hover:bg-white hover:text-primary" : isHomePage ? `${scrolled ? "text-primary" : "text-white"} hover:bg-primary hover:text-white` : "text-gray-600 hover:text-primary"}`}
               >
                 Products <ChevronDown className="h-4 w-4" aria-hidden="true" />
               </button>

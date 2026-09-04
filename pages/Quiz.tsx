@@ -71,7 +71,7 @@ const Quiz: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-20 bg-background flex flex-col items-center justify-center px-4">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden min-h-[500px] flex flex-col">
+      <div className="w-full max-w-2xl bg-surface rounded-3xl shadow-xl overflow-hidden min-h-[500px] flex flex-col">
         {/* Progress Bar */}
         <div className="h-2 bg-gray-100 w-full">
           <motion.div

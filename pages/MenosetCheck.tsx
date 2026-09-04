@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check, ShieldAlert } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -65,16 +65,6 @@ const questions = [
             "General menopause support",
         ],
     },
-    {
-        id: "preference",
-        question: "Which best describes what you want today?",
-        options: [
-            "I want to start with one pack",
-            "I want a 3-month supply",
-            "I prefer a longer supply",
-            "I want the best value",
-        ],
-    },
 ];
 
 const MenosetCheck: React.FC = () => {
@@ -83,7 +73,16 @@ const MenosetCheck: React.FC = () => {
     const [notice, setNotice] = useState("");
     const navigate = useNavigate();
     const reduceMotion = useReducedMotion();
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const question = questions[step];
+
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, [step]);
 
     useSeoMeta({
         title: "Menoset 60-Second Symptom Check",
@@ -98,7 +97,11 @@ const MenosetCheck: React.FC = () => {
             ? answers[question.id].length > 0
             : Boolean(answers[question.id])
         : true;
+
     const next = () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
         if (!isAnswered) {
             setNotice("Choose at least one answer before continuing.");
             return;
@@ -107,24 +110,56 @@ const MenosetCheck: React.FC = () => {
         if (step < questions.length - 1) setStep((current) => current + 1);
         else navigate("/menoset-results", { state: { answers } });
     };
-    const toggleSymptom = (option: string) => {
-        const selected = (answers.symptoms as string[] | undefined) ?? [];
+
+    const prev = () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        setNotice("");
+        if (step > 0) setStep(step - 1);
+        else setStep(-1);
+    };
+
+    const toggleMultipleOption = (questionId: string, option: string) => {
+        const selected = (answers[questionId] as string[] | undefined) ?? [];
         setAnswers({
             ...answers,
-            symptoms: selected.includes(option)
+            [questionId]: selected.includes(option)
                 ? selected.filter((item) => item !== option)
                 : [...selected, option],
         });
+        if (notice) setNotice("");
+    };
+
+    const handleRadioSelect = (questionId: string, option: string) => {
+        const nextAnswers = {
+            ...answers,
+            [questionId]: option,
+        };
+        setAnswers(nextAnswers);
+        if (notice) setNotice("");
+
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            if (step < questions.length - 1) {
+                setStep((current) => current + 1);
+            } else {
+                navigate("/menoset-results", { state: { answers: nextAnswers } });
+            }
+        }, 300);
     };
 
     if (step === -1)
         return (
-            <main className="min-h-screen bg-[#fffaf7] px-4 pt-28">
-                <section className="mx-auto max-w-3xl border border-[#ead7df] bg-white p-8 text-center shadow-sm sm:p-14">
+            <main className="min-h-screen px-4 pt-28">
+                <section className="mx-auto max-w-3xl flex flex-col items-center border border-gray-200 rounded-3xl bg-surface p-8 text-center shadow-sm sm:p-14">
                     <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9d3d65]">
                         Menoset wellness guidance
                     </p>
-                    <h1 className="mt-4 text-4xl font-bold text-[#4e1939]">
+                    <h1 className="mt-4 text-4xl max-w-2/3 text-center font-bold text-[#4e1939]">
                         Not sure which Menoset pack is right for you?
                     </h1>
                     <p className="mx-auto mt-5 max-w-xl leading-relaxed text-[#624b57]">
@@ -133,7 +168,7 @@ const MenosetCheck: React.FC = () => {
                         current needs and routine.
                     </p>
                     <Button
-                        size="lg"
+                        size="md"
                         onClick={() => setStep(0)}
                         className="mt-8 bg-[#4e1939] hover:bg-[#6d274e]"
                     >
@@ -166,9 +201,7 @@ const MenosetCheck: React.FC = () => {
                     <div className="flex items-center justify-between gap-3">
                         <button
                             type="button"
-                            onClick={() =>
-                                step > 0 ? setStep(step - 1) : setStep(-1)
-                            }
+                            onClick={prev}
                             className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#7a3155] hover:text-[#4e1939]"
                         >
                             <ArrowLeft className="h-4 w-4" /> Back
@@ -202,15 +235,20 @@ const MenosetCheck: React.FC = () => {
                                 {question.options.map((option) => {
                                     const selected = question.multiple
                                         ? (
-                                              (answers[question.id] as
-                                                  | string[]
-                                                  | undefined) ?? []
-                                          ).includes(option)
+                                            (answers[question.id] as
+                                                | string[]
+                                                | undefined) ?? []
+                                        ).includes(option)
                                         : answers[question.id] === option;
                                     return (
                                         <label
                                             key={option}
-                                            className={`flex min-h-14 cursor-pointer items-center justify-between gap-4 border p-4 transition-colors ${selected ? "border-[#9d3d65] bg-[#fbeff1] text-[#4e1939]" : "border-[#ead7df] hover:border-[#c77b9a]"}`}
+                                            onClick={() => {
+                                                if (!question.multiple && selected) {
+                                                    handleRadioSelect(question.id, option);
+                                                }
+                                            }}
+                                            className={`flex min-h-14 rounded-lg cursor-pointer items-center justify-between gap-4 border p-4 transition-colors ${selected ? "border-[#9d3d65] bg-[#fbeff1] text-[#4e1939]" : "border-[#ead7df] hover:border-[#c77b9a]"}`}
                                         >
                                             <span className="font-medium">
                                                 {option}
@@ -226,21 +264,17 @@ const MenosetCheck: React.FC = () => {
                                                 checked={selected}
                                                 onChange={() =>
                                                     question.multiple
-                                                        ? toggleSymptom(option)
-                                                        : setAnswers({
-                                                              ...answers,
-                                                              [question.id]:
-                                                                  option,
-                                                          })
+                                                        ? toggleMultipleOption(question.id, option)
+                                                        : handleRadioSelect(question.id, option)
                                                 }
                                                 className="h-5 w-5 accent-[#9d3d65]"
                                             />
-                                            {selected && (
+                                            {/* {selected && (
                                                 <Check
                                                     className="h-5 w-5 text-[#9d3d65]"
                                                     aria-hidden="true"
                                                 />
-                                            )}
+                                            )} */}
                                         </label>
                                     );
                                 })}

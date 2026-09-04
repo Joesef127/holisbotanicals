@@ -197,9 +197,9 @@ const Results: React.FC = () => {
 
               <Button
                 fullWidth
-                size="lg"
+                size="md"
                 onClick={handleClaim}
-                className="bg-white !text-primary hover:bg-gray-50 font-extrabold text-lg group mb-4 shadow-2xl shadow-black/20 border-2 border-white"
+                className="text-primary hover:bg-gray-50 font-extrabold text-lg group mb-4 shadow-2xl shadow-black/20 border border-white"
                 animate={{ scale: [1, 1.03, 1] }}
                 transition={{
                   duration: 2,
@@ -214,7 +214,7 @@ const Results: React.FC = () => {
                 <Button
                   variant="outline"
                   fullWidth
-                  className="border-white/30 text-white hover:bg-white/10"
+                  className="border-white/30 text-white hover:bg-white hover:text-primary"
                 >
                   Learn More About the Science
                 </Button>
