@@ -31,7 +31,7 @@ const BlogPostBody: React.FC<BlogPostBodyProps> = ({ post }) => (
         Prostanone combines eight clinically-studied plant compounds in a NAFDAC-certified formulation designed for Nigerian men.
       </p>
       <Link
-        to="/product"
+        to="/prostanone"
         className="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors"
       >
         Learn About Prostanone

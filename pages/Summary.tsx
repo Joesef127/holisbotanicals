@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { PACKAGES } from '../lib/constants.ts';
+import { ALL_PACKAGES } from '../lib/constants.ts';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 import Button from '../components/Button';
 import { Link, useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Summary: React.FC = () => {
 
    // Calculate totals
    const subtotal = cart.reduce((acc, item) => {
-      const pkg = PACKAGES.find(p => p.id === item.packageId);
+      const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
       return acc + (pkg ? pkg.price * item.quantity : 0);
    }, 0);
 
@@ -52,7 +52,7 @@ const Summary: React.FC = () => {
             <div className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-100">
                <div className="p-8">
                   {cart.map((item) => {
-                     const pkg = PACKAGES.find(p => p.id === item.packageId);
+                     const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
                      if (!pkg) return null;
                      const lineTotal = pkg.price * item.quantity;
                      const lineSavingsText = pkg.savingsText;
@@ -61,8 +61,8 @@ const Summary: React.FC = () => {
                         <div key={item.packageId} className="flex flex-col md:flex-row gap-6 items-center border-b border-gray-100 pb-8 last:border-0 last:pb-0">
                            <div className="w-32 h-32 bg-gray-100 rounded-xl flex items-center justify-center shrink-0">
                               <img
-                                 src={images.prostanone}
-                                 alt="Prostanone"
+                                 src={pkg.productId === 'menoset' ? 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80' : images.prostanone}
+                                 alt={pkg.productId === 'menoset' ? 'Menoset product placeholder' : 'Prostanone'}
                                  className="h-28 w-auto object-contain"
                               />
                            </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, UserCircle } from "lucide-react";
+import { Menu, X, ShoppingCart, UserCircle, ChevronDown } from "lucide-react";
 import { NAV_LINKS } from "../lib/constants.ts";
 import Button from "./Button";
 import ThemeToggle from "./ThemeToggle";
@@ -13,6 +13,7 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isAddedPage, setIsAddedPage] = useState(false);
   const [isHomePage, setIsHomePage] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
 
   const location = useLocation();
   const { cart } = useApp();
@@ -31,7 +32,8 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     setIsOpen(false);
     setIsAddedPage(
-      location.pathname === "/product" ||
+      location.pathname === "/prostanone" ||
+        location.pathname === "/menoset" ||
         location.pathname === "/blog" ||
         location.pathname === "/distributor",
     );
@@ -61,6 +63,25 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-6 xl:space-x-8">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setProductsOpen((open) => !open)}
+                aria-haspopup="menu"
+                aria-expanded={productsOpen}
+                className={`flex items-center gap-1 text-xs lg:text-sm rounded-lg py-1 lg:py-1.5 px-1.5 lg:px-2.5 font-medium transition-colors ${
+                  isAddedPage ? "text-white hover:bg-white hover:text-primary" : isHomePage ? `${scrolled ? "text-primary" : "text-white"} hover:bg-primary hover:text-white` : "text-gray-600 hover:text-primary"
+                }`}
+              >
+                Products <ChevronDown className="h-4 w-4" aria-hidden="true" />
+              </button>
+              {productsOpen && (
+                <div role="menu" className="absolute left-0 top-full mt-2 w-48 rounded-lg border border-gray-200 bg-white p-1 shadow-lg">
+                  <Link role="menuitem" to="/menoset" onClick={() => setProductsOpen(false)} className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-800">Menoset</Link>
+                  <Link role="menuitem" to="/prostanone" onClick={() => setProductsOpen(false)} className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-primary/5 hover:text-primary">Prostanone</Link>
+                </div>
+              )}
+            </div>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.path}
@@ -228,6 +249,11 @@ const Navbar: React.FC = () => {
               {link.label}
             </Link>
           ))}
+          <div className="w-full space-y-2">
+            <p className="px-2 pt-2 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Products</p>
+            <Link to="/menoset" className="block w-full rounded-lg p-2 text-center text-xl font-medium text-gray-600 hover:bg-rose-50 hover:text-rose-800">Menoset</Link>
+            <Link to="/prostanone" className="block w-full rounded-lg p-2 text-center text-xl font-medium text-gray-600 hover:bg-primary/5 hover:text-primary">Prostanone</Link>
+          </div>
           <Link to="/quiz" className="w-full">
             <Button fullWidth size="md" className="text-sm sm:text-base">
               Check Prostate Health

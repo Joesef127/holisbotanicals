@@ -40,3 +40,5 @@ SEO_DOCUMENTATION.md
 SEO_QUICK_REFERENCE.md
 build.zip
 .env.example
+
+/public/image_sequence

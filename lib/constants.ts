@@ -78,6 +78,62 @@ export const PACKAGES: ProductPackage[] = [
   },
 ];
 
+export const MENOSET_NAFDAC_REG_NO = 'A7-0000M';
+
+export const MENOSET_PACKAGES: ProductPackage[] = [
+  {
+    id: 'menoset-starter',
+    productId: 'menoset',
+    name: 'Menoset Starter',
+    containers: 1,
+    price: 15000,
+    originalPrice: 15000,
+    description: '1 Pack · 30 Days Supply',
+    deliveryText: 'Nationwide delivery available',
+    usageNote: '1 tablet twice daily, following the product label.',
+  },
+  {
+    id: 'menoset-essentials',
+    productId: 'menoset',
+    name: 'Menoset Essentials',
+    containers: 3,
+    price: 40000,
+    originalPrice: 45000,
+    savingsText: 'Save ₦5,000',
+    description: '3 Packs · 90 Days Supply',
+    deliveryText: 'Nationwide delivery available',
+    usageNote: 'A convenient three-month supply for a consistent routine.',
+  },
+  {
+    id: 'menoset-wellness',
+    productId: 'menoset',
+    name: 'Menoset Wellness Bundle',
+    containers: 6,
+    price: 77000,
+    originalPrice: 90000,
+    savingsText: 'Save ₦13,000',
+    description: '6 Packs · 180 Days Supply',
+    deliveryText: 'Nationwide delivery available',
+    usageNote: 'A convenient longer supply for an established routine.',
+    badge: 'MOST POPULAR',
+  },
+  {
+    id: 'menoset-transformation',
+    productId: 'menoset',
+    name: 'Menoset Transformation Pack',
+    containers: 12,
+    price: 160000,
+    originalPrice: 180000,
+    savingsText: 'Save ₦20,000',
+    description: '12 Packs · 360 Days Supply',
+    deliveryText: 'Nationwide delivery available',
+    usageNote: 'A value and convenience option for fewer reorders.',
+    badge: 'BEST VALUE',
+  },
+];
+
+export const ALL_PACKAGES: ProductPackage[] = [...PACKAGES, ...MENOSET_PACKAGES];
+
 export const SMALL_PRINT = [
   "✔ NAFDAC Certified",
   "✔ 100% Natural Herbal Formula",
@@ -237,7 +293,6 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
 ];
 
 export const NAV_LINKS = [
-  { label: "Product", path: "/product" },
   { label: "About", path: "/about" },
   { label: "Science", path: "/science" },
   { label: "Blog", path: "/blog" },

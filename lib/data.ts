@@ -82,3 +82,66 @@ export const TRUST_BADGES: Array<{ icon: LucideIcon; label: string }> = [
   { icon: Truck, label: 'Nationwide Delivery' },
   { icon: CheckCircle2, label: 'No Side Effects Reported' },
 ];
+
+export const productCardsData = [
+    {
+        title: 'Menoset',
+        description: 'Targeted, non-hormonal botanical support for menstrual cycle comfort, PMS balance, and perimenopausal/menopausal hot flash relief.',
+        benefits: [
+            'Soothes daytime hot flashes &amp; night sweats',
+            'Promotes menstrual flow comfort and regularity',
+            '100% Non-hormonal herbal tablets (60 count)'
+        ],
+        price: "₦15,000",
+        priceUnit: "/ 30-day pack",
+        image: images.menoset,
+        // benefitsIcon: <Sparkles />,
+        badge: "NAFDAC CERTIFIED",
+        category: "Women's Menstrual & Menopause",
+        color: "rose",
+        botanicalMatrix: [
+            "Black Cohosh",
+            "Dong Quai",
+            "Vitex (Chasteberry)",
+            "Blue Cohosh"
+        ],
+        cta: {
+            text: 'Take a test',
+            path: '/menoset-check'
+        },
+        secondaryCta: {
+            text: 'Discover Menoset',
+            path: '/menoset'
+        }
+    },
+    {
+        title: 'Prostanone',
+        description: 'NAFDAC-approved herbal formula that curbs 5-alpha reductase activity, restores steady urinary stream, and reduces frequent night-time bathroom trips.',
+        benefits: [
+            'Reduces nighttime urination and bladder urgency',
+            'Improves urinary flow strength and comfort',
+            'NAFDAC Reg. No. A7-4976L · Trusted across Nigeria'
+        ],
+        price: "₦15,000",
+        priceUnit: "/ 20-day pack",
+        image: images.prostanone,
+        // benefitsIcon: <ShieldCheck />,
+        badge: "NAFDAC CERTIFIED",
+        category: "Men's Prostate & Urinary Health",
+        color: "emerald",
+        botanicalMatrix: [
+            "Saw Palmetto",
+            "Chimaphila Umbellata",
+            "Hydrangea Arborescens",
+            "Pareira Brava"
+        ],
+        cta: {
+            text: 'Take a test',
+            path: '/quiz'
+        },
+        secondaryCta: {
+            text: 'Discover Prostanone',
+            path: '/prostanone'
+        },
+    }
+]

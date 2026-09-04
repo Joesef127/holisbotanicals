@@ -48,7 +48,10 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const ThankYou = lazy(() => import('./pages/ThankYou'));
 const PaymentStatus = lazy(() => import('./pages/PaymentStatus'));
-const Product = lazy(() => import("./pages/Product"));
+const Prostanone = lazy(() => import("./pages/Prostanone"));
+const Menoset = lazy(() => import("./pages/Menoset"));
+const MenosetCheck = lazy(() => import("./pages/MenosetCheck"));
+const MenosetResults = lazy(() => import("./pages/MenosetResults"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const Distributor = lazy(() => import("./pages/Distributor"));
 const Blog = lazy(() => import("./pages/Blog"));
@@ -59,7 +62,7 @@ const AdminProfile = lazy(() => import("./pages/AdminProfile"));
 
 // Wake up Render backend on first load (prevents cold-start delay on first real request)
 if (API_BASE) {
-  fetch(`${API_BASE}/api/ping`).catch(() => {});
+  fetch(`${API_BASE}/api/ping`).catch(() => { });
 }
 
 const ScrollToTop = () => {
@@ -178,13 +181,23 @@ const App: React.FC = () => {
                         }
                       />
                       <Route
-                        path="/product"
+                        path="/prostanone"
                         element={
                           <Suspense fallback={<ProductSkeleton />}>
-                            <Product />
+                            <Prostanone />
                           </Suspense>
                         }
                       />
+                      <Route
+                        path="/menoset"
+                        element={
+                          <Suspense fallback={<ProductSkeleton />}>
+                            <Menoset />
+                          </Suspense>
+                        }
+                      />
+                      <Route path="/menoset-check" element={<Suspense fallback={<QuizSkeleton />}><MenosetCheck /></Suspense>} />
+                      <Route path="/menoset-results" element={<Suspense fallback={<ResultsSkeleton />}><MenosetResults /></Suspense>} />
                       <Route
                         path="/terms"
                         element={

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChevronLeft, Truck, ShieldCheck, Phone } from 'lucide-react';
 import Button from '../Button';
-import { PACKAGES } from '../../lib/constants';
+import { ALL_PACKAGES } from '../../lib/constants';
 import type { CartItem } from '../../types';
 
 interface Props {
@@ -66,7 +66,7 @@ const StepReviewCOD: React.FC<Props> = ({
     <div className="bg-gray-50 p-4 rounded-xl mb-6">
       <h3 className="font-semibold text-sm mb-3 text-gray-700">Order Summary</h3>
       {cart.map(item => {
-        const pkg = PACKAGES.find(p => p.id === item.packageId);
+        const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
         return pkg ? (
           <div key={item.packageId} className="flex justify-between text-sm mb-1">
             <span className="text-gray-600">

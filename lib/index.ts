@@ -20,6 +20,15 @@ import prostanone_man from "../public/images/prostanone_man.png";
 import prostanone_showcase from "../public/images/prostanone_showcase.png";
 import prostanone_tablets from "../public/images/prostanone_tablets.png";
 
+import menoset from "../public/images/menoset.png";
+import menoset_bg from "../public/images/menoset.jpeg";
+import menoset_display from "../public/images/menoset_display.jpeg";
+import Menoset_multi from "../public/images/menoset_multi.jpeg";
+import menoset_preview from "../public/images/menoset_preview.jpeg";
+import menoset_with_pill from "../public/images/menoset_with_pill.jpeg";
+
+import holis_hero from "../public/images/holis_hero.avif"
+
 // SEO Utilities
 export {
   SITE_CONFIG,
@@ -40,25 +49,34 @@ export {
 } from "./seo";
 
 export const images = {
-    logo,
+  logo,
 
-    prostanone,
-    prostanone1,
-    prostanone2,
-    prostanone3,
-    prostanone4,
+  prostanone,
+  prostanone1,
+  prostanone2,
+  prostanone3,
+  prostanone4,
 
-    prostanone_about,
-    prostanone_home,
-    prostanone_science1,
-    prostanone_science2,
+  prostanone_about,
+  prostanone_home,
+  prostanone_science1,
+  prostanone_science2,
 
-    nafdac_approved_badge,
+  nafdac_approved_badge,
 
-    prostanone_closeup,
-    prostanone_couple,
-    prostanone_couple2,
-    prostanone_man,
-    prostanone_showcase,
-    prostanone_tablets,
+  prostanone_closeup,
+  prostanone_couple,
+  prostanone_couple2,
+  prostanone_man,
+  prostanone_showcase,
+  prostanone_tablets,
+
+  menoset,
+  menoset_bg,
+  menoset_display,
+  Menoset_multi,
+  menoset_preview,
+  menoset_with_pill,
+
+  holis_hero
 }

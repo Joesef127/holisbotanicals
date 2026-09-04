@@ -50,7 +50,9 @@ export const ORGANIZATION_SCHEMA = {
 export const PAGE_URLS = {
   home: '/',
   about: '/about',
-  product: '/product',
+  product: '/prostanone',
+  prostanone: '/prostanone',
+  menoset: '/menoset',
   science: '/science',
   reviews: '/reviews',
   quiz: '/quiz',

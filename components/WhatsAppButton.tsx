@@ -2,7 +2,7 @@ import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
-import { PACKAGES } from '../lib/constants';
+import { ALL_PACKAGES } from '../lib/constants';
 
 const WHATSAPP_NUMBER = '2348155931140';
 
@@ -11,9 +11,10 @@ const WhatsAppButton: React.FC = () => {
 
     const buildMessage = () => {
         if (cart.length > 0) {
-            const pkg = PACKAGES.find(p => p.id === cart[0].packageId);
+            const pkg = ALL_PACKAGES.find(p => p.id === cart[0].packageId);
             const name = pkg ? pkg.name : cart[0].packageId;
-            return `Hi, I'd like to order Prostanone — ${name}. Please assist me.`;
+            const productName = pkg?.productId === 'menoset' ? 'Menoset' : 'Prostanone';
+            return `Hi, I'd like to order ${productName} — ${name}. Please assist me.`;
         }
         return "Hi, I'd like to order Prostanone. Please assist me.";
     };
