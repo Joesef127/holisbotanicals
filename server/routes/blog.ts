@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { db } from '../db';
 import { blogPosts } from '../db/schema';
-import { eq, sql } from 'drizzle-orm';
+import { eq, sql, desc } from 'drizzle-orm';
 import { requireAdmin } from '../middleware/auth';
 
 const blog = new Hono();
@@ -11,7 +11,7 @@ blog.get('/', async (c) => {
   const posts = await db
     .select()
     .from(blogPosts)
-    .orderBy(blogPosts.createdAt);
+    .orderBy(desc(blogPosts.createdAt));
   return c.json(posts);
 });
 
