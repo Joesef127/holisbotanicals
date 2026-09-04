@@ -288,9 +288,9 @@ const MenosetResults: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div className="relative flex h-44 items-end justify-between gap-3 overflow-hidden rounded-2xl border border-primary bg-primary/10 p-6">
-                                    {/* Subtle grid lines */}
-                                    <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-6 opacity-35">
+                                <div className="relative flex h-52 items-end justify-between gap-3 overflow-hidden rounded-2xl border border-primary/20 bg-primary/10 p-6">
+                                    {/* Subtle grid lines aligned to bar track area */}
+                                    <div className="pointer-events-none absolute inset-x-6 top-6 bottom-12 flex flex-col justify-between opacity-35">
                                         <div className="h-px w-full border-t border-dashed border-primary" />
                                         <div className="h-px w-full border-t border-dashed border-primary" />
                                         <div className="h-px w-full border-t border-dashed border-primary" />
@@ -299,25 +299,28 @@ const MenosetResults: React.FC = () => {
                                     {result.timeline.map((bar, i) => (
                                         <div
                                             key={i}
-                                            className="z-10 flex w-1/4 flex-col items-center gap-2"
+                                            className="z-10 flex h-full w-1/4 flex-col items-center justify-end gap-2"
                                         >
-                                            <motion.div
-                                                initial={{ height: 0 }}
-                                                animate={{
-                                                    height: `${bar.height}%`,
-                                                }}
-                                                transition={{
-                                                    duration: 1,
-                                                    delay: i * 0.2,
-                                                    ease: "easeOut",
-                                                }}
-                                                className="group relative w-full rounded-t-lg bg-gradient-to-t from-[#9d3d65] to-primary shadow-sm"
-                                            >
-                                                {/* Tooltip on hover */}
-                                                <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-primary px-2 py-1 text-[10px] font-semibold text-[#f4cf80] opacity-0 transition-opacity group-hover:opacity-100">
-                                                    {bar.text}
-                                                </div>
-                                            </motion.div>
+                                            {/* Bar Track with explicit height so percentage height animates correctly */}
+                                            <div className="relative flex h-32 w-full items-end justify-center">
+                                                <motion.div
+                                                    initial={{ height: 0 }}
+                                                    animate={{
+                                                        height: `${bar.height}%`,
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.8,
+                                                        delay: i * 0.15,
+                                                        ease: "easeOut",
+                                                    }}
+                                                    className="group relative w-full rounded-t-lg bg-gradient-to-t from-[#9d3d65] to-primary shadow-sm hover:opacity-90"
+                                                >
+                                                    {/* Tooltip on hover */}
+                                                    <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-primary px-2 py-1 text-[10px] font-semibold text-[#f4cf80] opacity-0 shadow-md transition-opacity group-hover:opacity-100">
+                                                        {bar.text}
+                                                    </div>
+                                                </motion.div>
+                                            </div>
                                             <span className="text-center text-xs font-semibold leading-tight text-primary">
                                                 {bar.label}
                                             </span>

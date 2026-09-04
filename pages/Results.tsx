@@ -102,12 +102,12 @@ const Results: React.FC = () => {
                   <h4 className="font-bold text-gray-800">Projected Recovery Timeline</h4>
                 </div>
 
-                <div className="relative h-48 bg-gray-50 rounded-2xl p-6 flex items-end justify-between gap-3 overflow-hidden">
-                  {/* Grid lines */}
-                  <div className="absolute inset-0 flex flex-col justify-between p-6 pointer-events-none opacity-30">
-                    <div className="border-t border-gray-300 w-full h-full"></div>
-                    <div className="border-t border-gray-300 w-full h-full"></div>
-                    <div className="border-t border-gray-300 w-full h-full"></div>
+                <div className="relative h-52 bg-gray-50 rounded-2xl p-6 flex items-end justify-between gap-3 overflow-hidden">
+                  {/* Grid lines aligned with bar track area */}
+                  <div className="absolute inset-x-6 top-6 bottom-12 flex flex-col justify-between pointer-events-none opacity-30">
+                    <div className="border-t border-dashed border-gray-300 w-full" />
+                    <div className="border-t border-dashed border-gray-300 w-full" />
+                    <div className="border-t border-dashed border-gray-300 w-full" />
                   </div>
 
                   {((severity: QuizSeverity) => {
@@ -135,18 +135,21 @@ const Results: React.FC = () => {
                         ];
                     }
                   })(quizResult.severity).map((bar, i) => (
-                    <div key={i} className="flex flex-col items-center gap-2 w-1/4 z-10">
-                      <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: `${bar.height}%` }}
-                        transition={{ duration: 1, delay: i * 0.2, ease: "easeOut" }}
-                        className="w-full bg-gradient-to-t from-primary/60 to-primary rounded-t-lg relative group shadow-sm"
-                      >
-                        {/* Tooltip */}
-                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                          {bar.text} Comfort
-                        </div>
-                      </motion.div>
+                    <div key={i} className="flex h-full w-1/4 flex-col items-center justify-end gap-2 z-10">
+                      {/* Bar track with explicit height so percentage height calculates correctly */}
+                      <div className="relative flex h-32 w-full items-end justify-center">
+                        <motion.div
+                          initial={{ height: 0 }}
+                          animate={{ height: `${bar.height}%` }}
+                          transition={{ duration: 0.8, delay: i * 0.15, ease: "easeOut" }}
+                          className="w-full bg-gradient-to-t from-primary/60 to-primary rounded-t-lg relative group shadow-sm hover:opacity-90"
+                        >
+                          {/* Tooltip */}
+                          <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-md">
+                            {bar.text} Comfort
+                          </div>
+                        </motion.div>
+                      </div>
                       <span className="text-xs font-semibold text-gray-500 text-center leading-tight">{bar.label}</span>
                     </div>
                   ))}
