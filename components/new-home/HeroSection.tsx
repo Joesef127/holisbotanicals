@@ -8,7 +8,7 @@ import { images } from "@/lib";
 export const HeroSection: React.FC<{reveal: any}> = ({reveal}) => {
     return (
 
-<section className="relative isolate flex min-h-screen items-center justify-start overflow-hidden px-4 pb-16 pt-32 sm:px-6 sm:pb-24 lg:px-8">
+<section className="relative isolate flex min-h-screen items-center justify-start overflow-hidden px-4 pb-16 pt-24 sm:pt-32 sm:px-6 sm:pb-24 lg:px-8">
     <motion.div>
         <img
             src={images.holis_hero}

@@ -45,7 +45,7 @@ const HolisApproachSection: React.FC<{ reveal: any }> = ({ reveal }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className={`p-8 rounded-3xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${pillar.color}`}
+              className={`p-6 sm:p-8 rounded-3xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${pillar.color}`}
             >
               <div className="w-12 h-12 rounded-2xl bg-white dark:bg-card shadow-sm flex items-center justify-center mb-6">
                 {pillar.icon}
@@ -70,13 +70,13 @@ const HolisApproachSection: React.FC<{ reveal: any }> = ({ reveal }) => {
           <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#527130]">
             A natural approach
           </p>
-          <h2 className="mt-4 text-4xl font-bold leading-tight">
+          <h2 className="mt-4 text-3xl sm:text-4xl font-bold leading-tight">
             Better wellness begins with paying attention.
           </h2>
         </motion.div>
         <motion.p
           {...reveal}
-          className="self-end text-lg leading-relaxed text-text-muted"
+          className="self-end text-base sm:text-lg leading-relaxed text-text-muted"
         >
           Wellness is not one-size-fits-all. Holis brings together
           nature, botanical knowledge, and purposeful wellness

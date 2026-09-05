@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, UserCircle, ChevronDown } from "lucide-react";
+import { Menu, X, ShoppingCart, UserCircle, ChevronDown, ShieldCheck, Sparkles, Droplets, Flower } from "lucide-react";
 import { NAV_LINKS } from "../lib/constants.ts";
 import Button from "./Button";
 import ThemeToggle from "./ThemeToggle";
@@ -14,6 +14,11 @@ const Navbar: React.FC = () => {
   const [isAddedPage, setIsAddedPage] = useState(false);
   const [isHomePage, setIsHomePage] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [healthCheckOpen, setHealthCheckOpen] = useState(false);
+  const [mobileHealthOpen, setMobileHealthOpen] = useState(true);
+
+  const productsDropdownRef = useRef<HTMLDivElement>(null);
+  const healthDropdownRef = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
   const { cart } = useApp();
@@ -30,7 +35,28 @@ const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        productsDropdownRef.current &&
+        !productsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setProductsOpen(false);
+      }
+      if (
+        healthDropdownRef.current &&
+        !healthDropdownRef.current.contains(event.target as Node)
+      ) {
+        setHealthCheckOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
     setIsOpen(false);
+    setProductsOpen(false);
+    setHealthCheckOpen(false);
     setIsAddedPage(
       location.pathname === "/prostanone" ||
         location.pathname === "/menoset" ||
@@ -63,10 +89,13 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-6 xl:space-x-8">
-            <div className="relative">
+            <div className="relative" ref={productsDropdownRef}>
               <button
                 type="button"
-                onClick={() => setProductsOpen((open) => !open)}
+                onClick={() => {
+                  setProductsOpen((open) => !open);
+                  setHealthCheckOpen(false);
+                }}
                 aria-haspopup="menu"
                 aria-expanded={productsOpen}
                 className={`flex items-center gap-1 text-xs lg:text-sm rounded-lg py-1 lg:py-1.5 px-1.5 lg:px-2.5 font-medium transition-colors ${isAddedPage ? "text-white hover:bg-white hover:text-primary" : isHomePage ? `${scrolled ? "text-primary" : "text-white"} hover:bg-primary hover:text-white` : "text-gray-600 hover:text-primary"}`}
@@ -141,14 +170,90 @@ const Navbar: React.FC = () => {
                 )}
               </div>
             </Link>
-            <Link to="/quiz">
+            <div className="relative" ref={healthDropdownRef}>
               <Button
+                type="button"
                 size="sm"
-                className={`sm:text-xs! xl:text-sm! ${isAddedPage && "text-primary! bg-white border border-transparent hover:text-white! hover:bg-transparent hover:border-white rounded-lg"}`}
+                onClick={() => {
+                  setHealthCheckOpen((open) => !open);
+                  setProductsOpen(false);
+                }}
+                aria-haspopup="menu"
+                aria-expanded={healthCheckOpen}
+                className={`sm:text-xs! xl:text-sm! flex items-center gap-1.5 ${
+                  isAddedPage
+                    ? "text-primary! bg-white border border-transparent hover:text-white! hover:bg-transparent hover:border-white rounded-lg"
+                    : ""
+                }`}
               >
-                Check Prostate Health
+                <span>Check Your Health</span>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    healthCheckOpen ? "rotate-180" : ""
+                  }`}
+                  aria-hidden="true"
+                />
               </Button>
-            </Link>
+              {healthCheckOpen && (
+                <div
+                  role="menu"
+                  className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-gray-100 bg-white p-2 shadow-xl ring-1 ring-black/5 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                >
+                  <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                    Select Assessment
+                  </div>
+                  <Link
+                    role="menuitem"
+                    to="/quiz"
+                    onClick={() => setHealthCheckOpen(false)}
+                    className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-primary/5 text-left"
+                  >
+                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <Droplets className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-gray-900 group-hover:text-primary">
+                          For Men
+                        </span>
+                        <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                          Prostate
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-0.5 leading-snug">
+                        Prostate health, urinary flow &amp; frequency check
+                      </p>
+                    </div>
+                  </Link>
+
+                  <div className="my-1 border-t border-gray-100" />
+
+                  <Link
+                    role="menuitem"
+                    to="/menoset-check"
+                    onClick={() => setHealthCheckOpen(false)}
+                    className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-rose-50 text-left"
+                  >
+                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-500/60">
+                      <Flower className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-gray-900 group-hover:text-rose-700">
+                          For Women
+                        </span>
+                        <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-rose-100 text-rose-700">
+                          Menopause
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-0.5 leading-snug">
+                        Menopause, cramp relief &amp; hormone wellness check
+                      </p>
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
             <ThemeToggle
               className={
                 isAddedPage
@@ -249,14 +354,80 @@ const Navbar: React.FC = () => {
           ))}
           <div className="w-full space-y-2">
             <p className="px-2 pt-2 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Products</p>
-            <Link to="/menoset" className="block w-full rounded-lg p-2 text-center text-xl font-medium text-gray-600 hover:bg-rose-50 hover:text-rose-800">Menoset</Link>
-            <Link to="/prostanone" className="block w-full rounded-lg p-2 text-center text-xl font-medium text-gray-600 hover:bg-primary/5 hover:text-primary">Prostanone</Link>
+            <Link to="/menoset" onClick={() => setIsOpen(false)} className="block w-full rounded-lg p-2 text-center text-xl font-medium text-gray-600 hover:bg-rose-50 hover:text-rose-800">Menoset</Link>
+            <Link to="/prostanone" onClick={() => setIsOpen(false)} className="block w-full rounded-lg p-2 text-center text-xl font-medium text-gray-600 hover:bg-primary/5 hover:text-primary">Prostanone</Link>
           </div>
-          <Link to="/quiz" className="w-full">
-            <Button fullWidth size="md" className="text-sm sm:text-base">
-              Check Prostate Health
-            </Button>
-          </Link>
+
+          <div className="w-full space-y-2 pt-2">
+            <button
+              type="button"
+              onClick={() => setMobileHealthOpen((prev) => !prev)}
+              className="w-full"
+            >
+              <Button
+                fullWidth
+                size="md"
+                type="button"
+                className="text-sm sm:text-base flex items-center justify-center gap-2"
+              >
+                <span>Check Your Health</span>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    mobileHealthOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </Button>
+            </button>
+            {mobileHealthOpen && (
+              <div className="space-y-2 pt-1">
+                <Link
+                  to="/quiz"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 p-3 text-left transition-colors hover:bg-primary/10"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <ShieldCheck className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-gray-900">
+                        For Men
+                      </span>
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-primary/15 text-primary">
+                        Prostate
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Prostate health &amp; urinary symptom assessment
+                    </p>
+                  </div>
+                </Link>
+
+                <Link
+                  to="/menoset-check"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 rounded-xl border border-rose-200 bg-rose-50/70 p-3 text-left transition-colors hover:bg-rose-100"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-600">
+                    <Sparkles className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-gray-900">
+                        For Women
+                      </span>
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-rose-200 text-rose-700">
+                        Menopause
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Menopause, cramp relief &amp; hormone wellness
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </nav>
