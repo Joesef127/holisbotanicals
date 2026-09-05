@@ -24,13 +24,13 @@ export const HeroSection: React.FC<{reveal: any}> = ({reveal}) => {
         <p className="flex items-center gap-2 text-sm sm:text-base font-bold uppercase tracking-[0.18em] text-[#cbdc89]">
             <Sprout className="h-4 w-4" /> Holis Botanicals
         </p>
-        <h1 className="mt-5 max-w-2xl text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+        <h1 className="mt-5 max-w-2xl text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight">
             Wellness, Rooted in Nature.
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+        <p className="mt-6 max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/85">
         Thoughtfully sourced botanical wellness products for the needs of modern life.
         </p>
-        <p className="max-w-2xl text-lg leading-relaxed text-white/75">
+        <p className="max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/75">
             We connect people with carefully selected herbal and
             botanical solutions designed around real wellness needs.
         </p>

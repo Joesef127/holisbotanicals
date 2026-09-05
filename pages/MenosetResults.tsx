@@ -214,7 +214,7 @@ const MenosetResults: React.FC = () => {
                 </motion.div>
 
                 {/* 2-Column Cards Grid */}
-                <div className="grid items-start gap-8 md:grid-cols-2">
+                <div className="grid items-start gap-8 lg:grid-cols-2">
                     {/* Left Card: Analysis & Projected Timeline */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -430,7 +430,7 @@ const MenosetResults: React.FC = () => {
                                 fullWidth
                                 size="md"
                                 onClick={handleClaim}
-                                className="group mb-4 border border-white/20 bg-[#f4cf80] text-sm sm:text-base font-extrabold text-white hover:text-primary shadow-2xl shadow-black/25 hover:bg-white"
+                                className="group mb-4 border border-white/20 bg-[#f4cf80] text-xs md:text-sm lg:text-base font-extrabold text-white hover:text-primary shadow-2xl shadow-black/25 hover:bg-white"
                                 animate={{ scale: [1, 1.02, 1] }}
                                 transition={{
                                     duration: 2,
@@ -451,7 +451,7 @@ const MenosetResults: React.FC = () => {
                                     variant="outline"
                                     fullWidth
                                     size="md"
-                                    className="border-white/30 text-white hover:bg-white hover:text-primary"
+                                    className="border-white/30 text-white hover:bg-white hover:text-primary text-xs md:text-sm lg:text-base"
                                 >
                                     Learn More About the Botanical Formula
                                 </Button>
@@ -482,7 +482,7 @@ const MenosetResults: React.FC = () => {
                 </div>
 
                 {/* Medical Disclaimer */}
-                <div className="mt-12 flex items-start gap-3 rounded-2xl border border-surface/60 bg-surface p-5 text-sm leading-relaxed text-text-muted shadow-sm">
+                <div className="mt-12 flex items-start gap-3 rounded-2xl border border-surface/60 bg-surface p-5 text-xs sm:text-sm leading-relaxed text-text-muted shadow-sm">
                     <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-text-muted" />
                     <p className="text-text-muted">
                         This assessment is for general wellness and product guidance
