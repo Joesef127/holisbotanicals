@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, ShieldAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Flower, ShieldAlert } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useSeoMeta } from "../hooks/useSeoMeta";
@@ -156,13 +156,13 @@ const MenosetCheck: React.FC = () => {
         return (
             <main className="min-h-screen px-4 pt-28">
                 <section className="mx-auto max-w-3xl flex flex-col items-center border border-gray-200 rounded-3xl bg-surface p-8 text-center shadow-sm sm:p-14">
-                    <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#9d3d65]">
-                        Menoset wellness guidance
-                    </p>
-                    <h1 className="mt-4 text-4xl max-w-2/3 text-center font-bold text-[#4e1939]">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
+                        <span>Menoset wellness guidance</span>
+                    </div>
+                    <h1 className="mt-4 text-2xl sm:text-4xl max-w-2xl text-center font-bold text-[#4e1939]">
                         Not sure which Menoset pack is right for you?
                     </h1>
-                    <p className="mx-auto mt-5 max-w-xl leading-relaxed text-[#624b57]">
+                    <p className="mx-auto mt-5 max-w-xl leading-relaxed text-sm sm:text-base text-[#624b57]">
                         Answer a few questions about your cycle and symptoms. We
                         will guide you toward a Menoset option that fits your
                         current needs and routine.
@@ -225,7 +225,7 @@ const MenosetCheck: React.FC = () => {
                             transition={{ duration: 0.2 }}
                             className="mt-10"
                         >
-                            <h1 className="text-3xl font-bold leading-tight text-[#4e1939]">
+                            <h1 className="text-xl sm:text-3xl font-bold leading-tight text-[#4e1939]">
                                 {question.question}
                             </h1>
                             <fieldset className="mt-8 space-y-3">
@@ -248,7 +248,7 @@ const MenosetCheck: React.FC = () => {
                                                     handleRadioSelect(question.id, option);
                                                 }
                                             }}
-                                            className={`flex min-h-14 rounded-lg cursor-pointer items-center justify-between gap-4 border p-4 transition-colors ${selected ? "border-[#9d3d65] bg-[#fbeff1] text-[#4e1939]" : "border-[#ead7df] hover:border-[#c77b9a]"}`}
+                                            className={`flex text-sm sm:text-base min-h-14 rounded-lg cursor-pointer items-center justify-between gap-4 border p-4 transition-colors ${selected ? "border-[#9d3d65] bg-[#fbeff1] text-[#4e1939]" : "border-[#ead7df] hover:border-[#c77b9a]"}`}
                                         >
                                             <span className="font-medium">
                                                 {option}
@@ -290,7 +290,7 @@ const MenosetCheck: React.FC = () => {
                         </p>
                     )}
                     <Button
-                        size="lg"
+                        size="md"
                         fullWidth
                         onClick={next}
                         className="mt-8 bg-[#4e1939] hover:bg-[#6d274e]"
