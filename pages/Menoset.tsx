@@ -7,7 +7,7 @@ import {
     HeartPulse,
     Leaf,
     Moon,
-    Sparkles,
+    Flower,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
@@ -105,11 +105,11 @@ const Menoset: React.FC = () => {
     const reveal = reduceMotion
         ? {}
         : {
-              initial: { opacity: 0, y: 24 },
-              whileInView: { opacity: 1, y: 0 },
-              viewport: { once: true, margin: "-10%" },
-              transition: { duration: 0.55 },
-          };
+            initial: { opacity: 0, y: 24 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: "-10%" },
+            transition: { duration: 0.55 },
+        };
 
     return (
         <div className="overflow-x-hidden bg-[#fffaf7] text-[#33242d]">
@@ -369,7 +369,7 @@ const Menoset: React.FC = () => {
                     <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         {benefits.map(([title, text]) => (
                             <article key={title} className="bg-white p-6">
-                                <Sparkles className="h-6 w-6 text-[#9d3d65]" />
+                                <Flower className="h-6 w-6 text-[#9d3d65]" />
                                 <h3 className="mt-5 font-bold text-[#4e1939]">
                                     {title}
                                 </h3>

@@ -12,13 +12,13 @@ const HolisMore: React.FC<{ reveal: any }> = ({ reveal }) => {
                   {...reveal}
                   className="col-span-3"
               >
-                  <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#cbdc89]">
+                  <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.16em] text-[#cbdc89]">
                       More from Holis, coming soon
                   </p>
-                  <h2 className="mt-4 text-4xl font-bold">
+                  <h2 className="mt-4 text-2xl sm:text-4xl font-bold">
                       Our vision goes beyond the products you see today.
                   </h2>
-                  <p className="mt-5 max-w-2xl leading-relaxed text-white/75">
+                  <p className="mt-5 max-w-2xl leading-relaxed text-sm sm:text-base text-white/75">
                       We are continually exploring new opportunities in botanical wellness, research, product
                       development and natural health solutions to build a broader range of products for different
                       wellness needs.

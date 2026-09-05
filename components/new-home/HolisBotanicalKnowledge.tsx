@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Sparkles, ShieldCheck, ArrowRight, BookOpen, Activity } from 'lucide-react';
+import { Flower, Droplets, ArrowRight, BookOpen, Activity } from 'lucide-react';
 import Button from '../Button';
 
 const HolisBotanicalKnowledgeSection: React.FC = () => {
@@ -23,7 +23,7 @@ const HolisBotanicalKnowledgeSection: React.FC = () => {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-text tracking-tight leading-tight mb-6">
               From Botanical Knowledge to Everyday Wellness
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-muted leading-relaxed mb-6">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-muted leading-relaxed mb-6">
               For generations, plant-based remedies have served as humanity’s primary foundation for vitality and restorative health. At Holis Botanicals, we combine traditional herbal mastery with modern extraction technologies.
             </p>
             <p className="text-sm sm:text-base text-gray-600 dark:text-muted leading-relaxed mb-8">
@@ -48,7 +48,7 @@ const HolisBotanicalKnowledgeSection: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-6"
           >
-            <div className="rounded-3xl bg-white dark:bg-card border border-primary/20 p-8 sm:p-10 shadow-xl relative overflow-hidden">
+            <div className="rounded-3xl bg-white dark:bg-card border border-primary/20 p-6 sm:p-8 lg:p-10 shadow-xl relative overflow-hidden">
               <div className="w-12 h-12 rounded-2xl bg-accent/15 text-accent flex items-center justify-center mb-6">
                 <Activity className="w-6 h-6" />
               </div>
@@ -66,10 +66,12 @@ const HolisBotanicalKnowledgeSection: React.FC = () => {
                   className="group flex items-center justify-between p-4 rounded-2xl bg-rose-500/5 hover:bg-rose-500/10 border border-rose-500/20 transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+                    <div className="bg-rose-500/10 p-2 rounded-full">
+                      <Flower className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+                    </div>
                     <div>
                       <div className="text-sm font-bold text-gray-900 dark:text-primary group-hover:text-primary transition-colors">
-                        Women&apos;s 60-Second Symptom Check
+                        Women&apos;s Symptom Check
                       </div>
                       <div className="text-xs text-gray-500 dark:text-muted">
                         Menstrual regularity, cramp relief &amp; hot flash profile
@@ -84,10 +86,12 @@ const HolisBotanicalKnowledgeSection: React.FC = () => {
                   className="group flex items-center justify-between p-4 rounded-2xl bg-primary/5 hover:bg-primary/10 border border-primary/20 transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <ShieldCheck className="w-5 h-5 text-primary" />
+                    <div className="bg-primary/10 p-2 rounded-full">
+                      <Droplets className="w-5 h-5 text-primary" />
+                    </div>
                     <div>
                       <div className="text-sm font-bold text-gray-900 dark:text-primary group-hover:text-primary transition-colors">
-                        Men&apos;s Prostate Health Assessment
+                        Men&apos;s Health Assessment
                       </div>
                       <div className="text-xs text-gray-500 dark:text-muted">
                         Urinary flow, nighttime frequency &amp; prostate scoring

@@ -9,7 +9,7 @@ import {
     Leaf,
     Shield,
     ShieldAlert,
-    Sparkles,
+    Flower,
 } from "lucide-react";
 import Button from "../components/Button";
 import { MENOSET_NAFDAC_REG_NO, MENOSET_PACKAGES } from "../lib/constants";
@@ -363,7 +363,7 @@ const MenosetResults: React.FC = () => {
 
                             {result.pack.originalPrice &&
                                 result.pack.originalPrice >
-                                    result.pack.price && (
+                                result.pack.price && (
                                     <div className="text-sm font-medium text-white/60 line-through">
                                         Was ₦
                                         {result.pack.originalPrice.toLocaleString()}

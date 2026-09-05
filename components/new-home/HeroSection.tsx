@@ -1,39 +1,39 @@
 import { motion } from "framer-motion";
-import { Sprout, ArrowRight, HeartPulse, ShieldCheck, Sparkles } from "lucide-react";
+import { Sprout, ArrowRight, HeartPulse, ShieldCheck, Flower } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../Button";
 import { images } from "@/lib";
 
 
-export const HeroSection: React.FC<{reveal: any}> = ({reveal}) => {
+export const HeroSection: React.FC<{ reveal: any }> = ({ reveal }) => {
     return (
 
-<section className="relative isolate flex min-h-screen items-center justify-start overflow-hidden px-4 pb-16 pt-24 sm:pt-32 sm:px-6 sm:pb-24 lg:px-8">
-    <motion.div>
-        <img
-            src={images.holis_hero}
-            alt="Lush greenery representing botanical wellness"
-            className="absolute inset-0 -z-20 h-full w-full object-cover"
-            loading="eager"
-        />
-    </motion.div>
+        <section className="relative isolate flex min-h-screen items-center justify-start overflow-hidden px-4 pb-16 pt-12 sm:pt-32 sm:px-6 sm:pb-24 lg:px-8">
+            <motion.div>
+                <img
+                    src={images.holis_hero}
+                    alt="Lush greenery representing botanical wellness"
+                    className="absolute inset-0 -z-20 h-full w-full object-cover"
+                    loading="eager"
+                />
+            </motion.div>
 
-    <div className="absolute inset-0 -z-10 bg-[#102d24]/60" />
+            <div className="absolute inset-0 -z-10 bg-[#102d24]/60" />
 
-    <motion.div {...reveal} className="mx-auto w-fit text-white text-center flex flex-col items-center justify-center">
-        <p className="flex items-center gap-2 text-sm sm:text-base font-bold uppercase tracking-[0.18em] text-[#cbdc89]">
-            <Sprout className="h-4 w-4" /> Holis Botanicals
-        </p>
-        <h1 className="mt-5 max-w-2xl text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-            Wellness, Rooted in Nature.
-        </h1>
-        <p className="mt-6 max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/85">
-        Thoughtfully sourced botanical wellness products for the needs of modern life.
-        </p>
-        <p className="max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/75">
-            We connect people with carefully selected herbal and
-            botanical solutions designed around real wellness needs.
-        </p>
+            <motion.div {...reveal} className="mx-auto w-fit text-white text-center flex flex-col items-center justify-center">
+                <p className="flex items-center gap-2 text-sm sm:text-base font-bold uppercase tracking-[0.18em] text-[#cbdc89]">
+                    <Sprout className="h-4 w-4" /> Holis Botanicals
+                </p>
+                <h1 className="mt-5 max-w-2xl text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+                    Wellness, Rooted in Nature.
+                </h1>
+                <p className="mt-6 max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/85">
+                    Thoughtfully sourced botanical wellness products for the needs of modern life.
+                </p>
+                <p className="max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-white/75">
+                    We connect people with carefully selected herbal and
+                    botanical solutions designed around real wellness needs.
+                </p>
                 <Button
                     size="md"
                     variant="hero"
@@ -43,7 +43,7 @@ export const HeroSection: React.FC<{reveal: any}> = ({reveal}) => {
                     Explore our products <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
 
-    </motion.div>
+            </motion.div>
 
             {/* Visual Showcase Card */}
             {/* <motion.div
@@ -68,7 +68,7 @@ export const HeroSection: React.FC<{reveal: any}> = ({reveal}) => {
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
-                                        <Sparkles className="w-5 h-5" />
+                                        <Flower className="w-5 h-5" />
                                     </div>
                                     <div>
                                         <div className="flex items-center gap-2">
@@ -122,7 +122,7 @@ export const HeroSection: React.FC<{reveal: any}> = ({reveal}) => {
                     </div>
                 </div>
             </motion.div> */}
-</section>
+        </section>
 
     );
 };
