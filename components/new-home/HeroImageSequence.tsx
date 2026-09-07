@@ -3,8 +3,7 @@ import { useReducedMotion } from 'framer-motion';
 import Skeleton from '../skeleton-loaders/Skeleton';
 
 const TOTAL_FRAMES = 120;
-const TARGET_FPS = 24;
-const FRAME_INTERVAL = 1000 / TARGET_FPS;
+const DEFAULT_FPS = 12; // Gentle slow-motion ambient loop (~10s per cycle)
 const CONCURRENT_LOAD_LIMIT = 5;
 
 // Helper to format frame path: /image_sequence/ezgif-frame-001.jpg .. ezgif-frame-120.jpg
@@ -18,11 +17,13 @@ let globalPreloadPromise: Promise<void> | null = null;
 
 interface HeroImageSequenceProps {
   className?: string;
+  fps?: number;
   onFirstFrameReady?: () => void;
 }
 
 export const HeroImageSequence: React.FC<HeroImageSequenceProps> = ({
   className = '',
+  fps = DEFAULT_FPS,
   onFirstFrameReady,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -44,6 +45,9 @@ export const HeroImageSequence: React.FC<HeroImageSequenceProps> = ({
 
     const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     // Use current frame or fallback to the last successfully drawn frame
     let img = globalFrameCache.get(frameNumber);
@@ -266,6 +270,7 @@ export const HeroImageSequence: React.FC<HeroImageSequenceProps> = ({
     if (!isFirstFrameReady) return;
 
     let isRunning = true;
+    const frameInterval = 1000 / fps;
 
     const loop = (timestamp: number) => {
       if (!isRunning) return;
@@ -276,11 +281,11 @@ export const HeroImageSequence: React.FC<HeroImageSequenceProps> = ({
 
       const elapsed = timestamp - lastFrameTimestampRef.current;
 
-      if (isVisibleRef.current && elapsed >= FRAME_INTERVAL) {
+      if (isVisibleRef.current && elapsed >= frameInterval) {
         // Advance frame
         currentFrameRef.current = (currentFrameRef.current % TOTAL_FRAMES) + 1;
         drawFrame(currentFrameRef.current);
-        lastFrameTimestampRef.current = timestamp - (elapsed % FRAME_INTERVAL);
+        lastFrameTimestampRef.current = timestamp - (elapsed % frameInterval);
       }
 
       animationFrameIdRef.current = requestAnimationFrame(loop);
@@ -294,7 +299,7 @@ export const HeroImageSequence: React.FC<HeroImageSequenceProps> = ({
         cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
-  }, [isFirstFrameReady, reduceMotion, drawFrame]);
+  }, [isFirstFrameReady, reduceMotion, drawFrame, fps]);
 
   return (
     <div
@@ -310,7 +315,7 @@ export const HeroImageSequence: React.FC<HeroImageSequenceProps> = ({
       {/* HTML5 Canvas for Sequential Frame Rendering */}
       <canvas
         ref={canvasRef}
-        className={`h-full w-full object-cover transition-opacity duration-700 ease-out ${
+        className={`block h-full w-full transition-opacity duration-700 ease-out ${
           isFirstFrameReady ? 'opacity-100' : 'opacity-0'
         }`}
       />
