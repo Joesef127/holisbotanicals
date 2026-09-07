@@ -10,7 +10,7 @@ export const HeroSection: React.FC<{ reveal: any }> = ({ reveal }) => {
         <section className="relative isolate flex min-h-screen items-center justify-start overflow-hidden px-4 pb-16 pt-12 sm:pt-32 sm:px-6 sm:pb-24 lg:px-8">
             <HeroImageSequence />
 
-            <div className="absolute inset-0 -z-10 bg-[#102d24]/60 backdrop-blur-[4px]" />
+            <div className="absolute inset-0 -z-10 bg-[#102d24]/50 backdrop-blur-[4px]" />
 
             <motion.div {...reveal} className="mx-auto w-fit text-white text-center flex flex-col items-center justify-center">
                 <p className="flex items-center gap-2 text-sm sm:text-base font-bold uppercase tracking-[0.18em] text-[#cbdc89]">
