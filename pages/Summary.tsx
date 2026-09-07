@@ -61,8 +61,8 @@ const Summary: React.FC = () => {
                         <div key={item.packageId} className="flex flex-col md:flex-row gap-6 items-center border-b border-gray-100 pb-8 last:border-0 last:pb-0">
                            <div className="w-32 h-32 bg-gray-100 rounded-xl flex items-center justify-center shrink-0">
                               <img
-                                 src={pkg.productId === 'menoset' ? 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80' : images.prostanone}
-                                 alt={pkg.productId === 'menoset' ? 'Menoset product placeholder' : 'Prostanone'}
+                                 src={pkg.productId === 'menoset' ? images.menoset : images.prostanone}
+                                 alt={pkg.productId === 'menoset' ? 'Menoset' : 'Prostanone'}
                                  className="h-28 w-auto object-contain"
                               />
                            </div>
