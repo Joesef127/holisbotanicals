@@ -4,12 +4,12 @@ import { images } from '@/lib/index.ts';
 import { NAFDAC_REG_NO } from './constants';
 
 export const SYMPTOMS: Array<{ icon: LucideIcon; text: string }> = [
-  { icon: Moon,         text: 'Waking up 3–5 times per night to urinate' },
-  { icon: Droplets,     text: 'Weak, slow or dribbling urine stream' },
-  { icon: Hourglass,    text: 'Feeling bladder never fully empties' },
-  { icon: AlertCircle,  text: 'Sudden, uncontrollable urge to go' },
-  { icon: Flame,        text: 'Burning or pain when urinating' },
-  { icon: Frown,        text: 'Embarrassment at work, travel, or social events' },
+  { icon: Moon, text: 'Waking up 3–5 times per night to urinate' },
+  { icon: Droplets, text: 'Weak, slow or dribbling urine stream' },
+  { icon: Hourglass, text: 'Feeling bladder never fully empties' },
+  { icon: AlertCircle, text: 'Sudden, uncontrollable urge to go' },
+  { icon: Flame, text: 'Burning or pain when urinating' },
+  { icon: Frown, text: 'Embarrassment at work, travel, or social events' },
 ];
 
 export const BENEFITS: Array<{ icon: LucideIcon; title: string; desc: string }> = [
@@ -84,64 +84,64 @@ export const TRUST_BADGES: Array<{ icon: LucideIcon; label: string }> = [
 ];
 
 export const productCardsData = [
-    {
-        title: 'Menoset',
-        description: 'Targeted, non-hormonal botanical support for menstrual cycle comfort, PMS balance, and perimenopausal/menopausal hot flash relief.',
-        benefits: [
-            'Soothes daytime hot flashes &amp; night sweats',
-            'Promotes menstrual flow comfort and regularity',
-            '100% Non-hormonal herbal tablets (60 count)'
-        ],
-        price: "₦15,000",
-        priceUnit: "/ 30-day pack",
-        image: images.menoset,
-        // benefitsIcon: <Sparkles />,
-        badge: "NAFDAC CERTIFIED",
-        category: "Women's Menstrual & Menopause",
-        color: "rose",
-        botanicalMatrix: [
-            "Black Cohosh",
-            "Dong Quai",
-            "Vitex (Chasteberry)",
-            "Blue Cohosh"
-        ],
-        cta: {
-            text: 'Take a test',
-            path: '/menoset-check'
-        },
-        secondaryCta: {
-            text: 'Discover Menoset',
-            path: '/menoset'
-        }
+  {
+    title: 'Menoset',
+    description: 'Targeted, non-hormonal botanical support for menstrual cycle comfort, PMS balance, and perimenopausal/menopausal hot flash relief.',
+    benefits: [
+      'Soothes daytime hot flashes &amp; night sweats',
+      'Promotes menstrual flow comfort and regularity',
+      '100% Non-hormonal herbal tablets (60 count)'
+    ],
+    price: "₦15,000",
+    priceUnit: "/ 30-day pack",
+    image: images.menoset,
+    // benefitsIcon: <Flower />,
+    badge: "NAFDAC CERTIFIED",
+    category: "Women's Menstrual & Menopause",
+    color: "rose",
+    botanicalMatrix: [
+      "Black Cohosh",
+      "Dong Quai",
+      "Vitex (Chasteberry)",
+      "Blue Cohosh"
+    ],
+    cta: {
+      text: 'Take a test',
+      path: '/menoset-check'
     },
-    {
-        title: 'Prostanone',
-        description: 'NAFDAC-approved herbal formula that curbs 5-alpha reductase activity, restores steady urinary stream, and reduces frequent night-time bathroom trips.',
-        benefits: [
-            'Reduces nighttime urination and bladder urgency',
-            'Improves urinary flow strength and comfort',
-            'NAFDAC Reg. No. A7-4976L · Trusted across Nigeria'
-        ],
-        price: "₦15,000",
-        priceUnit: "/ 20-day pack",
-        image: images.prostanone,
-        // benefitsIcon: <ShieldCheck />,
-        badge: "NAFDAC CERTIFIED",
-        category: "Men's Prostate & Urinary Health",
-        color: "emerald",
-        botanicalMatrix: [
-            "Saw Palmetto",
-            "Chimaphila Umbellata",
-            "Hydrangea Arborescens",
-            "Pareira Brava"
-        ],
-        cta: {
-            text: 'Take a test',
-            path: '/quiz'
-        },
-        secondaryCta: {
-            text: 'Discover Prostanone',
-            path: '/prostanone'
-        },
+    secondaryCta: {
+      text: 'Discover Menoset',
+      path: '/menoset'
     }
+  },
+  {
+    title: 'Prostanone',
+    description: 'NAFDAC-approved herbal formula that curbs 5-alpha reductase activity, restores steady urinary stream, and reduces frequent night-time bathroom trips.',
+    benefits: [
+      'Reduces nighttime urination and bladder urgency',
+      'Improves urinary flow strength and comfort',
+      'NAFDAC Reg. No. A7-4976L · Trusted across Nigeria'
+    ],
+    price: "₦15,000",
+    priceUnit: "/ 20-day pack",
+    image: images.prostanone,
+    // benefitsIcon: <ShieldCheck />,
+    badge: "NAFDAC CERTIFIED",
+    category: "Men's Prostate & Urinary Health",
+    color: "emerald",
+    botanicalMatrix: [
+      "Saw Palmetto",
+      "Chimaphila Umbellata",
+      "Hydrangea Arborescens",
+      "Pareira Brava"
+    ],
+    cta: {
+      text: 'Take a test',
+      path: '/quiz'
+    },
+    secondaryCta: {
+      text: 'Discover Prostanone',
+      path: '/prostanone'
+    },
+  }
 ]

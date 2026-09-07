@@ -14,9 +14,9 @@ const WhatsAppButton: React.FC = () => {
             const pkg = ALL_PACKAGES.find(p => p.id === cart[0].packageId);
             const name = pkg ? pkg.name : cart[0].packageId;
             const productName = pkg?.productId === 'menoset' ? 'Menoset' : 'Prostanone';
-            return `Hi, I'd like to order ${productName} — ${name}. Please assist me.`;
+            return `Hi, I would like to order ${productName} - ${name}.`;
         }
-        return "Hi, I'd like to order Prostanone. Please assist me.";
+        return "Hi, I would like to place an order.";
     };
 
     const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildMessage())}`;

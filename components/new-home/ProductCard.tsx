@@ -15,31 +15,27 @@ const ProductCard: React.FC<{
             transition={{ duration: 0.6 }}
             className="group relative rounded-3xl bg-background border border-rose-500/20 shadow-xl overflow-hidden hover:shadow-2xl hover:border-rose-500/40 transition-all flex flex-col"
         >
-            <div className="p-8 sm:p-10 flex-1 flex flex-col">
+            <div className="p-4 sm:p-10 flex-1 flex flex-col">
                 {/* Category Badge & Status */}
                 <div className="flex items-center justify-between gap-2 mb-6">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${product.title === 'Prostanone'
-                            ? 'bg-primary/15 text-primary'
-                            : 'bg-rose-500/15 text-rose-900'
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider ${product.title === 'Prostanone'
+                        ? 'bg-primary/15 text-primary'
+                        : 'bg-rose-500/15 text-rose-900'
                         }`}>
-                        {/* {product.title === 'Prostanone' ? <ShieldCheck className="w-3.5 h-3.5" /> : <Sparkles className="w-3.5 h-3.5" />} */}
-                        <span>{product.category}</span>
+                        {product.category}
                     </span>
-                    {/* <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wide bg-emerald-500/15 text-emerald-600">
-              {product.badge}
-            </span> */}
                     <img
                         src={product.image}
                         alt={`Temporary ${product.title} product placeholder`}
-                        className="h-24 w-24 object-contain transition-transform duration-500 group-hover:scale-105"
+                        className="h-12 sm:h-24 w-12 sm:w-24 object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                 </div>
 
                 {/* Title & Description */}
-                <h3 className="text-3xl font-extrabold  tracking-tight mb-3 group-hover:text-primary transition-colors">
+                <h3 className="text-2xl sm:text-3xl font-extrabold  tracking-tight mb-3 group-hover:text-primary transition-colors">
                     {product.title}
                 </h3>
-                <p className="text-base text-text leading-relaxed mb-6">
+                <p className="text-sm sm:text-base text-text leading-relaxed mb-6">
                     {product.description}
                 </p>
 

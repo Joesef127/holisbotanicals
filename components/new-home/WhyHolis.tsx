@@ -33,7 +33,7 @@ const WhyHolis: React.FC<{ reveal: any }> = ({ reveal }) => {
                             "Holis is building beyond today's collection, with a long-term vision for research, product development and botanical wellness.",
                         ],
                     ].map(([title, copy]) => (
-                        <article key={title} className="bg-[#eef3e7] p-7">
+                        <article key={title} className="bg-[#eef3e7] p-3 sm:p-7">
                             <Leaf className="h-6 w-6 text-[#527130]" />
                             <h3 className="mt-5 text-xl font-bold text-[#18352C]">
                                 {title}

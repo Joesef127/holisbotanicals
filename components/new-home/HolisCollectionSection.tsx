@@ -18,7 +18,7 @@ const HolisCollectionSection: React.FC<{ reveal: any }> = ({ reveal }) => {
         />
 
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-6 xl:gap-10 2xl:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4 xl:gap-6 ">
           {productCardsData.map((product) => (
             <ProductCard key={product.title} product={product} />
           ))}

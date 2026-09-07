@@ -6,6 +6,7 @@ import CreateBlogCoverImage from './CreateBlogCoverImage';
 import CreateBlogTemplatePicker from './CreateBlogTemplatePicker';
 import type { BlogTemplate } from '../../lib/blogTemplates';
 import type { CreateBlogFormErrors } from '../../hooks/useCreateBlogForm';
+import Button from '../Button';
 
 interface CreateBlogEditFormProps {
   form: {
@@ -175,15 +176,17 @@ const CreateBlogEditForm: React.FC<CreateBlogEditFormProps> = ({
 
     {/* Bottom save */}
     <div className="flex justify-end pb-16">
-      <button
-        type="button"
+      <Button
+        variant="primary"
+        type='button'
+        size='sm'
+        className='inline-flex items-center gap-1.5 bg-primary text-white text-sm font-semibold px-4 py-1.5 rounded-lg! hover:bg-primary/90 transition-colors disabled:opacity-60'
         onClick={onSave}
         disabled={saving}
-        className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-60"
       >
         <Save className="w-4 h-4" />
         {saving ? 'Saving…' : isEditing ? 'Update post' : 'Publish post'}
-      </button>
+      </Button>
     </div>
   </motion.div>
 );

@@ -53,7 +53,7 @@ const BlogPostHeader: React.FC<BlogPostHeaderProps> = ({ post }) => {
         </div>
       </div>
 
-      <h1 className="text-3xl sm:text-4xl font-extrabold text-secondary leading-tight mb-5">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-secondary leading-tight mb-5">
         {post.title}
       </h1>
 
