@@ -1,22 +1,14 @@
 import { motion } from "framer-motion";
-import { Sprout, ArrowRight, HeartPulse, ShieldCheck, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Sprout, ArrowRight } from "lucide-react";
 import Button from "../Button";
-import { images } from "@/lib";
+import { HeroImageSequence } from "./HeroImageSequence";
 
 
 export const HeroSection: React.FC<{reveal: any}> = ({reveal}) => {
     return (
 
-<section className="relative isolate flex min-h-screen items-center justify-start overflow-hidden px-4 pb-16 pt-32 sm:px-6 sm:pb-24 lg:px-8">
-    <motion.div>
-        <img
-            src={images.holis_hero}
-            alt="Lush greenery representing botanical wellness"
-            className="absolute inset-0 -z-20 h-full w-full object-cover"
-            loading="eager"
-        />
-    </motion.div>
+        <section className="relative isolate flex min-h-screen items-center justify-start overflow-hidden px-4 pb-16 pt-12 sm:pt-32 sm:px-6 sm:pb-24 lg:px-8">
+            <HeroImageSequence />
 
     <div className="absolute inset-0 -z-10 bg-[#102d24]/60" />
 
