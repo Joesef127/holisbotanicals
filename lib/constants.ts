@@ -360,3 +360,93 @@ export const FAQS = [
       "Yes, we ship to all 36 Nigerian states. Lagos delivery: 1-2 days. Other states: 3-5 days.",
   },
 ];
+
+export const MENOSET_TESTIMONIALS: Testimonial[] = [
+  {
+    id: 101,
+    name: "Amina B.",
+    age: 49,
+    location: "Lagos",
+    text: "Adding Menoset to my routine felt simple and manageable while I paid closer attention to my wellbeing. The sudden heat surges during my afternoon commute are now so much more manageable.",
+    rating: 5,
+  },
+  {
+    id: 102,
+    name: "Ifeoma N.",
+    age: 44,
+    location: "Abuja",
+    text: "The daily routine fits easily into my schedule, and the transparent herbal information helped me make an informed choice. My sleep has been noticeably calmer.",
+    rating: 5,
+  },
+  {
+    id: 103,
+    name: "Tomi A.",
+    age: 52,
+    location: "Ibadan",
+    text: "I appreciated having a truly non-hormonal herbal option to consider as my needs changed. Feeling more balanced and more like myself every day.",
+    rating: 5,
+  },
+  {
+    id: 104,
+    name: "Folake M.",
+    age: 47,
+    location: "Port Harcourt",
+    text: "My menstrual cycle was becoming unpredictable with difficult mood fluctuations. Two months of consistency with Menoset and my body feels steady again.",
+    rating: 5,
+  },
+  {
+    id: 105,
+    name: "Halima K.",
+    age: 51,
+    location: "Kano",
+    text: "Waking up drenched in the middle of the night was exhausting. Menoset has been a gentle botanical support for my night-time comfort and peace of mind.",
+    rating: 5,
+  },
+  {
+    id: 106,
+    name: "Ngozi E.",
+    age: 46,
+    location: "Enugu",
+    text: "NAFDAC registration was essential to me. Knowing it's 100% herbal without synthetic hormones gave me total confidence in starting the routine.",
+    rating: 5,
+  },
+];
+
+export const MENOSET_FAQS = [
+  {
+    question: "Is Menoset a hormone replacement therapy?",
+    answer:
+      "No. Menoset is a non-hormonal herbal product, not hormone replacement therapy.",
+  },
+  {
+    question: "Who is Menoset for?",
+    answer:
+      "Adult women seeking herbal support for menstrual irregularities, menstrual discomfort or symptoms associated with perimenopause and menopause.",
+  },
+  {
+    question: "What symptoms does Menoset support?",
+    answer:
+      "The product is positioned to support menstrual irregularities and discomfort, mood changes, hot flashes and other symptoms associated with the menstrual and menopause transition.",
+  },
+  {
+    question: "How do I take Menoset?",
+    answer:
+      "1 tablet twice daily, following the directions on the product label. Each pack contains 60 tablets, equivalent to a 30-day supply at the stated dosage.",
+  },
+  {
+    question: "How many tablets are in a pack?",
+    answer:
+      "60 tablets, equivalent to a 30-day supply at the stated dosage.",
+  },
+  {
+    question: "Can I take Menoset with other medicines?",
+    answer:
+      "If you take prescription medicines, are pregnant or breastfeeding, or have an existing medical condition, speak with your doctor or pharmacist before use.",
+  },
+  {
+    question: "Is Menoset a medical treatment?",
+    answer:
+      "No. It is a herbal product intended to support women's wellness. It is not a substitute for diagnosis or medical treatment.",
+  },
+];
+
