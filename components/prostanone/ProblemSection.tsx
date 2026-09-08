@@ -1,5 +1,5 @@
 import React from 'react';
-import { FadeIn, SectionHeader } from './shared';
+import { FadeIn, SectionHeader } from './shared.tsx';
 import { SYMPTOMS } from '../../lib/data.ts';
 
 const ProblemSection: React.FC = () => (

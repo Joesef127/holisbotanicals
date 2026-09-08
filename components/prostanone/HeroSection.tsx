@@ -2,8 +2,8 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { images } from '@/lib';
-import Button from '../Button';
-import { NAFDAC_REG_NO } from '../../lib/constants';
+import Button from '../Button.tsx';
+import { NAFDAC_REG_NO } from '../../lib/constants.ts';
 import { STATS } from '../../lib/data.ts';
 
 const HeroSection: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { images } from '@/lib';
-import { FadeIn } from './shared';
+import { FadeIn } from './shared.tsx';
 import { INGREDIENTS } from '../../lib/data.ts';
 
 const IngredientsSection: React.FC = () => (

@@ -1,13 +1,13 @@
 ﻿import React from 'react';
 import { Loader2, CreditCard } from 'lucide-react';
 import { PACKAGES, NAFDAC_REG_NO } from '../../lib/constants.ts';
-import { STATE_DELIVERY_ZONES } from '../../utils/delivery';
-import CustomDropdown from '../ui/CustomDropdown';
-import { useFinalCTAForm } from '../../hooks/useFinalCTAForm';
-import FormField from './FormField';
-import OrderSummaryBox from './OrderSummaryBox';
-import PaymentSelector from './PaymentSelector';
-import CTAHero from './CTAHero';
+import { STATE_DELIVERY_ZONES } from '../../utils/delivery.ts';
+import CustomDropdown from '../ui/CustomDropdown.tsx';
+import { useFinalCTAForm } from '../../hooks/useFinalCTAForm.ts';
+import FormField from './FormField.tsx';
+import OrderSummaryBox from './OrderSummaryBox.tsx';
+import PaymentSelector from './PaymentSelector.tsx';
+import CTAHero from './CTAHero.tsx';
 
 const FinalCTA: React.FC = () => {
   const {
@@ -160,7 +160,7 @@ const FinalCTA: React.FC = () => {
                 </>
               ) : paymentMethod === 'online' ? (
                 <>
-                  <CreditCard size={18} /> 
+                  <CreditCard size={18} />
                   {gatewayChoice === 'korapay' ? 'Pay with Korapay' : 'Select Payment Gateway'}
                 </>
               ) : (

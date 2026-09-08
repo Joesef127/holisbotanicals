@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { useModal } from '../context/ModalContext';
 import { Testimonial } from '../types';
 import { API_BASE } from '../lib/constants';
-import TestimonialEditModal from '../components/product-page/TestimonialEditModal';
+import TestimonialEditModal from '../components/prostanone/TestimonialEditModal';
 import ReviewsSkeleton from '../components/skeleton-loaders/reviews/ReviewsSkeleton';
 
 /* ── Per-card admin menu ── */
@@ -81,7 +81,7 @@ const Reviews: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const openEdit = (t: Testimonial) => { setEditing(t); setModalOpen(true); };
-  const openAdd  = () => { setEditing(null); setModalOpen(true); };
+  const openAdd = () => { setEditing(null); setModalOpen(true); };
 
   if (loading) return <ReviewsSkeleton />;
 

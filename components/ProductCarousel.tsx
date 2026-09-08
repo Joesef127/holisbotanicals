@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
-import { FadeIn } from "./product-page/shared";
+import { FadeIn } from "./prostanone/shared";
 
 export const ProductCarousel: React.FC<{ images: { src: string; alt: string }[] }> = ({ images }) => {
   const [index, setIndex] = useState(0);
@@ -18,9 +18,9 @@ export const ProductCarousel: React.FC<{ images: { src: string; alt: string }[] 
   }, [go]);
 
   const variants = {
-    enter:  (d: number) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0 }),
+    enter: (d: number) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit:   (d: number) => ({ x: d > 0 ? '-100%' : '100%', opacity: 0 }),
+    exit: (d: number) => ({ x: d > 0 ? '-100%' : '100%', opacity: 0 }),
   };
 
   return (
