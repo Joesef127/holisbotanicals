@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf, ArrowRight, Sparkles, Check, Info } from 'lucide-react';
 import { images } from '@/lib';
@@ -79,6 +79,41 @@ export const MenosetFormulaSection: React.FC = () => {
   const [activeHerbId, setActiveHerbId] = useState<string>('black-cohosh');
   const activeHerb = BOTANICALS.find((b) => b.id === activeHerbId) ?? BOTANICALS[0];
 
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  // Ensure the active card/tab is always visible and centered within the scrollable container on mobile
+  useEffect(() => {
+    const scrollToActiveTab = (behavior: ScrollBehavior = 'smooth') => {
+      // Only perform scroll centering on mobile/tablet (below lg breakpoint)
+      if (typeof window !== 'undefined' && window.innerWidth >= 1024) return;
+
+      const container = tabsContainerRef.current;
+      const activeTabEl = tabRefs.current[activeHerbId];
+      if (!container || !activeTabEl) return;
+
+      const containerWidth = container.clientWidth;
+      const tabLeft = activeTabEl.offsetLeft;
+      const tabWidth = activeTabEl.clientWidth;
+
+      // Position active card in center of scrollable container
+      const targetScrollLeft = tabLeft - containerWidth / 2 + tabWidth / 2;
+
+      container.scrollTo({
+        left: Math.max(0, targetScrollLeft),
+        behavior,
+      });
+    };
+
+    // Scroll to active card on mobile
+    scrollToActiveTab('smooth');
+
+    // Also update on window resize / orientation change
+    const handleResize = () => scrollToActiveTab('auto');
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [activeHerbId]);
+
   const handleOrderScroll = (e: React.MouseEvent) => {
     e.preventDefault();
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
@@ -111,22 +146,28 @@ export const MenosetFormulaSection: React.FC = () => {
         {/* Interactive Botanical Herbarium Showcase */}
         <div className="grid gap-8 lg:grid-cols-2 items-start">
 
-          {/* Left: 4 Interactive Botanical Selector Cards */}
-          <div className="lg:col-span-1 space-y-2.5">
+          {/* Left / Top on mobile: 4 Interactive Botanical Selector Cards */}
+          <div
+            ref={tabsContainerRef}
+            className="relative flex flex-row items-stretch overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory gap-3 sm:gap-4 py-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 lg:py-0 lg:col-span-1 lg:flex-col lg:space-y-2.5 lg:gap-0 lg:overflow-visible"
+          >
             {BOTANICALS.map((botanical) => {
               const isActive = botanical.id === activeHerbId;
               return (
                 <button
                   key={botanical.id}
+                  ref={(el) => {
+                    tabRefs.current[botanical.id] = el;
+                  }}
                   type="button"
                   onClick={() => setActiveHerbId(botanical.id)}
-                  className={`w-full text-left p-5 rounded-2xl border transition-all duration-300 flex items-start gap-4 ${isActive
-                    ? 'border-[#f4cf80] bg-white/15 backdrop-blur-md shadow-lg shadow-black/20 translate-x-1.5'
+                  className={`shrink-0 snap-center w-[280px] sm:w-[320px] lg:w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-300 flex items-start gap-3.5 sm:gap-4 ${isActive
+                    ? 'border-[#f4cf80] bg-white/15 backdrop-blur-md shadow-lg shadow-black/20 lg:translate-x-1.5'
                     : 'border-white/10 bg-white/5 hover:border-white/25 hover:bg-white/10'
                     }`}
                 >
                   <div
-                    className={`h-11 w-11 rounded-xl flex items-center justify-center shrink-0 transition-colors ${isActive
+                    className={`h-10 w-10 sm:h-11 sm:w-11 rounded-xl flex items-center justify-center shrink-0 transition-colors ${isActive
                       ? 'bg-[#f4cf80] text-[#350f27]'
                       : 'bg-white/10 text-white/70'
                       }`}
@@ -134,19 +175,19 @@ export const MenosetFormulaSection: React.FC = () => {
                     <Leaf className="h-5 w-5" />
                   </div>
 
-                  <div className="grow">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-base sm:text-lg font-bold text-white">
+                  <div className="grow min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                      <h3 className="text-sm sm:text-base lg:text-lg font-bold text-white truncate sm:overflow-visible">
                         {botanical.name}
                       </h3>
-                      <span className="text-[11px] font-bold text-[#f4cf80] uppercase tracking-wider">
+                      <span className="text-[10px] sm:text-[11px] font-bold text-[#f4cf80] uppercase tracking-wider shrink-0">
                         {botanical.role}
                       </span>
                     </div>
                     <p className="text-xs text-[#e8c0d1] italic mt-0.5">
                       {botanical.latin}
                     </p>
-                    <p className="mt-2 text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
+                    <p className="mt-2 text-xs sm:text-sm text-white/80 leading-relaxed font-normal line-clamp-2 sm:line-clamp-none">
                       {botanical.documentCopy}
                     </p>
                   </div>
