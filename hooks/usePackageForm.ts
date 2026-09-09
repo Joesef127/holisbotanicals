@@ -7,6 +7,7 @@ import { useModal } from '../context/ModalContext';
 
 interface Options {
   pkg: ProductPackage | null;
+  defaultProductId?: 'prostanone' | 'menoset';
   onSaved: (pkg: ProductPackage) => void;
   onDeleted?: (id: string) => void;
   onClose: () => void;
@@ -25,7 +26,7 @@ export interface PackageForm {
   badge: string;
 }
 
-export function usePackageForm({ pkg, onSaved, onDeleted, onClose }: Options) {
+export function usePackageForm({ pkg, defaultProductId = 'prostanone', onSaved, onDeleted, onClose }: Options) {
   const { token } = useAuth();
   const { showConfirm } = useModal();
   const isEdit = pkg !== null;
@@ -59,7 +60,11 @@ export function usePackageForm({ pkg, onSaved, onDeleted, onClose }: Options) {
 
     setSaving(true);
     const body = {
-      ...(!isEdit && { id: form.id.trim(), containers: parseInt(form.containers, 10) || 1 }),
+      ...(!isEdit && {
+        id: form.id.trim(),
+        containers: parseInt(form.containers, 10) || 1,
+        productId: defaultProductId || 'prostanone',
+      }),
       name:          form.name.trim(),
       price:         parseInt(form.price, 10),
       originalPrice: form.originalPrice ? parseInt(form.originalPrice, 10) : undefined,

@@ -211,6 +211,63 @@ export const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
+export const MENOSET_TESTIMONIALS: Testimonial[] = [
+  {
+    id: 101,
+    productId: 'menoset',
+    name: 'Amina B.',
+    age: null,
+    location: 'Lagos',
+    text: 'Adding Menoset to my routine felt simple and manageable while I paid closer attention to my wellbeing. The heat spikes are much less overwhelming now.',
+    rating: 5,
+  },
+  {
+    id: 102,
+    productId: 'menoset',
+    name: 'Ifeoma O.',
+    age: null,
+    location: 'Abuja',
+    text: 'The daily routine fits easily into my schedule, and the product information helped me make an informed choice. I feel much more even-tempered throughout the day.',
+    rating: 5,
+  },
+  {
+    id: 103,
+    productId: 'menoset',
+    name: 'Tomi A.',
+    age: null,
+    location: 'Ibadan',
+    text: 'I appreciated having a non-hormonal herbal option to consider as my needs changed. My menstrual cycles have felt substantially more predictable.',
+    rating: 5,
+  },
+  {
+    id: 104,
+    productId: 'menoset',
+    name: 'Ngozi E.',
+    age: null,
+    location: 'Enugu',
+    text: 'Sleeping without waking up drenched in night sweat has been the greatest blessing. Menoset has earned a permanent spot on my bedside table.',
+    rating: 5,
+  },
+  {
+    id: 105,
+    productId: 'menoset',
+    name: 'Folake M.',
+    age: null,
+    location: 'Port Harcourt',
+    text: 'As someone who prefers clean herbal botanicals over synthetic drugs, the ingredient transparency of Black Cohosh and Dong Quai gave me absolute confidence.',
+    rating: 5,
+  },
+  {
+    id: 106,
+    productId: 'menoset',
+    name: 'Zainab K.',
+    age: null,
+    location: 'Kaduna',
+    text: 'The cramping and unexpected heavy days were exhausting. Following the simple 1 tablet twice daily routine helped bring a sense of regularity back to my cycle.',
+    rating: 5,
+  },
+];
+
 // Quiz Questions
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {

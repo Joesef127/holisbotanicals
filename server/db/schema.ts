@@ -19,6 +19,7 @@ export const admins = pgTable('admins', {
 
 export const packages = pgTable('packages', {
   id: varchar('id', { length: 64 }).primaryKey(),
+  productId: varchar('product_id', { length: 50 }).default('prostanone').notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   containers: integer('containers').notNull(),
   price: integer('price').notNull(),
@@ -97,6 +98,7 @@ export const contactMessages = pgTable('contact_messages', {
 
 export const testimonials = pgTable('testimonials', {
   id: serial('id').primaryKey(),
+  productId: varchar('product_id', { length: 50 }).default('prostanone').notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   age: integer('age'),
   location: varchar('location', { length: 255 }),

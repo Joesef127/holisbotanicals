@@ -8,6 +8,15 @@ const testimonialsRoute = new Hono();
 
 // GET /api/testimonials — public
 testimonialsRoute.get('/', async (c) => {
+  const productId = c.req.query('productId');
+  if (productId) {
+    const rows = await db
+      .select()
+      .from(testimonials)
+      .where(eq(testimonials.productId, productId))
+      .orderBy(asc(testimonials.createdAt));
+    return c.json(rows);
+  }
   const rows = await db.select().from(testimonials).orderBy(asc(testimonials.createdAt));
   return c.json(rows);
 });
@@ -15,6 +24,7 @@ testimonialsRoute.get('/', async (c) => {
 // POST /api/testimonials — admin only
 testimonialsRoute.post('/', requireAdmin, async (c) => {
   const body = await c.req.json<{
+    productId?: string;
     name: string;
     age?: number | null;
     location?: string | null;
@@ -28,6 +38,7 @@ testimonialsRoute.post('/', requireAdmin, async (c) => {
   const inserted = await db
     .insert(testimonials)
     .values({
+      productId: body.productId?.trim() || 'prostanone',
       name: body.name.trim(),
       age: body.age ?? null,
       location: body.location?.trim() || null,
@@ -45,6 +56,7 @@ testimonialsRoute.put('/:id', requireAdmin, async (c) => {
   if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400);
 
   const body = await c.req.json<{
+    productId?: string;
     name?: string;
     age?: number | null;
     location?: string | null;
@@ -53,6 +65,7 @@ testimonialsRoute.put('/:id', requireAdmin, async (c) => {
   }>();
 
   const fields: Record<string, unknown> = {};
+  if (body.productId !== undefined) fields.productId = body.productId;
   if (body.name !== undefined) fields.name = body.name.trim();
   if (body.age !== undefined) fields.age = body.age;
   if (body.location !== undefined) fields.location = body.location?.trim() || null;

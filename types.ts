@@ -1,5 +1,6 @@
 export interface Testimonial {
   id: number;
+  productId?: 'prostanone' | 'menoset';
   name: string;
   age: number | null;
   location: string | null;

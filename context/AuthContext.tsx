@@ -7,6 +7,7 @@ interface AuthState {
   isLoading: boolean;
   twoFactorEnabled: boolean;
   twoFactorMethod: "email" | "sms" | null;
+  token?: string | null;
 }
 
 interface LoginResult {

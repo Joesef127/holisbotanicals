@@ -7,6 +7,8 @@ import Button from '../Button';
 
 interface Props {
   testimonial: Testimonial | null; // null = create mode
+  defaultProductId?: 'prostanone' | 'menoset';
+  productName?: string;
   onClose: () => void;
   onSaved: (t: Testimonial) => void;
 }
@@ -45,7 +47,7 @@ const Field: React.FC<{
 const inputClass =
   'w-full px-3.5 py-2.5 rounded-xl border border-border bg-background text-text text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors placeholder:text-text-muted';
 
-const TestimonialEditModal: React.FC<Props> = ({ testimonial, onClose, onSaved }) => {
+const TestimonialEditModal: React.FC<Props> = ({ testimonial, defaultProductId = 'prostanone', productName = 'Prostanone', onClose, onSaved }) => {
   const { token } = useAuth();
   const isEdit = testimonial !== null;
 
@@ -75,6 +77,7 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, onClose, onSaved }
 
     setSaving(true);
     const body = {
+      ...(!isEdit && { productId: defaultProductId || 'prostanone' }),
       name: form.name.trim(),
       age: form.age ? parseInt(form.age, 10) : null,
       location: form.location.trim() || null,
@@ -179,7 +182,7 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, onClose, onSaved }
               value={form.text}
               onChange={set('text')}
               rows={4}
-              placeholder="What did the customer say about Prostanone?"
+              placeholder={`What did the customer say about ${productName}?`}
               className={`${inputClass} resize-none`}
             />
           </Field>

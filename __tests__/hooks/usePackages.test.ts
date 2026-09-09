@@ -165,4 +165,33 @@ describe('usePackages Hook', () => {
     // Both should have same data without additional calls
     expect(result1.current.packages).toEqual(result2.current.packages);
   });
+
+  it('should fetch Menoset packages and fallback to MENOSET_PACKAGES', async () => {
+    (global.fetch as any).mockRejectedValueOnce(new Error('API Error'));
+    const { result } = renderHook(() => usePackages('menoset'));
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 50));
+    });
+
+    expect(result.current.packages.length).toBeGreaterThan(0);
+    expect(result.current.packages[0].id).toContain('menoset');
+  });
+
+  it('should call fetch with productId query param for Menoset', async () => {
+    const mockPackages = [{ id: 'menoset-test', name: 'Menoset Test Pack', price: 15000 }];
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPackages,
+    });
+
+    const { result } = renderHook(() => usePackages('menoset'));
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 50));
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('productId=menoset'));
+    expect(result.current.packages).toEqual(mockPackages);
+  });
 });

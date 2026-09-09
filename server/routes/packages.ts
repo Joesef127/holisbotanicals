@@ -8,6 +8,15 @@ const packagesRoute = new Hono();
 
 // GET /api/packages — public
 packagesRoute.get('/', async (c) => {
+  const productId = c.req.query('productId');
+  if (productId) {
+    const rows = await db
+      .select()
+      .from(packages)
+      .where(eq(packages.productId, productId))
+      .orderBy(packages.price);
+    return c.json(rows);
+  }
   const rows = await db.select().from(packages).orderBy(packages.price);
   return c.json(rows);
 });
@@ -16,6 +25,7 @@ packagesRoute.get('/', async (c) => {
 packagesRoute.post('/', requireAdmin, async (c) => {
   const body = await c.req.json<{
     id: string;
+    productId?: string;
     name: string;
     containers: number;
     price: number;
@@ -35,6 +45,7 @@ packagesRoute.post('/', requireAdmin, async (c) => {
     .insert(packages)
     .values({
       id: body.id.trim(),
+      productId: body.productId?.trim() || 'prostanone',
       name: body.name.trim(),
       containers: body.containers ?? 1,
       price: body.price,
@@ -64,6 +75,7 @@ packagesRoute.put('/:id', requireAdmin, async (c) => {
   const id = c.req.param('id');
   if (!id) return c.json({ error: 'Missing id' }, 400);
   const body = await c.req.json<{
+    productId?: string;
     name?: string;
     price?: number;
     originalPrice?: number;
@@ -75,6 +87,7 @@ packagesRoute.put('/:id', requireAdmin, async (c) => {
   }>();
 
   const allowedFields: Record<string, unknown> = {};
+  if (body.productId !== undefined) allowedFields.productId = body.productId;
   if (body.name !== undefined) allowedFields.name = body.name;
   if (body.price !== undefined) allowedFields.price = body.price;
   if (body.originalPrice !== undefined) allowedFields.originalPrice = body.originalPrice;

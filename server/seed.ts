@@ -8,6 +8,7 @@ import { eq } from 'drizzle-orm';
 const PACKAGES_SEED = [
   {
     id: 'starter',
+    productId: 'prostanone',
     name: 'Starter Pack',
     containers: 1,
     price: 15000,
@@ -20,6 +21,7 @@ const PACKAGES_SEED = [
   },
   {
     id: 'trial-boost',
+    productId: 'prostanone',
     name: 'Trial Boost',
     containers: 2,
     price: 25000,
@@ -32,6 +34,7 @@ const PACKAGES_SEED = [
   },
   {
     id: 'most-valuable',
+    productId: 'prostanone',
     name: 'Most Valuable Package',
     containers: 3,
     price: 39000,
@@ -44,6 +47,7 @@ const PACKAGES_SEED = [
   },
   {
     id: 'consistency',
+    productId: 'prostanone',
     name: 'Consistency Pack',
     containers: 4,
     price: 52000,
@@ -56,6 +60,7 @@ const PACKAGES_SEED = [
   },
   {
     id: 'performance',
+    productId: 'prostanone',
     name: 'Performance Pack',
     containers: 5,
     price: 65000,
@@ -68,6 +73,7 @@ const PACKAGES_SEED = [
   },
   {
     id: 'loyalty',
+    productId: 'prostanone',
     name: 'Loyalty Pack',
     containers: 9,
     price: 115000,
@@ -80,8 +86,64 @@ const PACKAGES_SEED = [
   },
 ];
 
+const MENOSET_PACKAGES_SEED = [
+  {
+    id: 'menoset-starter',
+    productId: 'menoset',
+    name: 'Menoset Starter',
+    containers: 1,
+    price: 15000,
+    originalPrice: 15000,
+    description: '1 Pack · 30 Days Supply',
+    savingsText: null,
+    deliveryText: 'Nationwide delivery available',
+    usageNote: '1 tablet twice daily, following the product label.',
+    badge: null,
+  },
+  {
+    id: 'menoset-essentials',
+    productId: 'menoset',
+    name: 'Menoset Essentials',
+    containers: 3,
+    price: 40000,
+    originalPrice: 45000,
+    description: '3 Packs · 90 Days Supply',
+    savingsText: 'Save ₦5,000',
+    deliveryText: 'Nationwide delivery available',
+    usageNote: 'A convenient three-month supply for a consistent routine.',
+    badge: null,
+  },
+  {
+    id: 'menoset-wellness',
+    productId: 'menoset',
+    name: 'Menoset Wellness Bundle',
+    containers: 6,
+    price: 77000,
+    originalPrice: 90000,
+    description: '6 Packs · 180 Days Supply',
+    savingsText: 'Save ₦13,000',
+    deliveryText: 'Nationwide delivery available',
+    usageNote: 'A convenient longer supply for an established routine.',
+    badge: 'MOST POPULAR',
+  },
+  {
+    id: 'menoset-transformation',
+    productId: 'menoset',
+    name: 'Menoset Transformation Pack',
+    containers: 12,
+    price: 160000,
+    originalPrice: 180000,
+    description: '12 Packs · 360 Days Supply',
+    savingsText: 'Save ₦20,000',
+    deliveryText: 'Nationwide delivery available',
+    usageNote: 'A value and convenience option for fewer reorders.',
+    badge: 'BEST VALUE',
+  },
+];
+
 const TESTIMONIALS_SEED = [
   {
+    productId: 'prostanone',
     name: 'Chidi A.',
     age: 52,
     location: 'Abuja',
@@ -89,6 +151,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    productId: 'prostanone',
     name: 'Emeka O.',
     age: 48,
     location: 'Lagos',
@@ -96,6 +159,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    productId: 'prostanone',
     name: 'Adekunle T.',
     age: 55,
     location: 'Ibadan',
@@ -103,6 +167,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    productId: 'prostanone',
     name: 'Tunde B.',
     age: 61,
     location: 'Port Harcourt',
@@ -110,6 +175,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    productId: 'prostanone',
     name: 'Ibrahim K.',
     age: 49,
     location: 'Kano',
@@ -117,6 +183,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    productId: 'prostanone',
     name: 'Miss Abiodun',
     age: null,
     location: null,
@@ -124,6 +191,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    productId: 'prostanone',
     name: 'Mr Olu',
     age: null,
     location: null,
@@ -131,10 +199,62 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    productId: 'prostanone',
     name: 'Anonymous Patient',
     age: null,
     location: 'Ebonyi',
     text: 'Good evening sir. I was introduced to PROSTANONE herbal capsules but unfortunately when I saw the efficacy of the product I decided to buy on my own. I searched and discovered it was marketed by HOLIS BOTANICAL GARDEN. I am a prostate enlargement patient looking for direct outlets to buy it in Lagos or Ebonyi State.',
+    rating: 5,
+  },
+];
+
+const MENOSET_TESTIMONIALS_SEED = [
+  {
+    productId: 'menoset',
+    name: 'Amina B.',
+    age: null,
+    location: 'Lagos',
+    text: 'Adding Menoset to my routine felt simple and manageable while I paid closer attention to my wellbeing. The heat spikes are much less overwhelming now.',
+    rating: 5,
+  },
+  {
+    productId: 'menoset',
+    name: 'Ifeoma O.',
+    age: null,
+    location: 'Abuja',
+    text: 'The daily routine fits easily into my schedule, and the product information helped me make an informed choice. I feel much more even-tempered throughout the day.',
+    rating: 5,
+  },
+  {
+    productId: 'menoset',
+    name: 'Tomi A.',
+    age: null,
+    location: 'Ibadan',
+    text: 'I appreciated having a non-hormonal herbal option to consider as my needs changed. My menstrual cycles have felt substantially more predictable.',
+    rating: 5,
+  },
+  {
+    productId: 'menoset',
+    name: 'Ngozi E.',
+    age: null,
+    location: 'Enugu',
+    text: 'Sleeping without waking up drenched in night sweat has been the greatest blessing. Menoset has earned a permanent spot on my bedside table.',
+    rating: 5,
+  },
+  {
+    productId: 'menoset',
+    name: 'Folake M.',
+    age: null,
+    location: 'Port Harcourt',
+    text: 'As someone who prefers clean herbal botanicals over synthetic drugs, the ingredient transparency of Black Cohosh and Dong Quai gave me absolute confidence.',
+    rating: 5,
+  },
+  {
+    productId: 'menoset',
+    name: 'Zainab K.',
+    age: null,
+    location: 'Kaduna',
+    text: 'The cramping and unexpected heavy days were exhausting. Following the simple 1 tablet twice daily routine helped bring a sense of regularity back to my cycle.',
     rating: 5,
   },
 ];
@@ -156,19 +276,21 @@ async function seed() {
   const db = drizzle(sql);
 
   console.log('Seeding testimonials...');
-  for (const t of TESTIMONIALS_SEED) {
+  const allTestimonials = [...TESTIMONIALS_SEED, ...MENOSET_TESTIMONIALS_SEED];
+  for (const t of allTestimonials) {
     await db.insert(testimonials).values(t).onConflictDoNothing();
   }
-  console.log(`Seeded ${TESTIMONIALS_SEED.length} testimonials.`);
+  console.log(`Seeded ${allTestimonials.length} testimonials.`);
 
   console.log('Seeding packages...');
-  for (const pkg of PACKAGES_SEED) {
+  const allPackages = [...PACKAGES_SEED, ...MENOSET_PACKAGES_SEED];
+  for (const pkg of allPackages) {
     await db
       .insert(packages)
       .values(pkg)
       .onConflictDoNothing();
   }
-  console.log(`Seeded ${PACKAGES_SEED.length} packages.`);
+  console.log(`Seeded ${allPackages.length} packages.`);
 
   console.log('Seeding admin account...');
   const existing = await db.select().from(admins).where(eq(admins.email, adminEmail));

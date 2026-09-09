@@ -1,19 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowRight, Sparkles, ShieldCheck, Truck, CreditCard } from 'lucide-react';
+import { Check, ArrowRight, ShieldCheck, Truck, CreditCard, MoreVertical, Pencil, Trash2, PlusCircle } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-import { MENOSET_PACKAGES } from '../../lib/constants';
+import { useAuth } from '../../context/AuthContext';
+import { useModal } from '../../context/ModalContext';
+import { usePackages } from '../../hooks/usePackages';
+import { API_BASE } from '../../lib/constants';
+import { ProductPackage } from '../../types';
 import FadeIn from '../ui/FadeIn';
 import { SectionHeader } from '../prostanone/shared';
+import PackageEditModal from '../prostanone/PackageEditModal';
 
 export const MenosetPricingSection: React.FC = () => {
   const { addToCart } = useApp();
   const navigate = useNavigate();
+  const { isAdmin, token } = useAuth();
+  const { showConfirm } = useModal();
+  const { packages, refetch } = usePackages('menoset');
+  const [editingPkg, setEditingPkg] = useState<ProductPackage | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!openMenuId) return;
+    const closeMenu = () => setOpenMenuId(null);
+    window.addEventListener('click', closeMenu);
+    return () => window.removeEventListener('click', closeMenu);
+  }, [openMenuId]);
 
   const handleSelectPackage = (packageId: string) => {
     addToCart(packageId, 1);
     navigate('/summary');
+  };
+
+  const openEdit = (pkg: ProductPackage) => {
+    setEditingPkg(pkg);
+    setModalOpen(true);
+  };
+
+  const openAdd = () => {
+    setEditingPkg(null);
+    setModalOpen(true);
+  };
+
+  const handleDelete = async (pkg: ProductPackage) => {
+    setOpenMenuId(null);
+    const confirmed = await showConfirm({
+      title: 'Delete Package',
+      message: `Delete "${pkg.name}"? This cannot be undone.`,
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
+      destructive: true,
+    });
+    if (!confirmed) return;
+    await fetch(`${API_BASE}/api/packages/${pkg.id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+    refetch();
   };
 
   return (
@@ -33,14 +79,26 @@ export const MenosetPricingSection: React.FC = () => {
           />
         </FadeIn>
 
+        {isAdmin && (
+          <div className="flex justify-center items-center mt-6 mb-10">
+            <button
+              type="button"
+              onClick={openAdd}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm"
+            >
+              <PlusCircle className="w-4 h-4" />
+              Add Package
+            </button>
+          </div>
+        )}
+
         {/* 4-Column Modern Pricing Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-stretch">
-          {MENOSET_PACKAGES.map((pkg, index) => {
+          {packages.map((pkg, index) => {
             const isMostPopular = pkg.badge === 'MOST POPULAR';
             const isBestValue = pkg.badge === 'BEST VALUE';
             const daysCount = pkg.containers * 30;
             const tabletCount = pkg.containers * 60;
-            const perDayCost = Math.round(pkg.price / daysCount);
 
             return (
               <motion.div
@@ -57,6 +115,48 @@ export const MenosetPricingSection: React.FC = () => {
                     : 'border border-gray-100 bg-white shadow-sm hover:border-primary/40 hover:shadow-md'
                   }`}
               >
+                {/* Admin Menu */}
+                {isAdmin && (
+                  <div className="absolute top-3 right-3 z-20">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenMenuId(openMenuId === pkg.id ? null : pkg.id);
+                      }}
+                      className="p-1.5 rounded-full bg-white/90 hover:bg-white shadow text-gray-500 hover:text-gray-800 transition-colors border border-gray-100"
+                      title="Package options"
+                    >
+                      <MoreVertical size={16} />
+                    </button>
+                    {openMenuId === pkg.id && (
+                      <div className="absolute right-0 mt-1 w-40 bg-white border border-gray-200 rounded-xl shadow-lg py-1 z-30">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openEdit(pkg);
+                            setOpenMenuId(null);
+                          }}
+                          className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          <Pencil size={14} className="text-primary" /> Edit Package
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(pkg);
+                          }}
+                          className="flex items-center gap-2 w-full px-4 py-2 text-sm text-rose-600 hover:bg-rose-50"
+                        >
+                          <Trash2 size={14} /> Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Top Badge */}
                 {pkg.badge && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
@@ -103,9 +203,6 @@ export const MenosetPricingSection: React.FC = () => {
                       ) : (
                         <span className="text-xs text-text-muted">Standard Rate</span>
                       )}
-                      {/* <span className="text-[11px] text-[#8c6d7d] font-medium">
-                        ≈ ₦{perDayCost}/day
-                      </span> */}
                     </div>
                   </div>
 
@@ -132,9 +229,11 @@ export const MenosetPricingSection: React.FC = () => {
                       <span>{pkg.deliveryText || 'Nationwide delivery available'}</span>
                     </div>
 
-                    <div className="mt-4 rounded-xl bg-tertiary p-3 text-[11px] text-text-muted leading-relaxed border border-gray-100">
-                      {pkg.usageNote}
-                    </div>
+                    {pkg.usageNote && (
+                      <div className="mt-4 rounded-xl bg-tertiary p-3 text-[11px] text-text-muted leading-relaxed border border-gray-100">
+                        {pkg.usageNote}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -180,6 +279,15 @@ export const MenosetPricingSection: React.FC = () => {
           </span>
         </div>
 
+        {modalOpen && (
+          <PackageEditModal
+            pkg={editingPkg}
+            defaultProductId="menoset"
+            onClose={() => setModalOpen(false)}
+            onSaved={() => { refetch(); setModalOpen(false); }}
+            onDeleted={() => { refetch(); setModalOpen(false); }}
+          />
+        )}
       </div>
     </section>
   );

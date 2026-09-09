@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import { handle } from "@hono/node-server/vercel";
 import auth from "../server/routes/auth";
 import packagesRoute from "../server/routes/packages";
+import testimonialsRoute from "../server/routes/testimonials";
 import blog from "../server/routes/blog";
 import data from "../server/routes/data";
 
@@ -31,6 +32,7 @@ app.use(
 
 app.route("/auth", auth);
 app.route("/packages", packagesRoute);
+app.route("/testimonials", testimonialsRoute);
 app.route("/blog", blog);
 app.route("/", data);
 

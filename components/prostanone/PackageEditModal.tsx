@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import { X, Save, Package, Trash2 } from "lucide-react";
 import { ProductPackage } from "../../types";
 import { usePackageForm } from "../../hooks/usePackageForm";
@@ -6,6 +6,7 @@ import Button from "../Button";
 
 interface Props {
   pkg: ProductPackage | null; // null = create mode
+  defaultProductId?: 'prostanone' | 'menoset';
   onClose: () => void;
   onSaved: (updated: ProductPackage) => void;
   onDeleted?: (id: string) => void;
@@ -49,6 +50,7 @@ const Section: React.FC<{ label: string }> = ({ label }) => (
 
 const PackageEditModal: React.FC<Props> = ({
   pkg,
+  defaultProductId,
   onClose,
   onSaved,
   onDeleted,
@@ -56,6 +58,7 @@ const PackageEditModal: React.FC<Props> = ({
   const { form, set, isEdit, saving, deleting, error, save, remove } =
     usePackageForm({
       pkg,
+      defaultProductId,
       onSaved,
       onDeleted,
       onClose,
