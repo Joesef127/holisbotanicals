@@ -87,7 +87,7 @@ export const MenosetBenefitsSection: React.FC = () => {
                     {benefit.title}
                   </h3>
 
-                  <p className="mt-3 text-sm text-[#664b5a] leading-relaxed">
+                  <p className="mt-3 text-sm text-text-muted leading-relaxed">
                     {benefit.desc}
                   </p>
                 </div>

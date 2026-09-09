@@ -103,12 +103,12 @@ const Menoset: React.FC = () => {
       <MenosetFormulaSection />
       <MenosetBenefitsSection />
       <MenosetHowToUse />
-      <MenosetWhyChooseSection />
       <MenosetPricingSection />
+      <MenosetWhyChooseSection />
       <MenosetSocialProof />
       <MenosetFAQSection />
       <MenosetFinalCTA />
-      <MenosetComplianceNotice />
+      {/* <MenosetComplianceNotice /> */}
     </div>
   );
 };
