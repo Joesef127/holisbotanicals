@@ -205,7 +205,7 @@ export const MenosetFormulaSection: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.35 }}
-                className="rounded-3xl border border-white/20 bg-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-2xl"
+                className="rounded-3xl border border-white/20 bg-white/10 p-4 sm:p-8 backdrop-blur-xl shadow-2xl"
               >
                 {/* Header row */}
                 <div className="flex items-center justify-between border-b border-white/15 pb-4">
@@ -238,7 +238,7 @@ export const MenosetFormulaSection: React.FC = () => {
                 {/* Key Benefits */}
                 <div className="mt-5">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-white/60 mb-2 flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5 text-[#f4cf80]" /> Targeted Support
+                    Targeted Support
                   </h4>
                   <div className="space-y-2">
                     {activeHerb.keyBenefits.map((benefit) => (
@@ -286,7 +286,7 @@ export const MenosetFormulaSection: React.FC = () => {
                   <a
                     href="#pricing"
                     onClick={handleOrderScroll}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f4cf80] to-[#ffd68a] px-6 py-3 text-xs sm:text-sm font-bold text-[#350f27] hover:scale-105 transition-all shadow-md"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#f4cf80] to-[#ffd68a] mt-3 sm:mt-0 px-6 py-3 text-xs sm:text-sm font-bold text-[#350f27] hover:scale-105 transition-all shadow-md"
                   >
                     <span>ORDER NOW</span>
                     <ArrowRight className="h-4 w-4" />

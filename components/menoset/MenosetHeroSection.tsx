@@ -43,24 +43,35 @@ export const MenosetHeroSection: React.FC<MenosetHeroSectionProps> = ({
 
   return (
     <section className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-[#1e0717] text-white pt-32 pb-24 lg:pt-36 lg:pb-32">
-      {/* Background image with subtle parallax */}
+
       <motion.div
         style={{ y: reduceMotion ? 0 : bgY }}
         className="absolute inset-0 -top-24 -bottom-24 z-0 pointer-events-none"
       >
-        <img
-          src={images.menoset_display}
+        <motion.img
+          src={images.menoset_model}
           alt="Menoset Herbal Tablets Display"
-          className="w-full h-full object-cover object-center scale-105"
+          className="w-full h-full object-cover object-center will-change-transform"
           loading="eager"
+          initial={{ scale: 1 }}
+          animate={
+            reduceMotion
+              ? { scale: 1 }
+              : {
+                  scale: [1, 1.05, 1],
+                }
+          }
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
         />
       </motion.div>
 
-      {/* Layered overlays */}
-      <div className="absolute inset-0 z-10 bg-linear-to-t from-black/90 via-black/70 to-black/55" />
-      <div className="absolute inset-0 z-10 bg-linear-to-r from-secondary/40 via-transparent to-transparent" />
+      <div className="absolute inset-0 z-10 bg-linear-to-t from-black/70 via-black/80 to-black/55" />
+      <div className="absolute inset-0 z-10 bg-linear-to-r from-secondary/0 via-transparent to-transparent" />
 
-      {/* Golden botanical matrix pattern */}
       <div
         className="absolute inset-0 opacity-15 pointer-events-none z-10"
         style={{
@@ -96,7 +107,7 @@ export const MenosetHeroSection: React.FC<MenosetHeroSectionProps> = ({
             className="text-4xl sm:text-6xl md:text-7xl xl:text-[80px] font-bold tracking-tight text-white leading-[1.1] max-w-3xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
           >
             No More Dealing With{' '}
-            <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#ffd393] via-[#ffb4c5] to-[#f4cf80]">
+            <span className="relative inline-block text-[#ffd393]">
               Hot Flashes.
               <span className="absolute left-0 -bottom-1 w-full h-[3px] bg-gradient-to-r from-transparent via-[#f4cf80]/70 to-transparent rounded-full" />
             </span>

@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, CalendarCheck, ShieldAlert, Sparkles } from 'lucide-react';
 import { images } from '@/lib';
+import FadeIn from '../ui/FadeIn';
+import { SectionHeader } from '../prostanone/shared';
 
 export const MenosetHowToUse: React.FC = () => {
   const steps = [
@@ -31,35 +33,13 @@ export const MenosetHowToUse: React.FC = () => {
 
         {/* Header Block */}
         <div className="mx-auto max-w-3xl text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 rounded-full bg-[#4e1939]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#4e1939] mb-4"
-          >
-            <Sparkles className="h-3.5 w-3.5 text-[#9d3d65]" />
-            <span>Effortless Regimen</span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
-          >
-            Simple. Daily. Consistent.
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-base sm:text-lg text-[#654b5a] leading-relaxed max-w-2xl mx-auto"
-          >
-            Designed to integrate effortlessly into your everyday schedule without disruption.
-          </motion.p>
+          <FadeIn>
+            <SectionHeader
+              eyebrow="Effortless Regimen"
+              title="Simple. Daily. Consistent."
+              subtitle="Designed to fit seamlessly into your life. Consistency unlocks the cumulative benefits of the botanical actives."
+            />
+          </FadeIn>
         </div>
 
         {/* 3 Step Cards + Specifications Panel */}

@@ -57,7 +57,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 export const MenosetSocialProof: React.FC = () => {
   return (
-    <section className="py-24 bg-[#fffaf8] relative overflow-hidden">
+    <section className="py-24 bg-tertiary relative overflow-hidden">
       {/* Soft background accents */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#fae8ef] rounded-full blur-3xl opacity-60 pointer-events-none" />
       <div className="absolute bottom-10 left-0 w-80 h-80 bg-[#fef1e4] rounded-full blur-3xl opacity-50 pointer-events-none" />
