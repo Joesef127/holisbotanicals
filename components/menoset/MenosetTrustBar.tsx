@@ -41,7 +41,7 @@ export const MenosetTrustBar: React.FC = () => {
                 viewport={{ once: true, margin: '-10%' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                className="group flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3.5 p-2 rounded-2xl transition-colors hover:bg-rose-50/40"
+                className="group flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3.5 p-2 rounded-2xl transition-colors"
               >
                 <div className="flex p-1.5 sm:p-3 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#4e1939] to-primary text-[#f4cf80] shadow-md shadow-[#4e1939]/15 group-hover:scale-105 transition-transform">
                   <Icon className="h-4 sm:h-6 w-4 sm:w-6" />

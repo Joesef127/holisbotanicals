@@ -56,9 +56,9 @@ export const MenosetHowToUse: React.FC = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="rounded-2xl border border-[#eedde5] bg-[#fffafc] p-6 flex items-start gap-5 shadow-sm hover:border-[#9d3d65]/40 transition-colors"
+                  className="rounded-2xl border border-gray-100 bg-tertiary p-6 flex items-start gap-5 shadow-sm hover:border-[#9d3d65]/40 transition-colors"
                 >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#4e1939] text-[#f4cf80] font-bold text-sm shadow-md">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary text-accent font-bold text-sm shadow-md">
                     <Icon className="h-6 w-6" />
                   </div>
                   <div>
@@ -66,11 +66,11 @@ export const MenosetHowToUse: React.FC = () => {
                       <span className="text-xs font-bold text-[#9d3d65] uppercase tracking-wider">
                         Step {s.step}
                       </span>
-                      <h3 className="text-lg font-bold text-[#3d132b]">
+                      <h3 className="text-lg font-bold text-primary">
                         {s.title}
                       </h3>
                     </div>
-                    <p className="mt-1.5 text-sm text-[#664b5b] leading-relaxed">
+                    <p className="mt-1.5 text-sm text-text-muted leading-relaxed">
                       {s.instruction}
                     </p>
                   </div>
@@ -86,9 +86,9 @@ export const MenosetHowToUse: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="rounded-3xl border border-[#ead7df] bg-gradient-to-br from-[#fff7fa] to-[#fff3eb] p-8 shadow-lg shadow-[#4e1939]/5"
+              className="rounded-3xl border border-gray-100 bg-tertiary p-8 shadow-sm"
             >
-              <div className="relative mb-6 overflow-hidden rounded-2xl border border-[#ead7df] shadow-sm aspect-video">
+              <div className="relative mb-6 overflow-hidden rounded-2xl border border-gray-100 shadow-sm aspect-video">
                 <img
                   src={images.menoset_display}
                   alt="Menoset daily pack display"
@@ -97,29 +97,29 @@ export const MenosetHowToUse: React.FC = () => {
                 />
               </div>
 
-              <h4 className="text-xl font-bold text-[#3d132b]">
+              <h4 className="text-xl font-bold text-primary">
                 Packaging & Dosage Specs
               </h4>
 
               <dl className="mt-4 space-y-3 text-sm">
-                <div className="flex justify-between border-b border-[#eedde5] pb-2.5">
-                  <dt className="text-[#725464]">Recommended Dosage</dt>
-                  <dd className="font-bold text-[#3d132b]">1 tablet twice daily</dd>
+                <div className="flex justify-between border-b border-gray-100 pb-2.5">
+                  <dt className="text-text-muted">Recommended Dosage</dt>
+                  <dd className="font-bold text-primary">1 tablet twice daily</dd>
                 </div>
-                <div className="flex justify-between border-b border-[#eedde5] pb-2.5">
-                  <dt className="text-[#725464]">Pack Size</dt>
-                  <dd className="font-bold text-[#3d132b]">60 tablets per box</dd>
+                <div className="flex justify-between border-b border-gray-100 pb-2.5">
+                  <dt className="text-text-muted">Pack Size</dt>
+                  <dd className="font-bold text-primary">60 tablets per box</dd>
                 </div>
-                <div className="flex justify-between border-b border-[#eedde5] pb-2.5">
-                  <dt className="text-[#725464]">Duration Supply</dt>
-                  <dd className="font-bold text-[#3d132b]">30 days at stated dosage</dd>
+                <div className="flex justify-between border-b border-gray-100 pb-2.5">
+                  <dt className="text-text-muted">Duration Supply</dt>
+                  <dd className="font-bold text-primary">30 days at stated dosage</dd>
                 </div>
               </dl>
 
               {/* Tip Callout from document */}
-              <div className="mt-6 rounded-2xl bg-white p-4 border border-[#f0dfe6] flex items-start gap-3">
-                <ShieldAlert className="h-5 w-5 text-[#9d3d65] shrink-0 mt-0.5" />
-                <p className="text-xs text-[#725363] leading-relaxed">
+              <div className="mt-6 rounded-2xl bg-white p-4 border border-gray-100 flex items-start gap-3">
+                <ShieldAlert className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <p className="text-xs text-text-muted leading-relaxed">
                   <strong>Tip:</strong> Take consistently as directed. If you are pregnant,
                   breastfeeding, taking medication or have an existing medical condition, speak with a
                   healthcare professional before use.
