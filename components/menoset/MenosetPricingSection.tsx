@@ -23,7 +23,7 @@ export const MenosetPricingSection: React.FC = () => {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <motion.div
@@ -41,7 +41,7 @@ export const MenosetPricingSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
           >
             Choose Your Menoset Plan
           </motion.h2>
@@ -75,23 +75,21 @@ export const MenosetPricingSection: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 ${
-                  isMostPopular
+                className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 ${isMostPopular
                     ? 'border-2 border-[#9d3d65] bg-gradient-to-b from-[#fff7fa] to-white shadow-xl shadow-[#4e1939]/10 ring-1 ring-[#9d3d65]/20'
                     : isBestValue
-                    ? 'border-2 border-[#cfa352] bg-gradient-to-b from-[#fffbf4] to-white shadow-lg shadow-[#cfa352]/10'
-                    : 'border border-[#ead7df] bg-white shadow-sm hover:border-[#9d3d65]/40 hover:shadow-md'
-                }`}
+                      ? 'border-2 border-[#cfa352] bg-gradient-to-b from-[#fffbf4] to-white shadow-lg shadow-[#cfa352]/10'
+                      : 'border border-[#ead7df] bg-white shadow-sm hover:border-[#9d3d65]/40 hover:shadow-md'
+                  }`}
               >
                 {/* Top Badge */}
                 {pkg.badge && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                     <span
-                      className={`inline-flex items-center gap-1 rounded-full px-4 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-md ${
-                        isMostPopular
+                      className={`inline-flex items-center gap-1 rounded-full px-4 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-md ${isMostPopular
                           ? 'bg-gradient-to-r from-[#4e1939] to-[#8c2e5a]'
                           : 'bg-gradient-to-r from-[#b3862b] to-[#d4af37]'
-                      }`}
+                        }`}
                     >
                       <Sparkles className="h-3 w-3" />
                       {pkg.badge}
@@ -102,7 +100,7 @@ export const MenosetPricingSection: React.FC = () => {
                 <div>
                   {/* Pack Title & Supply */}
                   <div className="pt-2">
-                    <h3 className="text-xl font-serif font-bold text-[#3d132b]">
+                    <h3 className="text-xl font-bold text-[#3d132b]">
                       {pkg.name.replace('Menoset ', '')}
                     </h3>
                     <p className="mt-1 text-xs font-semibold text-[#8c315a] uppercase tracking-wider">
@@ -171,13 +169,12 @@ export const MenosetPricingSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectPackage(pkg.id)}
-                    className={`group w-full flex items-center justify-center gap-2 rounded-full py-3.5 px-5 text-sm font-bold transition-all shadow-md active:scale-[0.98] ${
-                      isMostPopular
+                    className={`group w-full flex items-center justify-center gap-2 rounded-full py-3.5 px-5 text-sm font-bold transition-all shadow-md active:scale-[0.98] ${isMostPopular
                         ? 'bg-gradient-to-r from-[#4e1939] to-[#782356] text-white hover:bg-[#631e47]'
                         : isBestValue
-                        ? 'bg-gradient-to-r from-[#b3862b] to-[#d4af37] text-white hover:opacity-95'
-                        : 'bg-[#3d132b] text-white hover:bg-[#571c3e]'
-                    }`}
+                          ? 'bg-gradient-to-r from-[#b3862b] to-[#d4af37] text-white hover:opacity-95'
+                          : 'bg-[#3d132b] text-white hover:bg-[#571c3e]'
+                      }`}
                   >
                     <span>Select This Pack</span>
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

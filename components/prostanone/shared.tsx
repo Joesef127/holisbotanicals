@@ -83,7 +83,7 @@ export const SectionHeader: React.FC<{
       {title}
     </h2>
     {subtitle && (
-      <p className={`text-base sm:text-lg leading-relaxed ${light ? 'text-white/70' : 'text-text-muted'}`}>
+      <p className={`text-sm sm:text-lg leading-relaxed ${light ? 'text-white/70' : 'text-text-muted'}`}>
         {subtitle}
       </p>
     )}

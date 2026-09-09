@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowRight, CheckCircle2, HeartPulse, Clock, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FadeIn, SectionHeader } from '../prostanone/shared';
 
 const COMMON_SYMPTOMS = [
   { id: 'hot-flashes', label: 'Hot Flashes & Warm Spikes' },
@@ -52,47 +53,22 @@ export const MenosetAssessmentTeaser: React.FC = () => {
   const insight = getInsight();
 
   return (
-    <section id="assessment" className="py-20 lg:py-28 bg-[#faf4f0] relative overflow-hidden">
-      {/* Decorative ambient gradients */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#f4cf80]/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#d77892]/15 rounded-full blur-3xl pointer-events-none" />
+    <section id="assessment" className="py-20 lg:py-28 bg-surface relative overflow-hidden">
+
+      {/* <div className="absolute top-0 right-0 w-96 h-96 bg-[#f4cf80]/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#d77892]/15 rounded-full blur-3xl pointer-events-none" /> */}
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Header Block */}
-        <div className="mx-auto max-w-3xl text-center mb-12 lg:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 rounded-full bg-[#4e1939]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#4e1939] mb-4"
-          >
-            <Sparkles className="h-3.5 w-3.5 text-[#9d3d65]" />
-            <span>Interactive Wellness Tool</span>
-          </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3b122c]"
-          >
-            Not Sure If Menoset Is Right For You?
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-base sm:text-lg text-[#684b5c] leading-relaxed max-w-2xl mx-auto"
-          >
-            Answer a few simple questions about your cycle and symptoms. Our quick wellness
-            assessment will help you understand the type of support you may be looking for
-            and guide you towards the Menoset pack that best fits your routine.
-          </motion.p>
-        </div>
+        <FadeIn>
+            <SectionHeader
+              eyebrow="Interactive Wellness Tool"
+              title="Not Sure If Menoset Is Right For You?"
+              subtitle="Answer a few simple questions about your cycle and symptoms. Our quick wellness
+                        assessment will help you understand the type of support you may be looking for
+                        and guide you towards the Menoset pack that best fits your routine."
+            />
+          </FadeIn>
 
         {/* Interactive Symptom Selector + Live Match Card */}
         <motion.div
@@ -100,20 +76,20 @@ export const MenosetAssessmentTeaser: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mx-auto max-w-5xl rounded-3xl border border-[#ead7df] bg-white p-6 sm:p-10 lg:p-12 shadow-xl shadow-[#4e1939]/5"
+          className="mx-auto max-w-7xl rounded-3xl  border border-gray-100 bg-surface p-6 sm:p-10 lg:p-12 shadow-xl shadow-[#4e1939]/5"
         >
           <div className="grid gap-10 lg:grid-cols-12 items-center">
-            
+
             {/* Left: Symptom Pill Selector */}
             <div className="lg:col-span-7">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#9d3d65] flex items-center gap-1.5">
-                  <HeartPulse className="h-4 w-4" /> Quick Interactive Symptom Matcher
+              <div className="flex flex-col sm:flex-row item-start sm:items-center justify-between gap-2 mb-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+                  Quick Interactive Symptom Matcher
                 </span>
-                <span className="text-xs text-[#7d5e6e]">Select what you feel:</span>
+                {/* <span className="text-xs text-[#7d5e6e]">Select what you feel:</span> */}
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-bold text-[#3d132b] mb-4">
+              <h3 className="text-xl sm:text-2xl font-bold text-secondary mb-4">
                 What changes are you currently noticing?
               </h3>
 
@@ -125,19 +101,17 @@ export const MenosetAssessmentTeaser: React.FC = () => {
                       key={symptom.id}
                       type="button"
                       onClick={() => toggleSymptom(symptom.id)}
-                      className={`group flex items-center justify-between text-left p-3.5 rounded-2xl border transition-all text-xs sm:text-sm font-medium ${
-                        isSelected
-                          ? 'border-[#9d3d65] bg-[#fff3f6] text-[#4e1939] shadow-sm'
-                          : 'border-[#f0e2e8] bg-[#fdfafb] text-[#553a49] hover:border-[#d77892] hover:bg-white'
-                      }`}
+                      className={`group flex items-center justify-between text-left p-3.5 rounded-2xl border transition-all text-xs sm:text-sm shadow-sm font-medium ${isSelected
+                        ? 'border-primary bg-white/80 text-secondary shadow-sm'
+                        : 'border-primary/10 bg-primary/2 text-secondary hover:border-[#d77892] hover:bg-white'
+                        }`}
                     >
                       <span className="leading-snug">{symptom.label}</span>
                       <div
-                        className={`h-5 w-5 rounded-full flex items-center justify-center shrink-0 ml-2 transition-colors ${
-                          isSelected
-                            ? 'bg-[#9d3d65] text-white'
-                            : 'border border-[#d7c4ce] group-hover:border-[#9d3d65]'
-                        }`}
+                        className={`h-5 w-5 rounded-full flex items-center justify-center shrink-0 ml-2 transition-colors ${isSelected
+                            ? 'bg-primary text-white'
+                            : 'border border-[#d7c4ce] group-hover:border-primary'
+                          }`}
                       >
                         {isSelected && <CheckCircle2 className="h-3.5 w-3.5" />}
                       </div>
@@ -146,7 +120,7 @@ export const MenosetAssessmentTeaser: React.FC = () => {
                 })}
               </div>
 
-              <p className="mt-4 text-xs text-[#8c6b7d] flex items-center gap-1.5 italic">
+              <p className="mt-4 text-xs text-text-muted flex items-center gap-1.5 italic">
                 <HelpCircle className="h-3.5 w-3.5 shrink-0" />
                 Tap symptoms above to preview how Menoset addresses your specific needs.
               </p>
@@ -154,9 +128,9 @@ export const MenosetAssessmentTeaser: React.FC = () => {
 
             {/* Right: Live Guidance Card */}
             <div className="lg:col-span-5">
-              <div className="rounded-2xl border border-[#eedde5] bg-gradient-to-br from-[#fff7fa] to-[#fff3e8] p-6 sm:p-7 shadow-sm">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#9d3d65]">
-                  <Clock className="h-4 w-4 text-[#9d3d65]" />
+              <div className="rounded-2xl border border-gray-100 bg-gradient-to-br from-[#fff7fa] to-[#fff3e8] p-6 sm:p-7 shadow-sm">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
+                  <Clock className="h-4 w-4 text-primary" />
                   <span>Instant Match Preview</span>
                 </div>
 
@@ -173,7 +147,7 @@ export const MenosetAssessmentTeaser: React.FC = () => {
                       {insight.recommendation}
                     </div>
 
-                    <h4 className="mt-3 text-lg sm:text-xl font-bold text-[#3d132b]">
+                    <h4 className="mt-3 text-lg sm:text-xl font-bold text-secondary">
                       {insight.focus}
                     </h4>
 
@@ -186,9 +160,9 @@ export const MenosetAssessmentTeaser: React.FC = () => {
                 <div className="mt-6 pt-5 border-t border-[#ead7df] space-y-3">
                   <Link
                     to="/menoset-check"
-                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-[#4e1939] px-5 py-3.5 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-[#68234d] transition-all"
+                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-[#4e1939] px-3 sm:px-5 py-3.5 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-[#68234d] transition-all"
                   >
-                    <span>TAKE THE 60-SECOND MENOSET CHECK</span>
+                    <span>Take a 60-Second Check</span>
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
 
@@ -209,9 +183,9 @@ export const MenosetAssessmentTeaser: React.FC = () => {
           </div>
 
           {/* Microcopy disclaimer from document */}
-          <div className="mt-8 pt-6 border-t border-[#f0e3e9] text-center">
-            <p className="text-xs text-[#8c6b7d] font-medium tracking-wide">
-              *Microcopy: Product guidance only — not a medical diagnosis.
+          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+            <p className="text-xs text-text-muted font-medium tracking-wide">
+              Product guidance only, not a medical diagnosis.
             </p>
           </div>
         </motion.div>

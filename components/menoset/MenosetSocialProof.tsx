@@ -63,7 +63,7 @@ export const MenosetSocialProof: React.FC = () => {
       <div className="absolute bottom-10 left-0 w-80 h-80 bg-[#fef1e4] rounded-full blur-3xl opacity-50 pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Header Block */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <motion.div
@@ -81,7 +81,7 @@ export const MenosetSocialProof: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
           >
             Real Women. Real Experiences.
           </motion.h2>

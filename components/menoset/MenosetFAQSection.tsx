@@ -56,7 +56,7 @@ export const MenosetFAQSection: React.FC = () => {
   return (
     <section id="faq" className="py-24 bg-white relative overflow-hidden">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.div
@@ -74,7 +74,7 @@ export const MenosetFAQSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
           >
             Common Questions
           </motion.h2>
@@ -102,11 +102,10 @@ export const MenosetFAQSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className={`rounded-2xl border transition-all duration-300 ${
-                  isOpen
+                className={`rounded-2xl border transition-all duration-300 ${isOpen
                     ? 'border-[#9d3d65] bg-[#fffafc] shadow-md shadow-[#4e1939]/5'
                     : 'border-[#eedde5] bg-white hover:border-[#d77892]/50 hover:bg-[#fffdfd]'
-                }`}
+                  }`}
               >
                 <button
                   type="button"
@@ -124,11 +123,10 @@ export const MenosetFAQSection: React.FC = () => {
                   </div>
 
                   <div
-                    className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                      isOpen
+                    className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen
                         ? 'bg-[#4e1939] text-[#f4cf80] rotate-180'
                         : 'bg-[#f4e6ec] text-[#4e1939]'
-                    }`}
+                      }`}
                   >
                     <ChevronDown className="h-4 w-4" />
                   </div>
@@ -164,7 +162,7 @@ export const MenosetFAQSection: React.FC = () => {
           viewport={{ once: true }}
           className="mt-14 rounded-3xl border border-[#eedde5] bg-[#faf4f2] p-8 text-center"
         >
-          <h4 className="font-serif text-xl font-bold text-[#3d132b]">
+          <h4 className="text-xl font-bold text-[#3d132b]">
             Have additional questions before ordering?
           </h4>
           <p className="mt-2 text-sm text-[#6f4f5f] max-w-md mx-auto">

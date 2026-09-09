@@ -94,7 +94,7 @@ const Menoset: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#fffaf8] text-[#33242d] selection:bg-[#f4cf80] selection:text-[#350f27]">
+    <div className="min-h-screen overflow-x-hidden bg-background text-text selection:bg-accent selection:text-text">
       <MenosetHeroSection />
       <MenosetTrustBar />
       <MenosetAssessmentTeaser />

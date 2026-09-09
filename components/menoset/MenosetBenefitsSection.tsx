@@ -49,7 +49,7 @@ export const MenosetBenefitsSection: React.FC = () => {
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#fbf0e4] rounded-full blur-3xl opacity-60 pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Header Block */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <motion.div
@@ -58,7 +58,6 @@ export const MenosetBenefitsSection: React.FC = () => {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 rounded-full bg-[#4e1939]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#4e1939] mb-4"
           >
-            <Sparkles className="h-3.5 w-3.5 text-[#9d3d65]" />
             <span>Targeted Botanical Action</span>
           </motion.div>
 
@@ -67,7 +66,7 @@ export const MenosetBenefitsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
           >
             Support For The Changes You Feel
           </motion.h2>

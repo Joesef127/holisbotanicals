@@ -28,7 +28,7 @@ export const MenosetHowToUse: React.FC = () => {
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Header Block */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <motion.div
@@ -46,7 +46,7 @@ export const MenosetHowToUse: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
           >
             Simple. Daily. Consistent.
           </motion.h2>
@@ -64,7 +64,7 @@ export const MenosetHowToUse: React.FC = () => {
 
         {/* 3 Step Cards + Specifications Panel */}
         <div className="grid gap-8 lg:grid-cols-12 items-center">
-          
+
           {/* Left: 3 Steps */}
           <div className="lg:col-span-7 space-y-4">
             {steps.map((s, index) => {
@@ -117,7 +117,7 @@ export const MenosetHowToUse: React.FC = () => {
                 />
               </div>
 
-              <h4 className="font-serif text-xl font-bold text-[#3d132b]">
+              <h4 className="text-xl font-bold text-[#3d132b]">
                 Packaging & Dosage Specs
               </h4>
 

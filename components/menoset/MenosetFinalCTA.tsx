@@ -27,7 +27,7 @@ export const MenosetFinalCTA: React.FC = () => {
       </div>
 
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        
+
         {/* NAFDAC & Herbal Crest */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -51,7 +51,7 @@ export const MenosetFinalCTA: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight"
+          className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight"
         >
           Your Next Chapter{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffd393] via-[#ffb4c5] to-[#f4cf80]">
@@ -102,7 +102,6 @@ export const MenosetFinalCTA: React.FC = () => {
             to="/menoset-check"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-4 text-base font-medium text-white backdrop-blur-md hover:bg-white/20 transition-all"
           >
-            <Sparkles className="h-4 w-4 text-[#f4cf80]" />
             <span>Take The 60-Second Menoset Check</span>
           </Link>
         </motion.div>

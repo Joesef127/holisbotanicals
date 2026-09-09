@@ -36,7 +36,7 @@ export const MenosetWhyChooseSection: React.FC = () => {
   return (
     <section className="py-24 bg-[#faf4f1] relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Header Block */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <motion.div
@@ -54,7 +54,7 @@ export const MenosetWhyChooseSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
           >
             Why Women Choose Menoset
           </motion.h2>
@@ -72,7 +72,7 @@ export const MenosetWhyChooseSection: React.FC = () => {
 
         {/* 5 Pillars Layout with Multi-Pack Showcase */}
         <div className="grid gap-12 lg:grid-cols-12 items-center">
-          
+
           {/* Left Column: Visual Pack Showcase */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -93,7 +93,7 @@ export const MenosetWhyChooseSection: React.FC = () => {
                   <p className="text-xs font-bold uppercase tracking-widest text-[#f4cf80]">
                     Botanical Women's Wellness
                   </p>
-                  <p className="text-lg font-serif font-bold">
+                  <p className="text-lg font-bold">
                     One Formula. Multiple Stages.
                   </p>
                 </div>

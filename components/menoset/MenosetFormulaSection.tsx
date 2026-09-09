@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf, ArrowRight, Sparkles, Check, Info } from 'lucide-react';
 import { images } from '@/lib';
+import { SectionHeader } from '../prostanone/shared';
+import FadeIn from '../ui/FadeIn';
 
 interface BotanicalInfo {
   id: string;
@@ -91,71 +93,26 @@ export const MenosetFormulaSection: React.FC = () => {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 rounded-full border border-[#f4cf80]/30 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#f4cf80] mb-4"
-          >
-            <Leaf className="h-3.5 w-3.5 text-[#f4cf80]" />
-            <span>Herbal Support Designed For Women</span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight"
-          >
-            What's Inside Every Tablet?
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15 }}
-            className="mt-3 text-lg sm:text-xl font-medium tracking-wide text-[#f4cf80] uppercase"
-          >
-            Four Botanicals. One Women's Wellness Formula.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto"
-          >
-            Menoset is a herbal composition combining Black Cohosh, Dong Quai, Vitex agnus-castus
-            and Blue Cohosh — botanicals traditionally used and studied in different areas of women's
-            menstrual and menopausal wellness.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.25 }}
-            className="mt-5 inline-block rounded-full bg-white/10 px-5 py-1.5 text-xs font-bold tracking-widest uppercase text-[#f9d7e3]"
-          >
-            Tagline: One Formula. Multiple Stages Of A Woman's Journey.
-          </motion.div>
-        </div>
+            <FadeIn>
+            <SectionHeader
+              eyebrow="What is Menoset?"
+              title="Herbal Support Designed For Women"
+              subtitle="Menoset is a herbal composition combining Black Cohosh, Dong Quai, Vitex agnus-castus
+                              and Blue Cohosh, botanicals traditionally used and studied in different areas of women's
+                              menstrual and menopausal wellness."
+              light
+            />
+            </FadeIn>
+          </div>
 
         {/* Interactive Botanical Herbarium Showcase */}
-        <div className="grid gap-8 lg:grid-cols-12 items-start">
-          
-          {/* Left: 4 Interactive Botanical Selector Cards */}
-          <div className="lg:col-span-6 space-y-3.5">
-            <p className="text-xs font-bold uppercase tracking-wider text-[#f4cf80] mb-2 flex items-center gap-1.5">
-              <Sparkles className="h-3.5 w-3.5" /> Tap each botanical to explore its profile:
-            </p>
+        <div className="grid gap-8 lg:grid-cols-2 items-start">
 
+          {/* Left: 4 Interactive Botanical Selector Cards */}
+          <div className="lg:col-span-1 space-y-2.5">
             {BOTANICALS.map((botanical) => {
               const isActive = botanical.id === activeHerbId;
               return (
@@ -163,18 +120,16 @@ export const MenosetFormulaSection: React.FC = () => {
                   key={botanical.id}
                   type="button"
                   onClick={() => setActiveHerbId(botanical.id)}
-                  className={`w-full text-left p-5 rounded-2xl border transition-all duration-300 flex items-start gap-4 ${
-                    isActive
-                      ? 'border-[#f4cf80] bg-white/15 backdrop-blur-md shadow-lg shadow-black/20 translate-x-1.5'
-                      : 'border-white/10 bg-white/5 hover:border-white/25 hover:bg-white/10'
-                  }`}
+                  className={`w-full text-left p-5 rounded-2xl border transition-all duration-300 flex items-start gap-4 ${isActive
+                    ? 'border-[#f4cf80] bg-white/15 backdrop-blur-md shadow-lg shadow-black/20 translate-x-1.5'
+                    : 'border-white/10 bg-white/5 hover:border-white/25 hover:bg-white/10'
+                    }`}
                 >
                   <div
-                    className={`h-11 w-11 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                      isActive
-                        ? 'bg-[#f4cf80] text-[#350f27]'
-                        : 'bg-white/10 text-white/70'
-                    }`}
+                    className={`h-11 w-11 rounded-xl flex items-center justify-center shrink-0 transition-colors ${isActive
+                      ? 'bg-[#f4cf80] text-[#350f27]'
+                      : 'bg-white/10 text-white/70'
+                      }`}
                   >
                     <Leaf className="h-5 w-5" />
                   </div>
@@ -201,7 +156,7 @@ export const MenosetFormulaSection: React.FC = () => {
           </div>
 
           {/* Right: Detailed Active Botanical Profile & Authentic Imagery */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeHerb.id}
@@ -217,7 +172,7 @@ export const MenosetFormulaSection: React.FC = () => {
                     <span className="text-xs font-bold text-[#f4cf80] uppercase tracking-widest">
                       Active Herbal Monograph
                     </span>
-                    <h3 className="text-2xl font-serif font-bold text-white mt-1">
+                    <h3 className="text-2xl font-bold text-white mt-1">
                       {activeHerb.name}
                     </h3>
                     <p className="text-xs text-[#f9d7e3] italic">{activeHerb.latin}</p>
