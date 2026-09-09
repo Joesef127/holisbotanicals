@@ -1,86 +1,101 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CalendarCheck, Smile, Flame, Shield, HeartHandshake, Sparkles } from 'lucide-react';
+import { CalendarRange, HeartPulse, Flame, ShieldAlert, Flower2, Heart } from 'lucide-react';
+import FadeIn from '../ui/FadeIn';
+import { SectionHeader } from '../prostanone/shared';
 
-const MenosetBenefitsSection: React.FC = () => {
-  const benefits = [
-    {
-      icon: <Flame className="w-6 h-6 text-rose-600 dark:text-rose-400" />,
-      title: 'Hot Flash & Night Sweat Soothing',
-      description:
-        'Standardized Black Cohosh and Dong Quai directly help balance hypothalamic temperature control, curbing sudden facial heat surges and drenching nighttime sweats.',
-    },
-    {
-      icon: <CalendarCheck className="w-6 h-6 text-pink-600 dark:text-pink-400" />,
-      title: 'Menstrual Cycle Regularity',
-      description:
-        'Vitex agnus-castus assists your pituitary-ovarian axis in stabilizing cycle rhythm, helping reduce the anxiety of erratic, surprise, or spaced-out periods.',
-    },
-    {
-      icon: <Smile className="w-6 h-6 text-amber-600 dark:text-amber-400" />,
-      title: 'Mood & Emotional Stability',
-      description:
-        'Supports neurotransmitter balance to gently ease sudden irritability, anxiety spikes, tearfulness, and the brain fog commonly linked with hormone fluctuations.',
-    },
-    {
-      icon: <Shield className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />,
-      title: '100% Non-Hormonal Support',
-      description:
-        'Does not contain synthetic estrogen, progesterone, or harsh chemical compounds. Operates safely via natural plant adaptogens and gentle phyto-compounds.',
-    },
-    {
-      icon: <HeartHandshake className="w-6 h-6 text-rose-700 dark:text-rose-300" />,
-      title: 'Menstrual Cramp & Pelvic Comfort',
-      description:
-        'Blue Cohosh and Dong Quai promote healthy uterine smooth muscle relaxation, relieving intense abdominal cramping and cyclical pelvic heaviness.',
-    },
-    {
-      icon: <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
-      title: 'Feminine Vitality & Libido',
-      description:
-        'Restores daily physical energy, nourishes tissue comfort, and supports intimacy drive, helping you feel revitalized and confident in your own skin.',
-    },
-  ];
+const BENEFITS = [
+  {
+    icon: CalendarRange,
+    title: 'Menstrual Cycle Support',
+    desc: 'Helps support menstrual regularity and comfort when cycles become unpredictable.',
+    tag: 'Rhythm & Predictability',
+  },
+  {
+    icon: HeartPulse,
+    title: 'Mood & Emotional Support',
+    desc: 'Supports wellbeing and emotional harmony during periods of hormonal fluctuation.',
+    tag: 'Calm & Equilibrium',
+  },
+  {
+    icon: Flame,
+    title: 'Hot Flash Support',
+    desc: 'Black Cohosh is traditionally used for menopausal symptom support, particularly hot flashes.',
+    tag: 'Thermoregulation',
+  },
+  {
+    icon: ShieldAlert,
+    title: 'Non-Hormonal Support',
+    desc: "A herbal, non-hormonal option for women's wellness during menstrual and menopause transitions.",
+    tag: 'Safe & Clean',
+  },
+  {
+    icon: Flower2,
+    title: 'Menstrual Comfort',
+    desc: 'Provides herbal support for menstrual discomfort, soothing pelvic aches and cramps.',
+    tag: 'Daily Ease',
+  },
+  {
+    icon: Heart,
+    title: "Women's Wellness & Libido",
+    desc: "Supports overall women's wellness, including sexual wellbeing during periods of change.",
+    tag: 'Vitality & Intimacy',
+  },
+];
 
+export const MenosetBenefitsSection: React.FC = () => {
   return (
-    <section className="py-24 bg-white dark:bg-card/40 border-b border-gray-100 dark:border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 mb-3 block">
-            Targeted Physiological Care
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">
-            How Menoset Restores Your Natural Balance
-          </h2>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
-            A synergistic multi-botanical matrix engineered to address the complete spectrum of feminine hormonal transitions.
-          </p>
+    <section id="benefits" className="py-24 bg-tertiary relative overflow-hidden">
+      {/* Decorative ambient blurred shapes */}
+      <div className="absolute top-10 left-1/3 w-80 h-80 bg-tertiary/30 rounded-full blur-3xl opacity-70 pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-tertiary/30 rounded-full blur-3xl opacity-60 pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <FadeIn>
+          <SectionHeader
+            eyebrow="Targeted Botanical Action"
+            title="Support For The Changes You Feel"
+            subtitle="Formulated with synergistic botanical actives studied for their multi-system support across every stage of the female transition."
+          />
+        </FadeIn>
+
+        {/* Modern 6-Card Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+          {BENEFITS.map((benefit, index) => {
+            const Icon = benefit.icon;
+            return (
+              <motion.div
+                key={benefit.title}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className="group relative rounded-3xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:border-[#9d3d65]/40 hover:shadow-xl hover:shadow-primary/5 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-tertiary group-hover:bg-secondary group-hover:text-[#f4cf80] transition-colors duration-300 shadow-sm">
+                      <Icon className="h-6 w-6 transition-transform group-hover:scale-110" />
+                    </div>
+                    <span className="rounded-full bg-tertiary px-3 py-1 text-[11px] font-bold text-primary uppercase tracking-wider">
+                      {benefit.tag}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors">
+                    {benefit.title}
+                  </h3>
+
+                  <p className="mt-3 text-sm text-[#664b5a] leading-relaxed">
+                    {benefit.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={benefit.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="p-8 rounded-3xl bg-gray-50 dark:bg-card border border-gray-100 dark:border-gray-800 hover:border-rose-500/30 hover:shadow-xl transition-all flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center mb-6">
-                  {benefit.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                  {benefit.title}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {benefit.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );

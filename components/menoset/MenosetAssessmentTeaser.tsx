@@ -1,145 +1,195 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, ArrowRight, CheckCircle2, HeartPulse, Clock, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Activity, ArrowRight, ShieldAlert, Sparkles, Check, Flame, Moon, Calendar, Heart } from 'lucide-react';
-import Button from '../Button';
+import { FadeIn, SectionHeader } from '../prostanone/shared';
 
-const MenosetAssessmentTeaser: React.FC = () => {
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>(['Hot Flashes', 'Night Sweats']);
+const COMMON_SYMPTOMS = [
+  { id: 'hot-flashes', label: 'Hot Flashes & Warm Spikes' },
+  { id: 'night-sweats', label: 'Night Sweats & Restless Sleep' },
+  { id: 'irregular-cycles', label: 'Irregular or Delayed Periods' },
+  { id: 'mood-swings', label: 'Mood Changes & Irritability' },
+  { id: 'discomfort', label: 'Menstrual Cramps & Discomfort' },
+  { id: 'vitality', label: 'Fatigue & Low Energy' },
+];
 
-  const sampleSymptoms = [
-    { name: 'Hot Flashes', icon: <Flame className="w-3.5 h-3.5" /> },
-    { name: 'Night Sweats', icon: <Moon className="w-3.5 h-3.5" /> },
-    { name: 'Irregular Periods', icon: <Calendar className="w-3.5 h-3.5" /> },
-    { name: 'Mood Fluctuations', icon: <Heart className="w-3.5 h-3.5" /> },
-    { name: 'Sleep Difficulties', icon: <Activity className="w-3.5 h-3.5" /> },
-    { name: 'Menstrual Cramps', icon: <Sparkles className="w-3.5 h-3.5" /> },
-  ];
+export const MenosetAssessmentTeaser: React.FC = () => {
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([
+    'hot-flashes',
+    'irregular-cycles',
+  ]);
 
-  const toggleSymptom = (symptom: string) => {
+  const toggleSymptom = (id: string) => {
     setSelectedSymptoms((prev) =>
-      prev.includes(symptom) ? prev.filter((s) => s !== symptom) : [...prev, symptom]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
-  return (
-    <section className="py-16 sm:py-20 bg-gradient-to-b from-[#fcf7f9] to-[#f9edf1] dark:from-[#1b0916] dark:to-[#160612] border-b border-[#ead7df] dark:border-rose-950/40 relative overflow-hidden">
-      {/* Decorative ambient background accents */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-rose-300/20 dark:bg-rose-900/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-200/20 dark:bg-amber-900/10 rounded-full blur-3xl pointer-events-none" />
+  const getInsight = () => {
+    const count = selectedSymptoms.length;
+    if (count >= 3) {
+      return {
+        focus: 'Multi-Symptom Menopausal Harmony',
+        recommendation: '6-Pack Wellness Bundle (180 Days)',
+        benefit: 'Comprehensive support to stabilize cycle rhythms, calm sudden temperature surges, and soothe nervous fatigue.',
+        targetId: 'menoset-wellness',
+      };
+    } else if (count >= 1) {
+      return {
+        focus: 'Targeted Cycle & Temperature Comfort',
+        recommendation: '3-Pack Essentials (90 Days)',
+        benefit: 'Optimal foundational window to allow active botanicals to support natural balance and menstrual regularity.',
+        targetId: 'menoset-essentials',
+      };
+    }
+    return {
+      focus: 'General Menopausal Transition Support',
+      recommendation: '1-Pack Starter (30 Days)',
+      benefit: 'A great introductory month to experience gentle, non-hormonal botanical relief.',
+      targetId: 'menoset-starter',
+    };
+  };
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  const insight = getInsight();
+
+  return (
+    <section id="assessment" className="py-20 lg:py-28 bg-surface relative overflow-hidden">
+
+      {/* <div className="absolute top-0 right-0 w-96 h-96 bg-[#f4cf80]/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#d77892]/15 rounded-full blur-3xl pointer-events-none" /> */}
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+        <FadeIn>
+            <SectionHeader
+              eyebrow="Interactive Wellness Tool"
+              title="Not Sure If Menoset Is Right For You?"
+              subtitle="Answer a few simple questions about your cycle and symptoms. Our quick wellness
+                        assessment will help you understand the type of support you may be looking for
+                        and guide you towards the Menoset pack that best fits your routine."
+            />
+          </FadeIn>
+
+        {/* Interactive Symptom Selector + Live Match Card */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="rounded-3xl bg-white dark:bg-[#200b1a] border border-[#e5cad6] dark:border-rose-900/40 p-8 sm:p-12 shadow-xl shadow-rose-950/5 relative overflow-hidden"
+          className="mx-auto max-w-7xl rounded-3xl  border border-gray-100 bg-surface p-6 sm:p-10 lg:p-12 shadow-xl shadow-[#4e1939]/5"
         >
-          {/* Subtle gold ribbon top edge */}
-          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#9d3d65] via-[#e5a95d] to-[#9d3d65]" />
+          <div className="grid gap-10 lg:grid-cols-12 items-center">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
-            {/* Left Column: Heading & Official Copy */}
+            {/* Left: Symptom Pill Selector */}
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-[#9d3d65] dark:text-rose-300 text-xs font-bold uppercase tracking-wider mb-4">
-                <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
-                <span>Personalized Symptom Matching</span>
-              </div>
-
-              {/* Headline from PDF Section 2 */}
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#380b24] dark:text-white tracking-tight mb-4">
-                NOT SURE IF MENOSET IS RIGHT FOR YOU?
-              </h2>
-
-              {/* Body from PDF Section 2 */}
-              <p className="text-base sm:text-lg text-[#624b57] dark:text-rose-100/80 leading-relaxed mb-6">
-                Answer a few simple questions about your cycle and symptoms. Our quick wellness assessment will help you understand the type of support you may be looking for and guide you towards the Menoset pack that best fits your routine.
-              </p>
-
-              {/* Microcopy & CTA button */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <Link to="/menoset-check" className="w-full sm:w-auto">
-                  <Button
-                    size="lg"
-                    className="w-full sm:w-auto gap-2 bg-[#9d3d65] hover:bg-[#832e52] text-white font-bold shadow-lg shadow-rose-900/20"
-                  >
-                    <span>TAKE THE 60-SECOND MENOSET CHECK</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-
-                <p className="text-xs text-[#826775] dark:text-rose-200/60 flex items-center gap-1.5">
-                  <ShieldAlert className="w-4 h-4 text-[#d4af37] shrink-0" />
-                  <span>Product guidance only — not a medical diagnosis.</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Right Column: Interactive Quick Symptom Selector Card */}
-            <div className="lg:col-span-5 p-6 sm:p-7 rounded-2xl bg-[#faf2f5] dark:bg-[#160612] border border-[#eedde5] dark:border-rose-900/30">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#9d3d65] dark:text-rose-300 flex items-center gap-1.5">
-                  <Activity className="w-4 h-4" /> Quick Symptom Preview
+              <div className="flex flex-col sm:flex-row item-start sm:items-center justify-between gap-2 mb-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+                  Quick Interactive Symptom Matcher
                 </span>
-                <span className="text-[11px] text-[#826775] dark:text-rose-300/70">
-                  Tap to preview match
-                </span>
+                {/* <span className="text-xs text-[#7d5e6e]">Select what you feel:</span> */}
               </div>
 
-              <p className="text-xs text-[#624b57] dark:text-rose-100/70 mb-4">
-                Select what you are feeling right now:
-              </p>
+              <h3 className="text-xl sm:text-2xl font-bold text-secondary mb-4">
+                What changes are you currently noticing?
+              </h3>
 
-              <div className="flex flex-wrap gap-2 mb-6">
-                {sampleSymptoms.map((sym) => {
-                  const isSelected = selectedSymptoms.includes(sym.name);
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {COMMON_SYMPTOMS.map((symptom) => {
+                  const isSelected = selectedSymptoms.includes(symptom.id);
                   return (
                     <button
-                      key={sym.name}
+                      key={symptom.id}
                       type="button"
-                      onClick={() => toggleSymptom(sym.name)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-[#9d3d65] text-white shadow-sm ring-2 ring-[#9d3d65]/20'
-                          : 'bg-white dark:bg-[#200b1a] text-[#624b57] dark:text-rose-200 border border-[#e2cbd6] dark:border-rose-900/40 hover:border-[#9d3d65]'
-                      }`}
+                      onClick={() => toggleSymptom(symptom.id)}
+                      className={`group flex items-center justify-between text-left p-3.5 rounded-2xl border transition-all text-xs sm:text-sm shadow-sm font-medium ${isSelected
+                        ? 'border-primary bg-white/80 text-secondary shadow-sm'
+                        : 'border-primary/10 bg-primary/2 text-secondary hover:border-[#d77892] hover:bg-white'
+                        }`}
                     >
-                      {sym.icon}
-                      <span>{sym.name}</span>
-                      {isSelected && <Check className="w-3 h-3 ml-0.5" />}
+                      <span className="leading-snug">{symptom.label}</span>
+                      <div
+                        className={`h-5 w-5 rounded-full flex items-center justify-center shrink-0 ml-2 transition-colors ${isSelected
+                            ? 'bg-primary text-white'
+                            : 'border border-[#d7c4ce] group-hover:border-primary'
+                          }`}
+                      >
+                        {isSelected && <CheckCircle2 className="h-3.5 w-3.5" />}
+                      </div>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Dynamic Feedback Box */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={selectedSymptoms.join(',')}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.25 }}
-                  className="p-4 rounded-xl bg-white dark:bg-[#200b1a] border border-[#ead7df] dark:border-rose-900/40 text-xs text-[#523d49] dark:text-rose-100/90 leading-relaxed shadow-xs"
-                >
-                  <p className="font-bold text-[#9d3d65] dark:text-[#ffd98e] mb-1 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    {selectedSymptoms.length > 0
-                      ? `${selectedSymptoms.length} Selected Concern${selectedSymptoms.length > 1 ? 's' : ''}`
-                      : 'Select any symptom above'}
-                  </p>
-                  <p>
-                    {selectedSymptoms.length > 0
-                      ? `Menoset’s non-hormonal formula combines Black Cohosh, Dong Quai, and Vitex to provide targeted herbal support for ${selectedSymptoms.slice(0, 2).join(' & ')}.`
-                      : 'Choose one or more symptoms to see how Menoset’s botanical composition supports you.'}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+              <p className="mt-4 text-xs text-text-muted flex items-center gap-1.5 italic">
+                <HelpCircle className="h-3.5 w-3.5 shrink-0" />
+                Tap symptoms above to preview how Menoset addresses your specific needs.
+              </p>
             </div>
+
+            {/* Right: Live Guidance Card */}
+            <div className="lg:col-span-5">
+              <div className="rounded-2xl border border-gray-100 bg-gradient-to-br from-[#fff7fa] to-[#fff3e8] p-6 sm:p-7 shadow-sm">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
+                  <Clock className="h-4 w-4 text-primary" />
+                  <span>Instant Match Preview</span>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={insight.focus}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="mt-4"
+                  >
+                    <div className="inline-block rounded-lg bg-[#4e1939] px-3 py-1 text-xs font-bold text-[#f4cf80]">
+                      {insight.recommendation}
+                    </div>
+
+                    <h4 className="mt-3 text-lg sm:text-xl font-bold text-secondary">
+                      {insight.focus}
+                    </h4>
+
+                    <p className="mt-2 text-xs sm:text-sm text-[#664b5b] leading-relaxed">
+                      {insight.benefit}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+
+                <div className="mt-6 pt-5 border-t border-[#ead7df] space-y-3">
+                  <Link
+                    to="/menoset-check"
+                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-[#4e1939] px-3 sm:px-5 py-3.5 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-[#68234d] transition-all"
+                  >
+                    <span>Take a 60-Second Check</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+
+                  <a
+                    href={`#pricing`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="block text-center text-xs font-semibold text-[#8a335a] hover:underline"
+                  >
+                    Or view pack options below ↓
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Microcopy disclaimer from document */}
+          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+            <p className="text-xs text-text-muted font-medium tracking-wide">
+              Product guidance only, not a medical diagnosis.
+            </p>
           </div>
         </motion.div>
+
       </div>
     </section>
   );

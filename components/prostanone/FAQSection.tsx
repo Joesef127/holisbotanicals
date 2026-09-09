@@ -1,6 +1,6 @@
 import React from 'react';
-import { FadeIn, SectionHeader } from './shared';
-import LandingFAQItem from './LandingFAQItem';
+import { FadeIn, SectionHeader } from './shared.tsx';
+import LandingFAQItem from './LandingFAQItem.tsx';
 import { FAQS } from '../../lib/constants.ts';
 
 const FAQSection: React.FC = () => (

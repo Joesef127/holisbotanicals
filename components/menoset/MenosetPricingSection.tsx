@@ -1,195 +1,212 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowRight, ShieldCheck, Truck, Sparkles, ShoppingBag } from 'lucide-react';
-import Button from '../Button';
-import { MENOSET_PACKAGES } from '../../lib/constants';
+import { Check, ArrowRight, Sparkles, ShieldCheck, Truck, CreditCard } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { MENOSET_PACKAGES } from '../../lib/constants';
 
-const MenosetPricingSection: React.FC = () => {
+export const MenosetPricingSection: React.FC = () => {
   const { addToCart } = useApp();
   const navigate = useNavigate();
-  const [selectedPkgId, setSelectedPkgId] = useState<string>('menoset-wellness');
 
-  const handleOrder = (pkgId: string) => {
-    addToCart(pkgId, 1);
+  const handleSelectPackage = (packageId: string) => {
+    addToCart(packageId, 1);
     navigate('/summary');
   };
 
   return (
-    <section id="pricing" className="py-24 bg-white dark:bg-[#180914] text-[#33242d] dark:text-white border-b border-[#ead7df] dark:border-rose-950/40 relative overflow-hidden scroll-mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header with Official PDF Copy */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
+    <section id="pricing" className="py-24 bg-white relative overflow-hidden">
+      {/* Decorative ambient background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-7xl h-full pointer-events-none">
+        <div className="absolute top-10 left-1/4 w-96 h-96 bg-[#fdedf3] rounded-full blur-3xl opacity-50" />
+        <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-[#fff2e5] rounded-full blur-3xl opacity-60" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* Section Header */}
+        <div className="mx-auto max-w-3xl text-center mb-16">
           <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 rounded-full bg-[#4e1939]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#4e1939] mb-4"
+          >
+            <Sparkles className="h-3.5 w-3.5 text-[#9d3d65]" />
+            <span>Select Your Routine</span>
+          </motion.div>
+
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#3d132b] leading-tight"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fbeff1] dark:bg-rose-950/60 text-[#9d3d65] dark:text-rose-300 text-xs font-bold uppercase tracking-wider mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span>Section 9 · Pricing &amp; Bundles</span>
-            </div>
+            Choose Your Menoset Plan
+          </motion.h2>
 
-            {/* Headline from PDF Section 9 */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#4e1939] dark:text-white tracking-tight leading-tight mb-4">
-              CHOOSE YOUR MENOSET PLAN
-            </h2>
-
-            {/* Subheadline from PDF Section 9 */}
-            <p className="text-base sm:text-lg text-[#624b57] dark:text-rose-100/80 leading-relaxed max-w-2xl mx-auto">
-              Choose the pack that fits your routine and budget. Bundle pricing gives you more convenience and savings.
-            </p>
-          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-4 text-base sm:text-lg text-[#664b5b] leading-relaxed max-w-2xl mx-auto"
+          >
+            Choose the pack that fits your routine and budget. Bundle pricing gives you more
+            convenience and savings.
+          </motion.p>
         </div>
 
-        {/* 4 Plans Modern Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 items-stretch">
-          {MENOSET_PACKAGES.map((pkg) => {
-            const isSelected = selectedPkgId === pkg.id;
-            const isPopular = pkg.badge === 'MOST POPULAR';
+        {/* 4-Column Modern Pricing Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
+          {MENOSET_PACKAGES.map((pkg, index) => {
+            const isMostPopular = pkg.badge === 'MOST POPULAR';
             const isBestValue = pkg.badge === 'BEST VALUE';
+            const daysCount = pkg.containers * 30;
+            const tabletCount = pkg.containers * 60;
+            const perDayCost = Math.round(pkg.price / daysCount);
 
             return (
               <motion.div
                 key={pkg.id}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.25 }}
-                onClick={() => setSelectedPkgId(pkg.id)}
-                className={`relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all cursor-pointer ${
-                  isPopular
-                    ? 'bg-[#fffaf7] dark:bg-[#200b1a] border-2 border-[#9d3d65] shadow-2xl shadow-rose-950/15 ring-4 ring-[#9d3d65]/10'
-                    : isSelected
-                    ? 'bg-[#fffaf7] dark:bg-[#1e0a19] border-2 border-[#9d3d65] shadow-xl'
-                    : 'bg-white dark:bg-[#180914] border border-[#ead7df] dark:border-rose-950/60 shadow-md hover:border-[#d77892]'
-                }`}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 ${isMostPopular
+                    ? 'border-2 border-[#9d3d65] bg-gradient-to-b from-[#fff7fa] to-white shadow-xl shadow-[#4e1939]/10 ring-1 ring-[#9d3d65]/20'
+                    : isBestValue
+                      ? 'border-2 border-[#cfa352] bg-gradient-to-b from-[#fffbf4] to-white shadow-lg shadow-[#cfa352]/10'
+                      : 'border border-[#ead7df] bg-white shadow-sm hover:border-[#9d3d65]/40 hover:shadow-md'
+                  }`}
               >
-                {/* Badge if available */}
+                {/* Top Badge */}
                 {pkg.badge && (
-                  <div
-                    className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white shadow-md ${
-                      isPopular
-                        ? 'bg-[#9d3d65]'
-                        : 'bg-gradient-to-r from-amber-600 to-[#9d3d65]'
-                    }`}
-                  >
-                    {pkg.badge}
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+                    <span
+                      className={`inline-flex items-center gap-1 rounded-full px-4 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-md ${isMostPopular
+                          ? 'bg-gradient-to-r from-[#4e1939] to-[#8c2e5a]'
+                          : 'bg-gradient-to-r from-[#b3862b] to-[#d4af37]'
+                        }`}
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      {pkg.badge}
+                    </span>
                   </div>
                 )}
 
                 <div>
-                  <div className="pb-5 border-b border-[#f0e2e8] dark:border-rose-950/40 mb-5">
-                    <span className="text-[11px] font-bold tracking-widest text-[#9d3d65] dark:text-[#ffd98e] uppercase block mb-1">
-                      {pkg.containers === 1 ? 'Single Pack' : `${pkg.containers} Packs Bundle`}
-                    </span>
-                    <h3 className="text-xl font-black text-[#4e1939] dark:text-white">
+                  {/* Pack Title & Supply */}
+                  <div className="pt-2">
+                    <h3 className="text-xl font-bold text-[#3d132b]">
                       {pkg.name.replace('Menoset ', '')}
                     </h3>
-                    <p className="text-xs text-[#7c6371] dark:text-rose-200/70 mt-1">
-                      {pkg.description}
+                    <p className="mt-1 text-xs font-semibold text-[#8c315a] uppercase tracking-wider">
+                      {pkg.containers} {pkg.containers === 1 ? 'Pack' : 'Packs'} · {daysCount} Days Supply
                     </p>
                   </div>
 
-                  {/* Price */}
-                  <div className="mb-4">
+                  {/* Price Row */}
+                  <div className="mt-5 pb-5 border-b border-[#eedde5]">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl sm:text-4xl font-black text-[#4e1939] dark:text-white">
+                      <span className="text-3xl sm:text-4xl font-extrabold text-[#3d132b]">
                         ₦{pkg.price.toLocaleString()}
                       </span>
+                      {pkg.originalPrice && pkg.originalPrice > pkg.price && (
+                        <span className="text-sm text-[#947887] line-through">
+                          ₦{pkg.originalPrice.toLocaleString()}
+                        </span>
+                      )}
                     </div>
 
-                    {pkg.savingsText ? (
-                      <div className="mt-1 flex items-center gap-2">
-                        <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md">
+                    <div className="mt-2 flex items-center justify-between">
+                      {pkg.savingsText ? (
+                        <span className="inline-block rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
                           {pkg.savingsText}
                         </span>
-                        {pkg.originalPrice && (
-                          <span className="text-xs text-gray-400 line-through">
-                            ₦{pkg.originalPrice.toLocaleString()}
-                          </span>
-                        )}
-                      </div>
-                    ) : (
-                      <span className="text-xs text-gray-400 block mt-1">Standard Unit Price</span>
-                    )}
+                      ) : (
+                        <span className="text-xs text-[#8c6d7d]">Standard Rate</span>
+                      )}
+                      <span className="text-[11px] text-[#8c6d7d] font-medium">
+                        ≈ ₦{perDayCost}/day
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Features List */}
-                  <ul className="space-y-2.5 text-xs text-[#624b57] dark:text-rose-100/80 mb-6">
-                    <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>{pkg.containers * 60} Tablets ({pkg.containers * 30} Days Supply)</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Free delivery in Lagos State</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Pay on delivery option available</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>100% Sealed &amp; Authentic NAFDAC product</span>
-                    </li>
-                  </ul>
+                  {/* Specifications & Usage */}
+                  <div className="mt-5 space-y-2.5 text-xs text-[#634958]">
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 rounded-full bg-rose-100 text-[#9d3d65] flex items-center justify-center shrink-0">
+                        <Check className="h-2.5 w-2.5 stroke-[3]" />
+                      </div>
+                      <span>{tabletCount} Total Herbal Tablets</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 rounded-full bg-rose-100 text-[#9d3d65] flex items-center justify-center shrink-0">
+                        <Check className="h-2.5 w-2.5 stroke-[3]" />
+                      </div>
+                      <span>1 tablet twice daily dosage</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 rounded-full bg-rose-100 text-[#9d3d65] flex items-center justify-center shrink-0">
+                        <Check className="h-2.5 w-2.5 stroke-[3]" />
+                      </div>
+                      <span>{pkg.deliveryText || 'Nationwide delivery available'}</span>
+                    </div>
+
+                    <div className="mt-4 rounded-xl bg-[#fff8fa] p-3 text-[11px] text-[#785366] leading-relaxed border border-[#f0dfe6]">
+                      {pkg.usageNote}
+                    </div>
+                  </div>
                 </div>
 
-                {/* Order Button */}
-                <div className="mt-auto pt-4 border-t border-[#f0e2e8] dark:border-rose-950/40">
-                  <Button
-                    fullWidth
-                    size="md"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleOrder(pkg.id);
-                    }}
-                    className={`gap-2 font-bold text-xs shadow-md transition-all ${
-                      isPopular
-                        ? 'bg-[#9d3d65] hover:bg-[#832e52] text-white'
-                        : 'bg-[#4e1939] hover:bg-[#6d274e] text-white'
-                    }`}
+                {/* CTA Button */}
+                <div className="mt-8">
+                  <button
+                    type="button"
+                    onClick={() => handleSelectPackage(pkg.id)}
+                    className={`group w-full flex items-center justify-center gap-2 rounded-full py-3.5 px-5 text-sm font-bold transition-all shadow-md active:scale-[0.98] ${isMostPopular
+                        ? 'bg-gradient-to-r from-[#4e1939] to-[#782356] text-white hover:bg-[#631e47]'
+                        : isBestValue
+                          ? 'bg-gradient-to-r from-[#b3862b] to-[#d4af37] text-white hover:opacity-95'
+                          : 'bg-[#3d132b] text-white hover:bg-[#571c3e]'
+                      }`}
                   >
-                    <span>SELECT THIS PACK</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                    <span>Select This Pack</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
                 </div>
               </motion.div>
             );
           })}
         </div>
 
-        {/* Supporting Copy from PDF Section 9 */}
-        <p className="text-center text-xs text-[#7c6371] dark:text-rose-200/70 max-w-3xl mx-auto mb-10 italic">
-          Bundles are designed for convenience and savings. They should not be interpreted as a medical recommendation for a specific duration. Individual experiences may vary.
-        </p>
-
-        {/* Dispatch & Assurance Strip */}
-        <div className="p-6 rounded-3xl bg-[#fffaf7] dark:bg-[#1e0a19] border border-[#ead7df] dark:border-rose-950/60 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 text-center shadow-sm">
-          <div className="flex items-center justify-center gap-3">
-            <Truck className="w-5 h-5 text-[#9d3d65] shrink-0" />
-            <div className="text-left">
-              <h4 className="text-xs font-bold text-[#4e1939] dark:text-white">Fast Nationwide Dispatch</h4>
-              <p className="text-[11px] text-[#7c6371] dark:text-rose-200/70">1–2 days Lagos · 3–5 days other states</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-3">
-            <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-            <div className="text-left">
-              <h4 className="text-xs font-bold text-[#4e1939] dark:text-white">Pay On Delivery</h4>
-              <p className="text-[11px] text-[#7c6371] dark:text-rose-200/70">Cash or POS upon order arrival</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-3">
-            <Sparkles className="w-5 h-5 text-amber-600 shrink-0" />
-            <div className="text-left">
-              <h4 className="text-xs font-bold text-[#4e1939] dark:text-white">Authentic Holis Standard</h4>
-              <p className="text-[11px] text-[#7c6371] dark:text-rose-200/70">100% Genuine, sealed boxes</p>
-            </div>
-          </div>
+        {/* Supporting Copy from document */}
+        <div className="mt-12 text-center max-w-3xl mx-auto">
+          <p className="text-xs sm:text-sm text-[#8c6b7d] leading-relaxed">
+            Supporting Copy: Bundles are designed for convenience and savings. They should not be
+            interpreted as a medical recommendation for a specific duration. Individual experiences may
+            vary.
+          </p>
         </div>
+
+        {/* Trust Badges Footer Strip */}
+        <div className="mt-10 border-t border-[#eedde5] pt-8 flex flex-wrap justify-center items-center gap-6 sm:gap-10 text-xs font-semibold text-[#664b5b]">
+          <span className="flex items-center gap-2">
+            <Truck className="h-4 w-4 text-[#9d3d65]" /> Nationwide Delivery
+          </span>
+          <span className="flex items-center gap-2">
+            <CreditCard className="h-4 w-4 text-[#9d3d65]" /> Card / Bank Transfer / Pay on Delivery
+          </span>
+          <span className="flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4 text-[#9d3d65]" /> Verified NAFDAC Certified
+          </span>
+        </div>
+
       </div>
     </section>
   );

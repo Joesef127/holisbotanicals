@@ -1,110 +1,128 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight, Sparkles, ShieldCheck, Flower2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, MessageCircle, Heart, ShieldCheck, Check } from 'lucide-react';
-import Button from '../Button';
+import { images } from '@/lib';
 import { MENOSET_NAFDAC_REG_NO } from '../../lib/constants';
 
-const MenosetFinalCTA: React.FC = () => {
+export const MenosetFinalCTA: React.FC = () => {
+  const handleOrderScroll = (e: React.MouseEvent) => {
+    e.preventDefault();
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section className="py-28 bg-gradient-to-b from-[#200515] via-[#380b24] to-[#1a0411] text-white relative overflow-hidden">
+    <section className="relative py-24 lg:py-32 bg-gradient-to-br from-[#240a1c] via-[#3a0f2b] to-[#1c0615] text-white overflow-hidden">
       {/* Ambient background glows */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-rose-600/20 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-amber-400/15 blur-3xl" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-[#f4cf80]/15 blur-[140px]" />
+        <div className="absolute bottom-0 right-1/4 w-[450px] h-[450px] rounded-full bg-[#d77892]/20 blur-[130px]" />
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+            backgroundSize: '40px 40px',
+          }}
+        />
       </div>
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+
+        {/* NAFDAC & Herbal Crest */}
         <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="inline-flex items-center gap-2.5 rounded-full border border-[#f4cf80]/30 bg-white/10 px-5 py-2 backdrop-blur-md mb-8"
+        >
+          <img
+            src={images.nafdac_approved_badge}
+            alt="NAFDAC"
+            className="h-5 w-5 rounded-full object-cover bg-white p-0.5"
+          />
+          <span className="text-xs font-semibold tracking-wider text-[#f4cf80] uppercase">
+            Reg. No. {MENOSET_NAFDAC_REG_NO} · 100% Herbal
+          </span>
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h2
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
+          className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight"
         >
-          {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-rose-200 text-xs font-bold uppercase tracking-widest mb-6">
-            <Heart className="w-3.5 h-3.5 text-[#ffd98e]" />
-            <span>Support for Every Stage</span>
-          </div>
+          Your Next Chapter{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffd393] via-[#ffb4c5] to-[#f4cf80]">
+            Deserves Support.
+          </span>
+        </motion.h2>
 
-          {/* Headline from PDF Section 13 */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-[1.15] mb-6">
-            YOUR NEXT CHAPTER{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffd98e] via-[#f7a8b8] to-[#ffd98e]">
-              DESERVES SUPPORT.
-            </span>
-          </h2>
+        {/* Subhead & Body */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="mt-6 text-lg sm:text-2xl font-light text-[#fbe1ea] tracking-wide max-w-2xl mx-auto"
+        >
+          Your cycle may change. Your body may change. But you can still feel like you.
+        </motion.p>
 
-          {/* Body from PDF Section 13 */}
-          <p className="text-xl sm:text-2xl text-rose-100 font-medium mb-4 max-w-2xl mx-auto">
-            Your cycle may change. Your body may change. But you can still feel like you.
-          </p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.25 }}
+          className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto font-normal"
+        >
+          Menoset provides herbal, non-hormonal support for women navigating menstrual
+          irregularities, perimenopause and menopause.
+        </motion.p>
 
-          <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            Menoset provides herbal, non-hormonal support for women navigating menstrual irregularities, perimenopause and menopause.
-          </p>
+        {/* Dual CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.35 }}
+          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <a
+            href="#pricing"
+            onClick={handleOrderScroll}
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#f4cf80] via-[#ffd68a] to-[#f4cf80] px-9 py-4 text-base font-bold text-[#350f27] shadow-xl shadow-[#f4cf80]/20 hover:scale-105 transition-all duration-300"
+          >
+            <span>GET YOUR MENOSET PACK TODAY — FROM ₦15,000</span>
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+          </a>
 
-          {/* CTAs from PDF Section 13 */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-            <a href="#pricing" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto gap-2.5 text-base font-bold bg-gradient-to-r from-[#ffd98e] to-[#f3be6c] hover:from-white hover:to-white text-[#380b24]! border-none shadow-2xl shadow-amber-500/20 hover:scale-[1.02] transition-all duration-300"
-              >
-                <span>GET YOUR MENOSET PACK TODAY — FROM ₦15,000</span>
-                <ArrowRight className="w-4 h-4 text-[#380b24]" />
-              </Button>
-            </a>
-
-            <Link to="/menoset-check" className="w-full sm:w-auto">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto text-base font-semibold border-white/30 hover:border-white text-white hover:bg-white/10 backdrop-blur-md"
-              >
-                <span>Take the 60-Second Check</span>
-              </Button>
-            </Link>
-
-            <a
-              href="https://wa.me/2348155931140?text=Hello%2C%20I%20would%20like%20to%20order%20Menoset"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto"
-            >
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto gap-2 text-base font-semibold border-emerald-400/40 text-emerald-300 hover:bg-emerald-500/15"
-              >
-                <MessageCircle className="w-4 h-4 text-emerald-400" />
-                <span>Order via WhatsApp</span>
-              </Button>
-            </a>
-          </div>
-
-          {/* Trust Line from PDF Section 13 */}
-          <div className="pt-6 border-t border-white/15 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-semibold text-rose-200/90 mb-12">
-            <span>60 Tablets</span>
-            <span>•</span>
-            <span>Herbal Product</span>
-            <span>•</span>
-            <span>Non-Hormonal</span>
-            <span>•</span>
-            <span>NAFDAC Registered: {MENOSET_NAFDAC_REG_NO}*</span>
-          </div>
-
-          {/* Section 15: Website Compliance & Legal Notice */}
-          <div className="pt-8 border-t border-white/10 text-xs text-rose-200/70 max-w-3xl mx-auto space-y-3 text-left sm:text-center leading-relaxed font-light">
-            <p>
-              <strong className="text-white font-semibold">Regulatory Compliance Note: </strong>
-              Menoset is a registered herbal product (NAFDAC Reg. No. {MENOSET_NAFDAC_REG_NO}). Distributed exclusively by Holis Botanical Gardens, Lagos, Nigeria.
-            </p>
-            <p>
-              Menoset is a herbal product intended to support women's wellness. It is not a substitute for diagnosis or medical treatment. Read the product label and use as directed. If you are pregnant, breastfeeding, taking medication or have an existing medical condition, speak with a healthcare professional before use. Individual experiences may vary.
-            </p>
-          </div>
+          <Link
+            to="/menoset-check"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-4 text-base font-medium text-white backdrop-blur-md hover:bg-white/20 transition-all"
+          >
+            <span>Take The 60-Second Menoset Check</span>
+          </Link>
         </motion.div>
+
+        {/* Official Trust Line */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.45 }}
+          className="mt-12 pt-8 border-t border-white/15 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm font-semibold tracking-wide text-white/70"
+        >
+          <span>60 Tablets</span>
+          <span className="text-[#f4cf80]">•</span>
+          <span>Herbal Product</span>
+          <span className="text-[#f4cf80]">•</span>
+          <span>Non-Hormonal</span>
+          <span className="text-[#f4cf80]">•</span>
+          <span>NAFDAC Registered*</span>
+        </motion.div>
+
       </div>
     </section>
   );

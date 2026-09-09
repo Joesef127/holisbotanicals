@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useModal } from '../../context/ModalContext';
 import { Testimonial } from '../../types';
 import { API_BASE } from '../../lib/constants';
-import TestimonialEditModal from '../product-page/TestimonialEditModal';
+import TestimonialEditModal from '../prostanone/TestimonialEditModal';
 import Button from '../Button';
 
 const HomeTestimonialsSection: React.FC = () => {
@@ -56,19 +56,19 @@ const HomeTestimonialsSection: React.FC = () => {
         <p className="text-white/80">4.9/5 Average Rating based on 1,200+ reviews</p>
       </div>
 
-        <div className="flex justify-center items-center mb-6">
-          {isAdmin && (
-            <Button
+      <div className="flex justify-center items-center mb-6">
+        {isAdmin && (
+          <Button
             variant='outline'
             size='md'
-              onClick={openAdd}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-white/20 border border-white/30 text-white hover:bg-white/30 transition-colors"
-            >
-              <PlusCircle size={15} />
-              Add Review
-            </Button>
-          )}
-        </div>
+            onClick={openAdd}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-white/20 border border-white/30 text-white hover:bg-white/30 transition-colors"
+          >
+            <PlusCircle size={15} />
+            Add Review
+          </Button>
+        )}
+      </div>
 
       <div className="flex overflow-x-auto pb-8 gap-6 px-4 no-scrollbar snap-x">
         {testimonials.map((t) => (

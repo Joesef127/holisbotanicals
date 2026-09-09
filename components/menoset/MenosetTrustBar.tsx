@@ -1,71 +1,62 @@
 import React from 'react';
-import { ShieldCheck, Leaf, HeartPulse, CheckCircle2, Truck, CreditCard } from 'lucide-react';
-import { images } from '@/lib';
+import { motion } from 'framer-motion';
+import { ShieldCheck, Leaf, HeartHandshake, CalendarCheck2 } from 'lucide-react';
 import { MENOSET_NAFDAC_REG_NO } from '../../lib/constants';
 
-const MenosetTrustBar: React.FC = () => {
-  const trustPoints = [
+export const MenosetTrustBar: React.FC = () => {
+  const trustItems = [
     {
-      icon: (
-        <img
-          src={images.nafdac_approved_badge}
-          alt="NAFDAC Badge"
-          className="w-5 h-5 rounded-full object-cover bg-white p-0.5"
-          loading="lazy"
-        />
-      ),
-      label: `NAFDAC Reg. No. ${MENOSET_NAFDAC_REG_NO}`,
-      sub: 'Verified Regulatory Clearance',
+      icon: ShieldCheck,
+      title: 'NAFDAC Registered*',
+      detail: `Reg. No. ${MENOSET_NAFDAC_REG_NO}`,
     },
     {
-      icon: <Leaf className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
-      label: '100% Herbal Matrix',
-      sub: 'Synergistic 4-Plant Botanical',
+      icon: Leaf,
+      title: 'Herbal Product',
+      detail: 'Pure botanical',
     },
     {
-      icon: <HeartPulse className="w-5 h-5 text-rose-600 dark:text-rose-400" />,
-      label: 'Non-Hormonal Support',
-      sub: 'Zero Synthetic Estrogens',
+      icon: HeartHandshake,
+      title: 'Non-Hormonal',
+      detail: 'Natural body support',
     },
     {
-      icon: <CheckCircle2 className="w-5 h-5 text-[#9d3d65]" />,
-      label: '60 Tablets / Box',
-      sub: 'Exact 30-Day Regimen',
-    },
-    {
-      icon: <Truck className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
-      label: 'Fast Nationwide Shipping',
-      sub: 'Free in Lagos (Standard)',
-    },
-    {
-      icon: <CreditCard className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />,
-      label: 'Flexible Payment Options',
-      sub: 'Card, Transfer or Delivery',
+      icon: CalendarCheck2,
+      title: '60 Tablets',
+      detail: '30-day daily supply',
     },
   ];
 
   return (
-    <section id="trust-bar" className="border-y border-[#ead7df] dark:border-rose-950/40 bg-white/95 dark:bg-[#180914] py-6 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-4">
-          {trustPoints.map((item) => (
-            <div
-              key={item.label}
-              className="flex items-center gap-3 p-2 rounded-2xl hover:bg-rose-50/50 dark:hover:bg-rose-950/20 transition-colors"
-            >
-              <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center shrink-0 shadow-xs">
-                {item.icon}
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-gray-900 dark:text-white truncate">
-                  {item.label}
-                </p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
-                  {item.sub}
-                </p>
-              </div>
-            </div>
-          ))}
+    <section id="trust-bar" className="relative z-20 bg-gradient-to-r from-background via-background to-background py-4 shadow-sm">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-4 lg:gap-8">
+          {trustItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-10%' }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="group flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3.5 p-2 rounded-2xl transition-colors hover:bg-rose-50/40"
+              >
+                <div className="flex p-1.5 sm:p-3 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#4e1939] to-primary text-[#f4cf80] shadow-md shadow-[#4e1939]/15 group-hover:scale-105 transition-transform">
+                  <Icon className="h-4 sm:h-6 w-4 sm:w-6" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold tracking-tight text-primary sm:text-base">
+                    {item.title}
+                  </h4>
+                  <p className="mt-0.5 text-xs text-text-muted font-medium">
+                    {item.detail}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

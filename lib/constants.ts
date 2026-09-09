@@ -78,7 +78,7 @@ export const PACKAGES: ProductPackage[] = [
   },
 ];
 
-export const MENOSET_NAFDAC_REG_NO = 'A7-0000M';
+export const MENOSET_NAFDAC_REG_NO = 'A7-4975L';
 
 export const MENOSET_PACKAGES: ProductPackage[] = [
   {

@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import PaymentSelector from '../../components/product-page/PaymentSelector';
+import PaymentSelector from '../../components/prostanone/PaymentSelector';
 
 function renderSelector(
   paymentMethod: 'cod' | 'online' | null = null,

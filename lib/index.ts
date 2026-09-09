@@ -26,6 +26,7 @@ import menoset_display from "../public/images/menoset_display.jpeg";
 import Menoset_multi from "../public/images/menoset_multi.jpeg";
 import menoset_preview from "../public/images/menoset_preview.jpeg";
 import menoset_with_pill from "../public/images/menoset_with_pill.jpeg";
+import menoset_model from "../public/images/menoset_model.jpeg"
 
 import holis_hero from "../public/images/holis_hero.avif"
 
@@ -77,6 +78,7 @@ export const images = {
   Menoset_multi,
   menoset_preview,
   menoset_with_pill,
+  menoset_model,
 
   holis_hero
 }

@@ -1,16 +1,16 @@
 import React from "react";
 import { useSeoMeta } from "../hooks/useSeoMeta";
 import { PAGE_URLS, generateProductSchema, SITE_CONFIG } from "../lib/seo";
-import HeroSection from "@/components/product-page/HeroSection";
-import TrustBar from "@/components/product-page/TrustBar";
-import ProblemSection from "@/components/product-page/ProblemSection";
-import ProductSection from "@/components/product-page/ProductSection";
-import BenefitsSection from "@/components/product-page/BenefitsSection";
-import IngredientsSection from "@/components/product-page/IngredientsSection";
-import TestimonialsSection from "@/components/product-page/TestimonialsSection";
-import PricingSection from "@/components/product-page/PricingSection";
-import FAQSection from "@/components/product-page/FAQSection";
-import FinalCTA from "@/components/product-page/FinalCTA";
+import HeroSection from "@/components/prostanone/HeroSection";
+import TrustBar from "@/components/prostanone/TrustBar";
+import ProblemSection from "@/components/prostanone/ProblemSection";
+import ProductSection from "@/components/prostanone/ProductSection";
+import BenefitsSection from "@/components/prostanone/BenefitsSection";
+import IngredientsSection from "@/components/prostanone/IngredientsSection";
+import TestimonialsSection from "@/components/prostanone/TestimonialsSection";
+import PricingSection from "@/components/prostanone/PricingSection";
+import FAQSection from "@/components/prostanone/FAQSection";
+import FinalCTA from "@/components/prostanone/FinalCTA";
 
 const Prostanone: React.FC = () => {
     useSeoMeta(

@@ -10,7 +10,7 @@ import { useModal } from '../../context/ModalContext';
 import { usePackages } from '../../hooks/usePackages';
 import { API_BASE } from '../../lib/constants';
 import { images } from '../../lib';
-import PackageEditModal from '../product-page/PackageEditModal';
+import PackageEditModal from '../prostanone/PackageEditModal';
 import { ProductPackage } from '../../types';
 
 const HomePricingSection: React.FC = () => {
@@ -29,7 +29,7 @@ const HomePricingSection: React.FC = () => {
   };
 
   const openEdit = (pkg: ProductPackage) => { setEditingPkg(pkg); setModalOpen(true); };
-  const openAdd  = () => { setEditingPkg(null); setModalOpen(true); };
+  const openAdd = () => { setEditingPkg(null); setModalOpen(true); };
 
   const handleDelete = async (pkg: ProductPackage) => {
     setOpenMenuId(null);
@@ -102,38 +102,37 @@ const HomePricingSection: React.FC = () => {
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className={`relative shrink-0 w-72 sm:w-80 lg:w-88 min-h-125 p-6 sm:p-8 rounded-3xl flex flex-col snap-center border transition-all duration-300 hover:shadow-2xl ${
-                  pkg.id === 'option-b'
+                className={`relative shrink-0 w-72 sm:w-80 lg:w-88 min-h-125 p-6 sm:p-8 rounded-3xl flex flex-col snap-center border transition-all duration-300 hover:shadow-2xl ${pkg.id === 'option-b'
                     ? 'border-primary bg-primary text-white shadow-xl scale-[1.02] z-10 mx-2'
                     : 'border-gray-200 bg-white'
-                }`}
+                  }`}
               >
-                  {isAdmin && (
-                    <div className="absolute top-3 right-3 z-20">
-                      <button
-                        onClick={(e) => { e.stopPropagation(); setOpenMenuId(openMenuId === pkg.id ? null : pkg.id); }}
-                        className="w-7 h-7 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow text-gray-500 hover:text-gray-800 transition-colors"
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
-                      {openMenuId === pkg.id && (
-                        <div className="absolute right-0 top-8 bg-white border border-gray-100 rounded-xl shadow-xl py-1 min-w-[140px] z-30">
-                          <button
-                            onClick={(e) => { e.stopPropagation(); openEdit(pkg); }}
-                            className="flex items-center gap-2.5 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                          >
-                            <Pencil className="w-3.5 h-3.5 text-primary" /> Edit
-                          </button>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); handleDelete(pkg); }}
-                            className="flex items-center gap-2.5 w-full px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 transition-colors"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" /> Delete
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                {isAdmin && (
+                  <div className="absolute top-3 right-3 z-20">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setOpenMenuId(openMenuId === pkg.id ? null : pkg.id); }}
+                      className="w-7 h-7 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow text-gray-500 hover:text-gray-800 transition-colors"
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+                    {openMenuId === pkg.id && (
+                      <div className="absolute right-0 top-8 bg-white border border-gray-100 rounded-xl shadow-xl py-1 min-w-[140px] z-30">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); openEdit(pkg); }}
+                          className="flex items-center gap-2.5 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <Pencil className="w-3.5 h-3.5 text-primary" /> Edit
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleDelete(pkg); }}
+                          className="flex items-center gap-2.5 w-full px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 transition-colors"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {pkg.id === 'option-b' && (
                   <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-accent/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
@@ -163,14 +162,14 @@ const HomePricingSection: React.FC = () => {
                     </span>
                   )}
                   <span className="mt-2 inline-block bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2.5 py-1 rounded-full w-fit font-medium">
-                        Pay on Delivery Available
-                      </span>
+                    Pay on Delivery Available
+                  </span>
                 </div>
 
                 <p className={`text-sm mb-4 pb-4 border-b grow ${pkg.id === 'option-b' ? 'text-white/80 border-white/10' : 'text-text-muted border-gray-100'}`}>
                   {pkg.description}
                   {pkg.recommendedFor && <><br /><br /><strong className={pkg.id === 'option-b' ? 'text-white' : 'text-gray-800'}>{pkg.recommendedFor}</strong></>}
-                  
+
                 </p>
 
                 {pkg.usageNote && (

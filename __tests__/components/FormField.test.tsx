@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import FormField from '../../components/product-page/FormField';
+import FormField from '../../components/prostanone/FormField';
 
 describe('FormField component', () => {
   it('renders the label text', () => {

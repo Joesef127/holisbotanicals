@@ -1,203 +1,278 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Sparkles, Sun, Moon, Shield, ArrowDown } from 'lucide-react';
+import { ArrowDown, Check, Sparkles, Activity, Clock, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
+import { FadeIn, SectionHeader } from '../prostanone/shared';
 
-const MenosetJourneySection: React.FC = () => {
-  const [activeStage, setActiveStage] = useState<'perimenopause' | 'menopause' | 'postmenopause'>('perimenopause');
+interface StageData {
+  id: string;
+  number: string;
+  name: string;
+  timeframe: string;
+  summary: string;
+  symptoms: string[];
+  hormonalContext: string;
+  menosetSupport: string;
+}
 
-  const stages = [
-    {
-      id: 'perimenopause',
-      number: '01',
-      title: 'Perimenopause',
-      tagline: 'The Initial Transition & Hormonal Wave',
-      description:
-        'The transition towards menopause. Hormone levels fluctuate and gradually shift, bringing unexpected changes to your monthly rhythm.',
-      symptoms: [
-        'Irregular periods & cycle spacing',
-        'Early daytime hot flashes',
-        'Night sweats affecting sleep quality',
-        'Cyclical breast tenderness & cramps',
-        'Mood shifts & emotional irritability',
-        'Gradual changes in libido',
-      ],
-      supportRole:
-        'Menoset provides non-hormonal botanical stability with Vitex and Black Cohosh to help smooth erratic peaks and valleys without synthetic hormones.',
-    },
-    {
-      id: 'menopause',
-      number: '02',
-      title: 'Menopause',
-      tagline: 'The Biological Milestone',
-      description:
-        'Menopause is reached after 12 consecutive months without a menstrual period. Vasomotor temperature surges often reach their most disruptive levels during this window.',
-      symptoms: [
-        'Periods have completely ceased',
-        'Sudden, intense daytime hot flashes',
-        'Drenching night sweats & waking up cold',
-        'Persistent sleep difficulties',
-        'Vaginal dryness & tissue sensitivity',
-        'Changes in emotional vitality & libido',
-      ],
-      supportRole:
-        'Standardized Black Cohosh and Dong Quai directly assist hypothalamic temperature regulation to calm rapid heat flashes and nocturnal perspiration.',
-    },
-    {
-      id: 'postmenopause',
-      number: '03',
-      title: 'Postmenopause',
-      tagline: 'Long-Term Vitality & Balance',
-      description:
-        'The years following menopause. Some symptoms can continue, while longer-term health considerations such as bone and cardiovascular health become increasingly important.',
-      symptoms: [
-        'Lower stabilized estrogen baseline',
-        'Residual mild temperature surges',
-        'Bone density & cardiovascular wellness priorities',
-        'Sustaining energy, stamina & mood stability',
-        'Maintaining intimate vitality & tissue comfort',
-      ],
-      supportRole:
-        'Continuous botanical nourishment keeps your system grounded, energized, and comfortable as you embrace this empowering new life chapter.',
-    },
-  ];
+const STAGES: StageData[] = [
+  {
+    id: 'perimenopause',
+    number: '01',
+    name: 'Perimenopause',
+    timeframe: 'Typically mid-30s to late 40s (can last 4–8 years)',
+    summary: 'The transition towards menopause. Hormone levels, particularly estrogen and progesterone, fluctuate unpredictably.',
+    symptoms: [
+      'Irregular periods & cycle shifts',
+      'Sudden hot flashes & night sweats',
+      'Mood changes & irritability',
+      'Menstrual discomfort & cramps',
+      'Sleep changes & breast tenderness',
+      'Changes in natural libido',
+    ],
+    hormonalContext: 'Ovarian progesterone and estrogen output oscillates, leading to cycle unpredictability and thermoregulation triggers.',
+    menosetSupport: 'Provides gentle botanical phytonutrients that help smooth the rhythm of fluctuations without introducing foreign synthetic hormones.',
+  },
+  {
+    id: 'menopause',
+    number: '02',
+    name: 'Menopause',
+    timeframe: 'Clinically diagnosed after 12 consecutive months without a period',
+    summary: 'The milestone marking the conclusion of reproductive menstrual cycles as hormone baselines settle at new levels.',
+    symptoms: [
+      'Frequent hot flashes & thermal spikes',
+      'Persistent night sweats',
+      'Sleep disruption & fatigue',
+      'Mood changes & emotional sensitivity',
+      'Vaginal dryness & tissue changes',
+      'Shifts in sexual desire & comfort',
+    ],
+    hormonalContext: 'Estrogen drops to a stable, lower baseline. The hypothalamus becomes hyper-sensitive to temperature regulation.',
+    menosetSupport: 'Black Cohosh and Vitex agnus-castus traditionally soothe the hypothalamic thermostat to calm hot flashes and emotional strain.',
+  },
+  {
+    id: 'postmenopause',
+    number: '03',
+    name: 'Postmenopause',
+    timeframe: 'The enduring years and decades following menopause',
+    summary: 'The ongoing wellness chapter where acute cycle symptoms gradually subside, while cellular, bone, and cardiovascular care take priority.',
+    symptoms: [
+      'Lingering mild temperature variations',
+      'Increased focus on bone density & vitality',
+      'Cardiovascular & lipid balance considerations',
+      'Skin elasticity & moisture maintenance',
+      'General stamina & emotional serenity',
+    ],
+    hormonalContext: 'Hormone production shifts from ovaries to adrenal glands and peripheral tissues at modest, steady levels.',
+    menosetSupport: 'Dong Quai and supportive botanicals nourish ongoing vitality, tissue comfort, and systemic daily equilibrium.',
+  },
+];
 
-  const current = stages.find((s) => s.id === activeStage)!;
+export const MenosetJourneySection: React.FC = () => {
+  const [activeStageId, setActiveStageId] = useState<string>('perimenopause');
+  const activeStage = STAGES.find((s) => s.id === activeStageId) ?? STAGES[0];
+  const activeStageIndex = STAGES.findIndex((s) => s.id === activeStageId);
+
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  // Ensure the active tab is always visible and centered within the scrollable container on mobile
+  useEffect(() => {
+    const scrollToActiveTab = (behavior: ScrollBehavior = 'smooth') => {
+      const container = tabsContainerRef.current;
+      const activeTabEl = tabRefs.current[activeStageId];
+      if (!container || !activeTabEl) return;
+
+      const containerWidth = container.clientWidth;
+      const tabLeft = activeTabEl.offsetLeft;
+      const tabWidth = activeTabEl.clientWidth;
+
+      // Position active tab in center of scrollable container
+      const targetScrollLeft = tabLeft - containerWidth / 2 + tabWidth / 2;
+
+      container.scrollTo({
+        left: Math.max(0, targetScrollLeft),
+        behavior,
+      });
+    };
+
+    // Scroll to active tab
+    scrollToActiveTab('smooth');
+
+    // Also update on window resize / orientation change
+    const handleResize = () => scrollToActiveTab('auto');
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [activeStageId]);
+
+  const handleDiscoverScroll = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById('formula');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <section id="journey" className="py-24 bg-white dark:bg-[#180914] text-[#33242d] dark:text-white relative overflow-hidden border-b border-[#ead7df] dark:border-rose-950/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header with Official PDF Copy */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+    <section id="journey" className="py-24 bg-tertiary relative overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* Section Header */}
+        <FadeIn>
+          <SectionHeader
+            eyebrow="Menopause Journey"
+            title="What's Happening To Your Body?"
+            subtitle="The menopause transition does not happen overnight. As your body changes with age,
+                      hormone levels fluctuate and gradually decline. This can bring changes to your menstrual cycle
+                      and a range of physical and emotional symptoms."
+          />
+        </FadeIn>
+
+        {/* Interactive Stage Selector Tabs */}
+        <div className="flex justify-center mb-10 w-full px-2 sm:px-0">
+          <div
+            ref={tabsContainerRef}
+            className="inline-flex p-1.5 rounded-full bg-white border border-gray-100 shadow-sm max-w-full overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fbeff1] dark:bg-rose-950/60 text-[#9d3d65] dark:text-rose-300 text-xs font-bold uppercase tracking-wider mb-4">
-              <Calendar className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span>The Menopause Journey</span>
-            </div>
-
-            {/* Headline from PDF Section 4 */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#4e1939] dark:text-white tracking-tight leading-tight mb-6">
-              PERIMENOPAUSE. MENOPAUSE. POSTMENOPAUSE.{' '}
-              <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-[#9d3d65] via-[#d47892] to-[#9d3d65]">
-                WHAT'S HAPPENING TO YOUR BODY?
-              </span>
-            </h2>
-
-            {/* Body from PDF Section 4 */}
-            <p className="text-base sm:text-lg text-[#624b57] dark:text-rose-100/80 leading-relaxed max-w-2xl mx-auto">
-              The menopause transition does not happen overnight. As your body changes with age, hormone levels fluctuate and gradually decline. This can bring changes to your menstrual cycle and a range of physical and emotional symptoms.
-            </p>
-          </motion.div>
+            {STAGES.map((stage) => {
+              const isActive = stage.id === activeStageId;
+              return (
+                <button
+                  key={stage.id}
+                  ref={(el) => {
+                    tabRefs.current[stage.id] = el;
+                  }}
+                  type="button"
+                  onClick={() => setActiveStageId(stage.id)}
+                  className={`shrink-0 snap-center relative px-4 sm:px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all whitespace-nowrap ${isActive ? 'text-white' : 'text-primary hover:text-secondary'
+                    }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-journey-tab"
+                      className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-secondary shadow-md"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2">
+                    <span className="opacity-70 text-[10px] sm:text-xs">{stage.number}</span>
+                    <span>{stage.name}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* 3 Interactive Stage Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 max-w-4xl mx-auto">
-          {stages.map((stage) => {
-            const isActive = activeStage === stage.id;
-            return (
-              <button
-                key={stage.id}
-                onClick={() => setActiveStage(stage.id as any)}
-                className={`p-5 rounded-2xl text-left transition-all cursor-pointer border ${
-                  isActive
-                    ? 'bg-[#4e1939] text-white border-[#4e1939] shadow-xl shadow-rose-950/20 ring-2 ring-[#d77892]/40'
-                    : 'bg-[#fffaf7] dark:bg-[#200b1a] text-[#4e1939] dark:text-white border-[#ead7df] dark:border-rose-950/60 hover:border-[#9d3d65]'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className={`text-xs font-bold tracking-widest ${isActive ? 'text-[#ffd98e]' : 'text-[#9d3d65]'}`}>
-                    {stage.number}
+        {/* Active Stage Detailed Presentation Card */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeStage.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="rounded-3xl border border-gray-100 bg-white p-4 sm:p-8 lg:p-10 shadow-xl shadow-[#4e1939]/5"
+          >
+            <div className="grid gap-10 lg:grid-cols-12">
+
+              {/* Left Column: Stage description & context */}
+              <div className="lg:col-span-7">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <span className="text-sm font-bold text-primary tracking-widest uppercase">
+                    Stage {activeStage.number} of 03
                   </span>
-                  {isActive && <Sparkles className="w-4 h-4 text-[#ffd98e]" />}
+                  <span className="text-secondary hidden sm:block">•</span>
+                  <span className="text-xs text-text-muted flex items-center gap-1">
+                    <Clock className="h-3 w-3" /> {activeStage.timeframe}
+                  </span>
                 </div>
-                <h3 className="text-lg font-extrabold mb-1">{stage.title}</h3>
-                <p className={`text-xs leading-relaxed ${isActive ? 'text-white/80' : 'text-[#624b57] dark:text-rose-200/70'}`}>
-                  {stage.tagline}
+
+                <h3 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary">
+                  {activeStage.name}
+                </h3>
+
+                <p className="mt-4 text-base sm:text-lg text-text-muted leading-relaxed">
+                  {activeStage.summary}
                 </p>
-              </button>
-            );
-          })}
-        </div>
 
-        {/* Active Stage Detailed Card */}
-        <div className="max-w-4xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.35 }}
-              className="p-8 sm:p-12 rounded-3xl bg-[#fffaf7] dark:bg-[#1e0a19] border border-[#ead7df] dark:border-rose-950/60 shadow-xl"
-            >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#ead7df] dark:border-rose-950/40">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#9d3d65] dark:text-[#ffd98e]">
-                    Stage {current.number} · {current.tagline}
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-black text-[#4e1939] dark:text-white mt-1">
-                    {current.title}
-                  </h3>
+                <div className="mt-6 rounded-2xl bg-[#fff8fa] p-5 border border-[#f0dfe6]">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#9d3d65] flex items-center gap-2">
+                    <Activity className="h-4 w-4" /> Hormonal Mechanism
+                  </h4>
+                  <p className="mt-2 text-xs sm:text-sm text-[#664b5b] leading-relaxed">
+                    {activeStage.hormonalContext}
+                  </p>
                 </div>
-                <div className="px-4 py-2 rounded-xl bg-white dark:bg-black/30 border border-[#ead7df] dark:border-rose-900/30 text-xs font-semibold text-[#4e1939] dark:text-rose-200">
-                  Natural Life Phase
+
+                <div className="mt-4 rounded-2xl bg-[#fdf9f4] p-5 border border-[#f3e6d6]">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#9c6a1e] flex items-center gap-2">
+                    <Shield className="h-4 w-4" /> How Menoset Supports This Stage
+                  </h4>
+                  <p className="mt-2 text-xs sm:text-sm text-[#634e35] leading-relaxed">
+                    {activeStage.menosetSupport}
+                  </p>
                 </div>
               </div>
 
-              {/* Exact definition from PDF Section 4 */}
-              <p className="text-base sm:text-lg text-[#624b57] dark:text-rose-100/90 leading-relaxed mb-8">
-                {current.description}
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-                {/* Common Symptoms List */}
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#9d3d65] dark:text-[#ffd98e] mb-4 flex items-center gap-1.5">
-                    <Sun className="w-4 h-4" /> Common Symptoms in this Stage:
+              {/* Right Column: Typical Symptoms Checklist */}
+              <div className="lg:col-span-5 flex flex-col justify-between">
+                <div className="rounded-2xl border border-[#eedde5] bg-[#fffafc] p-6 sm:p-7">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#4e1939] mb-4 flex items-center gap-2">
+                    Common Signs & Symptoms
                   </h4>
                   <ul className="space-y-3">
-                    {current.symptoms.map((symptom) => (
-                      <li
-                        key={symptom}
-                        className="flex items-start gap-2.5 text-sm text-[#523d49] dark:text-rose-100/80 leading-snug"
-                      >
-                        <div className="w-2 h-2 rounded-full bg-[#d77892] mt-1.5 shrink-0" />
-                        <span>{symptom}</span>
+                    {activeStage.symptoms.map((symptom) => (
+                      <li key={symptom} className="flex items-start gap-3 text-sm text-[#5a3e4e]">
+                        <div className="h-5 w-5 rounded-full bg-[#f8e6ed] text-[#9d3d65] flex items-center justify-center shrink-0 mt-0.5">
+                          <Check className="h-3 w-3" />
+                        </div>
+                        <span className="leading-snug">{symptom}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* How Menoset Supports this stage */}
-                <div className="p-6 rounded-2xl bg-white dark:bg-[#160612] border border-[#ead7df] dark:border-rose-900/40 flex flex-col justify-center">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#9d3d65] dark:text-[#ffd98e] mb-2">
-                    <Shield className="w-4 h-4 text-[#d4af37]" />
-                    <span>How Menoset Supports You</span>
+                {/* Bottom CTA to Formula & Stage Navigator */}
+                <div className="mt-8 flex flex-col items-start justify-between gap-4 pt-6 border-t border-gray-100">
+                  <a
+                    href="#formula"
+                    onClick={handleDiscoverScroll}
+                    className="w-auto inline-flex items-center justify-center gap-2 font-bold text-sm bg-primary/20 hover:bg-primary px-5 py-2.5 rounded-full text-primary hover:text-white transition-colors group"
+                  >
+                    <span>Discover The Menoset Formula</span>
+                    <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5 text-primary group-hover:text-white" />
+                  </a>
+
+                  {/* Stage navigation buttons (Previous / Next) */}
+                  <div className="flex items-center gap-2 w-full justify-between sm:justify-end">
+                    {activeStageIndex > 0 ? (
+                      <button
+                        type="button"
+                        onClick={() => setActiveStageId(STAGES[activeStageIndex - 1].id)}
+                        className="px-3.5 py-1.5 rounded-full text-xs font-bold text-secondary bg-gray-50 hover:bg-gray-100 border border-gray-200 transition-colors flex items-center gap-1"
+                      >
+                        <ChevronLeft className="h-3.5 w-3.5 text-primary" />
+                        <span>Prev</span>
+                      </button>
+                    ) : (
+                      <span />
+                    )}
+                    {activeStageIndex < STAGES.length - 1 && (
+                      <button
+                        type="button"
+                        onClick={() => setActiveStageId(STAGES[activeStageIndex + 1].id)}
+                        className="px-3.5 py-1.5 rounded-full text-xs font-bold text-white bg-primary hover:bg-secondary transition-colors flex items-center gap-1 shadow-sm"
+                      >
+                        <span>Next: {STAGES[activeStageIndex + 1].name}</span>
+                        <ChevronRight className="h-3.5 w-3.5" />
+                      </button>
+                    )}
                   </div>
-                  <p className="text-sm text-[#624b57] dark:text-rose-100/90 leading-relaxed">
-                    {current.supportRole}
-                  </p>
                 </div>
               </div>
 
-              {/* CTA from PDF Section 4 */}
-              <div className="text-center pt-6 border-t border-[#ead7df] dark:border-rose-950/40">
-                <a
-                  href="#formula"
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#9d3d65] dark:text-[#ffd98e] hover:underline underline-offset-4 cursor-pointer"
-                >
-                  <span>DISCOVER THE MENOSET FORMULA ↓</span>
-                  <ArrowDown className="w-4 h-4 animate-bounce" />
-                </a>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
       </div>
     </section>
   );
