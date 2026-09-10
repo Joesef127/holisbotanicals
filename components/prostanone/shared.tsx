@@ -93,7 +93,7 @@ export const SectionHeader: React.FC<{
 // ─── CheckItem ────────────────────────────────────────────────────────────────
 
 export const CheckItem: React.FC<{ text: string }> = ({ text }) => (
-  <li className="flex items-start gap-3 text-sm text-text">
+  <li className="flex items-start gap-3 text-xs md:text-sm text-text">
     <CheckCircle2 size={16} className="text-success shrink-0 mt-0.5" />
     {text}
   </li>

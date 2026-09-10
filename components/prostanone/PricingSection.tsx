@@ -92,7 +92,7 @@ const PricingSection: React.FC = () => {
             )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-3 md:gap-6 mb-10">
           {packages.map((pkg, i) => {
             const isBest = !!pkg.badge;
             const pkgImg =  images.prostanone;
@@ -138,24 +138,32 @@ const PricingSection: React.FC = () => {
 
                   <div className="flex flex-col grow bg-white p-7">
                     <h3 className="text-xl font-bold text-secondary mb-1">{pkg.name}</h3>
-                    <p className="text-text-muted text-sm mb-4">{pkg.description}</p>
+                    {pkg.subtitle?.trim() && (
+                      <p className="text-xs font-semibold text-primary mb-1">{pkg.subtitle.trim()}</p>
+                    )}
+                    <p className="text-text-muted text-xs mb-3">
+                      {pkg.description?.trim() || `${pkg.containers} Pack${pkg.containers > 1 ? 's' : ''} · ${pkg.containers * 20} Days Supply`}
+                    </p>
 
                     {/* Price */}
                     <div className="flex items-baseline gap-2 mb-2">
                       <span className="text-3xl font-bold text-primary">
                         ₦{pkg.price.toLocaleString()}
                       </span>
-                      {pkg.originalPrice && pkg.originalPrice !== pkg.price && (
+                      
+                      {pkg.originalPrice && pkg.originalPrice > pkg.price && (
                         <span className="text-base text-text-light line-through">
                           ₦{pkg.originalPrice.toLocaleString()}
                         </span>
                       )}
                     </div>
                     <div className="flex flex-wrap items-center gap-2 mb-4">
-                      {pkg.savingsText && (
+                      {pkg.savingsText && pkg.originalPrice && pkg.originalPrice > pkg.price ? (
                         <span className="inline-block bg-success/10 text-success text-xs px-2.5 py-1 rounded-full w-fit">
-                          Save ₦{pkg.savingsText}
+                          Save ₦{(Number(pkg.originalPrice) - Number(pkg.price)).toLocaleString()}
                         </span>
+                      ): (
+                        <span className="text-xs text-text-muted">Standard Rate</span>
                       )}
                       <span className="inline-block bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2.5 py-1 rounded-full w-fit font-medium">
                         Pay on Delivery Available
@@ -166,8 +174,8 @@ const PricingSection: React.FC = () => {
                     <ul className="space-y-2 mt-2 mb-6 grow">
                       {[
                         `${pkg.containers} Box${pkg.containers > 1 ? 'es' : ''} · ${pkg.containers * 60} Tablets`,
-                        pkg.deliveryText,
-                        pkg.usageNote,
+                        `${pkg.deliveryText?.trim() || 'Free delivery within Lagos (except Badagry & Epe)'}`,
+                        `${pkg.usageNote?.trim() || ''}`,
                       ]
                         .filter(Boolean)
                         .map(item => (

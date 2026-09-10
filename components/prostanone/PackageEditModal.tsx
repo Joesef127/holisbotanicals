@@ -3,6 +3,7 @@ import { X, Save, Package, Trash2, Check, ArrowRight, Eye, Edit3, ShieldCheck } 
 import { ProductPackage } from "../../types";
 import { usePackageForm } from "../../hooks/usePackageForm";
 import Button from "../Button";
+import { CheckItem } from "./shared";
 
 interface Props {
   pkg: ProductPackage | null; // null = create mode
@@ -232,20 +233,15 @@ const LiveCardPreview: React.FC<{
 
           {/* Bullet Items */}
           <ul className="space-y-1.5 text-xs text-text-muted mb-4 grow">
-            <li className="flex items-center gap-2">
-              <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-              <span>{containers} Box{containers > 1 ? 'es' : ''} · {containers * 60} Tablets</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-              <span className="truncate">{form.deliveryText?.trim() || 'Free delivery within Lagos'}</span>
-            </li>
-            {form.usageNote?.trim() && (
-              <li className="flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                <span className="truncate">{form.usageNote.trim()}</span>
-              </li>
-            )}
+            {[
+              `${containers} Box${containers > 1 ? 'es' : ''} · ${containers * 60} Tablets`,
+              `${form.deliveryText?.trim() || 'Free delivery within Lagos (except Badagry & Epe)'}`,
+              `${form.usageNote?.trim() || ''}`,
+            ]
+              .filter(Boolean)
+              .map(item => (
+                <CheckItem key={item} text={item as string} />
+              ))}
           </ul>
 
           <Button
@@ -458,7 +454,7 @@ const PackageEditModal: React.FC<Props> = ({
                   <input
                     id="pkg-savingsText"
                     type="text"
-                    value={`${form.originalPrice && form.price ? Number(form.originalPrice) - Number(form.price) : ''}`}
+                    value={`${form.originalPrice && form.price ? form.savingsText = (Number(form.originalPrice) - Number(form.price)).toLocaleString() : ''}`}
                     onChange={set("savingsText")}
                     placeholder="5,000"
                     className={inputClass}

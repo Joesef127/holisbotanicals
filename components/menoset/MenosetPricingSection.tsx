@@ -31,7 +31,6 @@ export const MenosetPricingSection: React.FC = () => {
 
   const handleSelectPackage = (packageId: string) => {
     addToCart(packageId, 1);
-    navigate('/summary');
   };
 
   const openEdit = (pkg: ProductPackage) => {
@@ -108,7 +107,7 @@ export const MenosetPricingSection: React.FC = () => {
         )}
 
         {/* 4-Column Modern Pricing Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch">
           {packages.map((pkg, index) => {
             const isMostPopular = pkg.badge === 'MOST POPULAR';
             const isBestValue = pkg.badge === 'BEST VALUE';
@@ -123,7 +122,7 @@ export const MenosetPricingSection: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 ${isMostPopular
+                className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 mb-3 ${isMostPopular
                   ? 'border-2 border-primary/30 bg-gradient-to-b from-surface to-surface shadow-xl shadow-primary/10 ring-1 ring-primary/20'
                   : isBestValue
                     ? 'border-2 border-accent/30 bg-gradient-to-b from-surface to-surface shadow-lg shadow-accent/10'
@@ -203,7 +202,7 @@ export const MenosetPricingSection: React.FC = () => {
                       <span className="text-3xl sm:text-4xl font-extrabold text-secondary">
                         ₦{pkg.price.toLocaleString()}
                       </span>
-                      {pkg.originalPrice && pkg.originalPrice > pkg.price && (
+                      {pkg.originalPrice && pkg.originalPrice > pkg.price &&  (
                         <span className="text-sm text-text-muted line-through">
                           ₦{pkg.originalPrice.toLocaleString()}
                         </span>
@@ -211,7 +210,7 @@ export const MenosetPricingSection: React.FC = () => {
                     </div>
 
                     <div className="mt-2 flex items-center justify-between">
-                      {pkg.savingsText ? (
+                      {pkg.savingsText && pkg.originalPrice && pkg.originalPrice > pkg.price ? (
                         <span className="inline-block rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
                           Save ₦{pkg.savingsText}
                         </span>
@@ -241,7 +240,7 @@ export const MenosetPricingSection: React.FC = () => {
                       <div className="h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
                         <Check className="h-2.5 w-2.5 stroke-[3]" />
                       </div>
-                      <span>{pkg.deliveryText || 'Nationwide delivery available'}</span>
+                      <span>{pkg.deliveryText || 'Pay on delivery available'}</span>
                     </div>
 
                     {pkg.usageNote && (
