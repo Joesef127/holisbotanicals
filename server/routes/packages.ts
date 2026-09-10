@@ -1,73 +1,119 @@
 import { Hono } from 'hono';
 import { db } from '../db';
-import { packages } from '../db/schema';
+import { prostanonePackages, menosetPackages } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { requireAdmin } from '../middleware/auth';
+import prostanonePackagesRoute from './prostanonePackages';
+import menosetPackagesRoute from './menosetPackages';
+import { generatePackageId } from '../utils/packageId';
 
 const packagesRoute = new Hono();
 
-// GET /api/packages — public
+// Mount dedicated subroutes:
+// /api/packages/prostanone -> prostanonePackagesRoute
+// /api/packages/menoset -> menosetPackagesRoute
+packagesRoute.route('/prostanone', prostanonePackagesRoute);
+packagesRoute.route('/menoset', menosetPackagesRoute);
+
+// GET /api/packages — public fallback with strict product isolation
 packagesRoute.get('/', async (c) => {
   const productId = c.req.query('productId');
-  if (productId) {
+
+  if (productId === 'menoset') {
     const rows = await db
       .select()
-      .from(packages)
-      .where(eq(packages.productId, productId))
-      .orderBy(packages.price);
-    return c.json(rows);
+      .from(menosetPackages)
+      .orderBy(menosetPackages.price);
+    return c.json(rows.map((r) => ({ ...r, productId: 'menoset' as const })));
   }
-  const rows = await db.select().from(packages).orderBy(packages.price);
-  return c.json(rows);
+
+  // Default strictly to prostanone packages (never mix)
+  const rows = await db
+    .select()
+    .from(prostanonePackages)
+    .orderBy(prostanonePackages.price);
+  return c.json(rows.map((r) => ({ ...r, productId: 'prostanone' as const })));
 });
 
-// POST /api/packages — admin only
+// POST /api/packages — admin only fallback
 packagesRoute.post('/', requireAdmin, async (c) => {
   const body = await c.req.json<{
-    id: string;
+    id?: string;
     productId?: string;
     name: string;
-    containers: number;
+    containers?: number;
     price: number;
     originalPrice?: number;
-    description: string;
+    description?: string;
+    subtitle?: string;
     savingsText?: string | null;
     deliveryText?: string;
     usageNote?: string;
     badge?: string | null;
+    recommendedFor?: string;
   }>();
 
-  if (!body.id?.trim()) return c.json({ error: 'id is required' }, 400);
-  if (!body.name?.trim()) return c.json({ error: 'name is required' }, 400);
-  if (!body.price) return c.json({ error: 'price is required' }, 400);
+  if (!body.name?.trim()) return c.json({ error: 'Package name is required' }, 400);
+  if (!body.price) return c.json({ error: 'Price is required' }, 400);
+
+  const isMenoset = body.productId === 'menoset';
+  const prefix = isMenoset ? 'menoset' : 'prostanone';
+  const id = body.id?.trim() || generatePackageId(prefix, body.name);
+
+  if (isMenoset) {
+    const inserted = await db
+      .insert(menosetPackages)
+      .values({
+        id,
+        name: body.name.trim(),
+        containers: body.containers ?? 1,
+        price: body.price,
+        originalPrice: body.originalPrice ?? null,
+        description: body.description?.trim() || `${body.containers ?? 1} Pack · ${(body.containers ?? 1) * 30} Days Supply`,
+        savingsText: body.savingsText?.trim() || null,
+        deliveryText: body.deliveryText?.trim() || 'Nationwide delivery available',
+        usageNote: body.usageNote?.trim() || '1 tablet twice daily, following the product label.',
+        badge: body.badge?.trim() || null,
+      })
+      .returning();
+    return c.json({ ...inserted[0], productId: 'menoset' }, 201);
+  }
 
   const inserted = await db
-    .insert(packages)
+    .insert(prostanonePackages)
     .values({
-      id: body.id.trim(),
-      productId: body.productId?.trim() || 'prostanone',
+      id,
       name: body.name.trim(),
       containers: body.containers ?? 1,
       price: body.price,
       originalPrice: body.originalPrice ?? null,
       description: body.description?.trim() ?? '',
+      subtitle: body.subtitle?.trim() || null,
       savingsText: body.savingsText?.trim() || null,
       deliveryText: body.deliveryText?.trim() ?? '',
       usageNote: body.usageNote?.trim() ?? '',
       badge: body.badge?.trim() || null,
+      recommendedFor: body.recommendedFor?.trim() || null,
     })
     .returning();
 
-  return c.json(inserted[0], 201);
+  return c.json({ ...inserted[0], productId: 'prostanone' }, 201);
 });
 
 // DELETE /api/packages/:id — admin only
 packagesRoute.delete('/:id', requireAdmin, async (c) => {
   const id = c.req.param('id');
   if (!id) return c.json({ error: 'Missing id' }, 400);
-  const deleted = await db.delete(packages).where(eq(packages.id, id)).returning();
-  if (deleted.length === 0) return c.json({ error: 'Package not found' }, 404);
-  return c.json({ success: true });
+
+  // Try prostanone first
+  const deletedPros = await db.delete(prostanonePackages).where(eq(prostanonePackages.id, id)).returning();
+  if (deletedPros.length > 0) return c.json({ success: true });
+
+  // Try menoset
+  const deletedMeno = await db.delete(menosetPackages).where(eq(menosetPackages.id, id)).returning();
+  if (deletedMeno.length > 0) return c.json({ success: true });
+
+  return c.json({ error: 'Package not found' }, 404);
 });
 
 // PUT /api/packages/:id — protected
@@ -77,38 +123,67 @@ packagesRoute.put('/:id', requireAdmin, async (c) => {
   const body = await c.req.json<{
     productId?: string;
     name?: string;
+    containers?: number;
     price?: number;
     originalPrice?: number;
     description?: string;
+    subtitle?: string;
     savingsText?: string | null;
     deliveryText?: string;
     usageNote?: string;
     badge?: string | null;
+    recommendedFor?: string;
   }>();
 
-  const allowedFields: Record<string, unknown> = {};
-  if (body.productId !== undefined) allowedFields.productId = body.productId;
-  if (body.name !== undefined) allowedFields.name = body.name;
-  if (body.price !== undefined) allowedFields.price = body.price;
-  if (body.originalPrice !== undefined) allowedFields.originalPrice = body.originalPrice;
-  if (body.description !== undefined) allowedFields.description = body.description;
-  if (body.savingsText !== undefined) allowedFields.savingsText = body.savingsText;
-  if (body.deliveryText !== undefined) allowedFields.deliveryText = body.deliveryText;
-  if (body.usageNote !== undefined) allowedFields.usageNote = body.usageNote;
-  if (body.badge !== undefined) allowedFields.badge = body.badge;
-  allowedFields.updatedAt = new Date();
+  // Try updating prostanone
+  const allowedFieldsPros: Record<string, unknown> = {};
+  if (body.name !== undefined) allowedFieldsPros.name = body.name.trim();
+  if (body.containers !== undefined) allowedFieldsPros.containers = body.containers;
+  if (body.price !== undefined) allowedFieldsPros.price = body.price;
+  if (body.originalPrice !== undefined) allowedFieldsPros.originalPrice = body.originalPrice;
+  if (body.description !== undefined) allowedFieldsPros.description = body.description.trim();
+  if (body.subtitle !== undefined) allowedFieldsPros.subtitle = body.subtitle?.trim() || null;
+  if (body.savingsText !== undefined) allowedFieldsPros.savingsText = body.savingsText?.trim() || null;
+  if (body.deliveryText !== undefined) allowedFieldsPros.deliveryText = body.deliveryText?.trim() ?? '';
+  if (body.usageNote !== undefined) allowedFieldsPros.usageNote = body.usageNote?.trim() ?? '';
+  if (body.badge !== undefined) allowedFieldsPros.badge = body.badge?.trim() || null;
+  if (body.recommendedFor !== undefined) allowedFieldsPros.recommendedFor = body.recommendedFor?.trim() || null;
+  allowedFieldsPros.updatedAt = new Date();
 
-  const updated = await db
-    .update(packages)
-    .set(allowedFields)
-    .where(eq(packages.id, id))
+  const updatedPros = await db
+    .update(prostanonePackages)
+    .set(allowedFieldsPros)
+    .where(eq(prostanonePackages.id, id))
     .returning();
 
-  if (updated.length === 0) {
-    return c.json({ error: 'Package not found' }, 404);
+  if (updatedPros.length > 0) {
+    return c.json({ ...updatedPros[0], productId: 'prostanone' });
   }
 
-  return c.json(updated[0]);
+  // Try updating menoset
+  const allowedFieldsMeno: Record<string, unknown> = {};
+  if (body.name !== undefined) allowedFieldsMeno.name = body.name.trim();
+  if (body.containers !== undefined) allowedFieldsMeno.containers = body.containers;
+  if (body.price !== undefined) allowedFieldsMeno.price = body.price;
+  if (body.originalPrice !== undefined) allowedFieldsMeno.originalPrice = body.originalPrice;
+  if (body.description !== undefined) allowedFieldsMeno.description = body.description.trim();
+  if (body.savingsText !== undefined) allowedFieldsMeno.savingsText = body.savingsText?.trim() || null;
+  if (body.deliveryText !== undefined) allowedFieldsMeno.deliveryText = body.deliveryText?.trim() ?? '';
+  if (body.usageNote !== undefined) allowedFieldsMeno.usageNote = body.usageNote?.trim() ?? '';
+  if (body.badge !== undefined) allowedFieldsMeno.badge = body.badge?.trim() || null;
+  allowedFieldsMeno.updatedAt = new Date();
+
+  const updatedMeno = await db
+    .update(menosetPackages)
+    .set(allowedFieldsMeno)
+    .where(eq(menosetPackages.id, id))
+    .returning();
+
+  if (updatedMeno.length > 0) {
+    return c.json({ ...updatedMeno[0], productId: 'menoset' });
+  }
+
+  return c.json({ error: 'Package not found' }, 404);
 });
 
 export default packagesRoute;

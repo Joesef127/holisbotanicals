@@ -41,7 +41,7 @@ const HomePricingSection: React.FC = () => {
       destructive: true,
     });
     if (!confirmed) return;
-    await fetch(`${API_BASE}/api/packages/${pkg.id}`, {
+    await fetch(`${API_BASE}/api/packages/prostanone/${pkg.id}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -227,6 +227,7 @@ const HomePricingSection: React.FC = () => {
       {modalOpen && (
         <PackageEditModal
           pkg={editingPkg}
+          defaultProductId="prostanone"
           onClose={() => setModalOpen(false)}
           onSaved={() => { refetch(); setModalOpen(false); }}
           onDeleted={() => { refetch(); setModalOpen(false); }}

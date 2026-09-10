@@ -14,16 +14,17 @@ interface Options {
 }
 
 export interface PackageForm {
-  id: string;
   name: string;
   containers: string;
   price: string;
   originalPrice: string;
   description: string;
+  subtitle: string;
   savingsText: string;
   deliveryText: string;
   usageNote: string;
   badge: string;
+  recommendedFor: string;
 }
 
 export function usePackageForm({ pkg, defaultProductId = 'prostanone', onSaved, onDeleted, onClose }: Options) {
@@ -32,16 +33,17 @@ export function usePackageForm({ pkg, defaultProductId = 'prostanone', onSaved, 
   const isEdit = pkg !== null;
 
   const [form, setForm] = useState<PackageForm>({
-    id:            pkg?.id            ?? '',
-    name:          pkg?.name          ?? '',
-    containers:    String(pkg?.containers ?? 1),
-    price:         String(pkg?.price  ?? ''),
-    originalPrice: String(pkg?.originalPrice ?? pkg?.price ?? ''),
-    description:   pkg?.description   ?? '',
-    savingsText:   pkg?.savingsText   ?? '',
-    deliveryText:  pkg?.deliveryText  ?? '',
-    usageNote:     pkg?.usageNote     ?? '',
-    badge:         pkg?.badge         ?? '',
+    name:           pkg?.name           ?? '',
+    containers:     String(pkg?.containers ?? 1),
+    price:          String(pkg?.price   ?? ''),
+    originalPrice:  String(pkg?.originalPrice ?? pkg?.price ?? ''),
+    description:    pkg?.description    ?? '',
+    subtitle:       pkg?.subtitle       ?? '',
+    savingsText:    pkg?.savingsText    ?? '',
+    deliveryText:   pkg?.deliveryText   ?? '',
+    usageNote:      pkg?.usageNote      ?? '',
+    badge:          pkg?.badge          ?? '',
+    recommendedFor: pkg?.recommendedFor ?? '',
   });
 
   const [saving,   setSaving]   = useState(false);
@@ -54,48 +56,52 @@ export function usePackageForm({ pkg, defaultProductId = 'prostanone', onSaved, 
 
   const save = async () => {
     setError('');
-    if (!form.name.trim())              { setError('Package name is required.'); return; }
-    if (!form.price)                    { setError('Price is required.');        return; }
-    if (!isEdit && !form.id.trim())     { setError('Package ID is required.');   return; }
+    if (!form.name.trim()) { setError('Package name is required.'); return; }
+    if (!form.price)       { setError('Price is required.');        return; }
 
     setSaving(true);
     const body = {
-      ...(!isEdit && {
-        id: form.id.trim(),
-        containers: parseInt(form.containers, 10) || 1,
-        productId: defaultProductId || 'prostanone',
+      name:           form.name.trim(),
+      containers:     parseInt(form.containers, 10) || 1,
+      price:          parseInt(form.price, 10),
+      originalPrice:  form.originalPrice ? parseInt(form.originalPrice, 10) : undefined,
+      description:    form.description.trim(),
+      ...(defaultProductId === 'prostanone' && {
+        subtitle:       form.subtitle.trim()       || undefined,
+        recommendedFor: form.recommendedFor.trim() || undefined,
       }),
-      name:          form.name.trim(),
-      price:         parseInt(form.price, 10),
-      originalPrice: form.originalPrice ? parseInt(form.originalPrice, 10) : undefined,
-      description:   form.description.trim(),
-      savingsText:   form.savingsText.trim()  || null,
-      deliveryText:  form.deliveryText.trim(),
-      usageNote:     form.usageNote.trim(),
-      badge:         form.badge.trim()        || null,
+      savingsText:    form.savingsText.trim()  || null,
+      deliveryText:   form.deliveryText.trim(),
+      usageNote:      form.usageNote.trim(),
+      badge:          form.badge.trim()        || null,
     };
 
-    const url = isEdit
-      ? `${API_BASE}/api/packages/${pkg!.id}`
-      : `${API_BASE}/api/packages`;
+    const targetUrl = isEdit
+      ? `${API_BASE}/api/packages/${defaultProductId}/${pkg!.id}`
+      : `${API_BASE}/api/packages/${defaultProductId}`;
 
-    const res = await fetch(url, {
-      method:  isEdit ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      credentials: 'include',
-      body: JSON.stringify(body),
-    });
-    setSaving(false);
+    try {
+      const res = await fetch(targetUrl, {
+        method:  isEdit ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        credentials: 'include',
+        body: JSON.stringify(body),
+      });
+      setSaving(false);
 
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error ?? 'Failed to save');
-      return;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? 'Failed to save');
+        return;
+      }
+
+      const saved: ProductPackage = await res.json();
+      onSaved(saved);
+      onClose();
+    } catch (err: any) {
+      setSaving(false);
+      setError(err?.message || 'Network error while saving package');
     }
-
-    const saved: ProductPackage = await res.json();
-    onSaved(saved);
-    onClose();
   };
 
   const remove = async () => {
@@ -109,14 +115,19 @@ export function usePackageForm({ pkg, defaultProductId = 'prostanone', onSaved, 
     });
     if (!confirmed) return;
     setDeleting(true);
-    await fetch(`${API_BASE}/api/packages/${pkg.id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-    setDeleting(false);
-    onDeleted?.(pkg.id);
-    onClose();
+    try {
+      await fetch(`${API_BASE}/api/packages/${defaultProductId}/${pkg.id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      setDeleting(false);
+      onDeleted?.(pkg.id);
+      onClose();
+    } catch {
+      setDeleting(false);
+      setError('Failed to delete package');
+    }
   };
 
   return { form, set, isEdit, saving, deleting, error, save, remove };

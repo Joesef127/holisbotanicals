@@ -55,7 +55,7 @@ export const MenosetPricingSection: React.FC = () => {
     });
     if (!confirmed) return;
     try {
-      const res = await fetch(`${API_BASE}/api/packages/${pkg.id}`, {
+      const res = await fetch(`${API_BASE}/api/packages/menoset/${pkg.id}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: token ? { Authorization: `Bearer ${token}` } : {},

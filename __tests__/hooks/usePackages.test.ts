@@ -191,7 +191,25 @@ describe('usePackages Hook', () => {
       await new Promise(resolve => setTimeout(resolve, 50));
     });
 
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/api/packages/menoset'));
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('productId=menoset'));
+    expect(result.current.packages).toEqual(mockPackages);
+  });
+
+  it('should call fetch with dedicated prostanone endpoint', async () => {
+    const mockPackages = [{ id: 'prostanone-starter', name: 'Starter', price: 15000 }];
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPackages,
+    });
+
+    const { result } = renderHook(() => usePackages('prostanone'));
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 50));
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/api/packages/prostanone'));
     expect(result.current.packages).toEqual(mockPackages);
   });
 });

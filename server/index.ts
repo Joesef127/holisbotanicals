@@ -3,6 +3,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import auth from "./routes/auth";
 import packagesRoute from "./routes/packages";
+import prostanonePackagesRoute from "./routes/prostanonePackages";
+import menosetPackagesRoute from "./routes/menosetPackages";
 import blog from "./routes/blog";
 import data from "./routes/data";
 import testimonialsRoute from "./routes/testimonials";
@@ -46,6 +48,10 @@ app.use(
 );
 
 app.route("/auth", auth);
+app.route("/packages/prostanone", prostanonePackagesRoute);
+app.route("/packages/menoset", menosetPackagesRoute);
+app.route("/prostanone/packages", prostanonePackagesRoute);
+app.route("/menoset/packages", menosetPackagesRoute);
 app.route("/packages", packagesRoute);
 app.route("/testimonials", testimonialsRoute);
 app.route("/blog", blog);

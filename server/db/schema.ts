@@ -17,20 +17,39 @@ export const admins = pgTable('admins', {
   loginChallengeExpiresAt: timestamp('login_challenge_expires_at'),
 });
 
-export const packages = pgTable('packages', {
+export const prostanonePackages = pgTable('prostanone_packages', {
   id: varchar('id', { length: 64 }).primaryKey(),
-  productId: varchar('product_id', { length: 50 }).default('prostanone').notNull(),
   name: varchar('name', { length: 255 }).notNull(),
-  containers: integer('containers').notNull(),
+  containers: integer('containers').notNull().default(1),
   price: integer('price').notNull(),
   originalPrice: integer('original_price'),
   description: varchar('description', { length: 255 }).notNull(),
+  subtitle: varchar('subtitle', { length: 255 }),
+  savingsText: varchar('savings_text', { length: 100 }),
+  deliveryText: varchar('delivery_text', { length: 255 }),
+  usageNote: varchar('usage_note', { length: 255 }),
+  badge: varchar('badge', { length: 50 }),
+  recommendedFor: varchar('recommended_for', { length: 255 }),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const menosetPackages = pgTable('menoset_packages', {
+  id: varchar('id', { length: 64 }).primaryKey(),
+  name: varchar('name', { length: 255 }).notNull(),
+  containers: integer('containers').notNull().default(1), // Packs (1, 3, 6, 12)
+  price: integer('price').notNull(),
+  originalPrice: integer('original_price'),
+  description: varchar('description', { length: 255 }),
   savingsText: varchar('savings_text', { length: 100 }),
   deliveryText: varchar('delivery_text', { length: 255 }),
   usageNote: varchar('usage_note', { length: 255 }),
   badge: varchar('badge', { length: 50 }),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
+
+// Legacy alias for Prostanone packages
+export const packages = prostanonePackages;
+
 
 export const blogPosts = pgTable('blog_posts', {
   id: serial('id').primaryKey(),

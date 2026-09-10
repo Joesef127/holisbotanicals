@@ -2,7 +2,7 @@ import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { admins, packages, testimonials } from './db/schema';
+import { admins, prostanonePackages, menosetPackages, testimonials } from './db/schema';
 import { eq } from 'drizzle-orm';
 
 const PACKAGES_SEED = [
@@ -299,15 +299,25 @@ async function seed() {
   }
   console.log(`Seeded ${allTestimonials.length} testimonials.`);
 
-  console.log('Seeding packages...');
-  const allPackages = [...PACKAGES_SEED, ...MENOSET_PACKAGES_SEED];
-  for (const pkg of allPackages) {
+  console.log('Seeding Prostanone packages...');
+  for (const pkg of PACKAGES_SEED) {
+    const { productId: _, ...prosPkg } = pkg;
     await db
-      .insert(packages)
-      .values(pkg)
+      .insert(prostanonePackages)
+      .values(prosPkg)
       .onConflictDoNothing();
   }
-  console.log(`Seeded ${allPackages.length} packages.`);
+  console.log(`Seeded ${PACKAGES_SEED.length} Prostanone packages.`);
+
+  console.log('Seeding Menoset packages...');
+  for (const pkg of MENOSET_PACKAGES_SEED) {
+    const { productId: _, ...menoPkg } = pkg;
+    await db
+      .insert(menosetPackages)
+      .values(menoPkg)
+      .onConflictDoNothing();
+  }
+  console.log(`Seeded ${MENOSET_PACKAGES_SEED.length} Menoset packages.`);
 
   console.log('Seeding admin account...');
   const existing = await db.select().from(admins).where(eq(admins.email, adminEmail));

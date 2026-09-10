@@ -15,15 +15,15 @@ export interface ProductPackage {
   name: string;
   containers: number;
   price: number;
-  originalPrice?: number;
+  originalPrice?: number | null;
   description: string;
-  subtitle?: string;
+  subtitle?: string | null;
   savings?: number;
-  savingsText?: string;
-  badge?: string;
-  recommendedFor?: string;
-  deliveryText?: string;
-  usageNote?: string;
+  savingsText?: string | null;
+  badge?: string | null;
+  recommendedFor?: string | null;
+  deliveryText?: string | null;
+  usageNote?: string | null;
 }
 
 export interface QuizQuestion {

@@ -16,7 +16,7 @@ export function usePackages(productId: 'prostanone' | 'menoset' = 'prostanone'):
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${API_BASE}/api/packages?productId=${productId}`)
+    fetch(`${API_BASE}/api/packages/${productId}?productId=${productId}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((rows: ProductPackage[] | null) => {
         if (rows && rows.length > 0) setPackages(rows);
