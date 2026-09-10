@@ -293,20 +293,20 @@ const PackageEditModal: React.FC<Props> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-2 sm:p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-white w-full max-w-md lg:max-w-4xl rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto">
+      <div className="bg-white w-full max-w-2xl lg:max-w-4xl rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col mt-22 max-h-[90vh] my-auto">
         {/* ── Header ── */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0 bg-white">
-          <div className="flex items-center gap-3 min-w-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between px-4 sm:px-6 py-4 border-b border-border shrink-0 bg-white relative">
+          <div className="flex flex-col sm:flex-row items-start sm:justify-start gap-3 min-w-0">
             <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
-              <Package className="w-5 h-5" />
+              <Package className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <h2 className="font-bold text-text text-base leading-tight truncate">
                   {isEdit ? `Edit ${productLabel} Package` : `Add New ${productLabel} Package`}
                 </h2>
@@ -345,7 +345,7 @@ const PackageEditModal: React.FC<Props> = ({
 
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-text-muted hover:text-text hover:bg-background transition-colors shrink-0 ml-1"
+              className="absolute right-2 top-2 w-8 h-8 rounded-full flex items-center justify-center text-text-muted hover:text-white bg-background hover:bg-secondary transition-colors shrink-0 ml-1"
               aria-label="Close modal"
             >
               <X className="w-4 h-4" />
@@ -443,7 +443,7 @@ const PackageEditModal: React.FC<Props> = ({
                   <input
                     id="pkg-savingsText"
                     type="text"
-                    value={form.savingsText}
+                    value={`${(Number(form.originalPrice) - Number(form.price)).toLocaleString()}`}
                     onChange={set("savingsText")}
                     placeholder="Save ₦5,000"
                     className={inputClass}
@@ -503,9 +503,6 @@ const PackageEditModal: React.FC<Props> = ({
               <div className="w-full flex items-center justify-between mb-4">
                 <span className="text-xs font-bold uppercase tracking-wider text-text-muted flex items-center gap-1.5">
                   <Eye className="w-3.5 h-3.5 text-primary" /> Live Card Preview
-                </span>
-                <span className="text-[11px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                  Admin Only
                 </span>
               </div>
 
