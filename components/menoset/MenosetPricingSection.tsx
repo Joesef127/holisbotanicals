@@ -106,8 +106,8 @@ export const MenosetPricingSection: React.FC = () => {
           </div>
         )}
 
-        {/* 4-Column Modern Pricing Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch">
+        {/* Pricing Layout: Horizontal Scroll on Mobile, Grid on Tablet/Desktop */}
+        <div className="flex overflow-x-auto lg:overflow-visible pb-6 pt-4 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:pt-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch snap-x snap-mandatory no-scrollbar">
           {packages.map((pkg, index) => {
             const isMostPopular = pkg.badge === 'MOST POPULAR';
             const isBestValue = pkg.badge === 'BEST VALUE';
@@ -122,7 +122,7 @@ export const MenosetPricingSection: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 mb-3 ${isMostPopular
+                className={`relative flex flex-col justify-between rounded-3xl p-7 transition-all duration-300 mb-2 sm:mb-3 w-[82vw] max-w-[320px] shrink-0 snap-center sm:w-auto sm:max-w-none sm:shrink ${isMostPopular
                   ? 'border-2 border-primary/30 bg-gradient-to-b from-surface to-surface shadow-xl shadow-primary/10 ring-1 ring-primary/20'
                   : isBestValue
                     ? 'border-2 border-accent/30 bg-gradient-to-b from-surface to-surface shadow-lg shadow-accent/10'

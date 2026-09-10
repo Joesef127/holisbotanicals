@@ -23,9 +23,10 @@ export const FadeIn: React.FC<{
   children: React.ReactNode;
   className?: string;
   delay?: number;
-}> = ({ children, className = '', delay = 0 }) => {
+  margin?: string;
+}> = ({ children, className = '', delay = 0, margin = '-60px' }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: true, margin: margin as any });
   return (
     <motion.div
       ref={ref}

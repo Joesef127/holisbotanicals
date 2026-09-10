@@ -92,13 +92,18 @@ const PricingSection: React.FC = () => {
             )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-3 md:gap-6 mb-10">
+        <div className="flex overflow-x-auto lg:overflow-visible pb-6 pt-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:pt-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3 md:gap-6 mb-10 snap-x snap-mandatory no-scrollbar">
           {packages.map((pkg, i) => {
             const isBest = !!pkg.badge;
             const pkgImg =  images.prostanone;
 
             return (
-              <FadeIn key={pkg.id} delay={i * 0.1}>
+              <FadeIn
+                key={pkg.id}
+                delay={i * 0.1}
+                margin="0px"
+                className="w-[82vw] max-w-[320px] shrink-0 snap-center sm:w-auto sm:max-w-none sm:shrink flex flex-col"
+              >
                 <div
                   className={`relative flex flex-col rounded-3xl overflow-hidden border-2 shadow-sm hover:shadow-xl transition-shadow h-full
                     ${isBest ? 'border-primary' : 'border-gray-200 bg-white'}`}

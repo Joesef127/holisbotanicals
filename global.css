@@ -433,3 +433,12 @@
   pointer-events: none;
   height: 0;
 }
+
+/* ── Utility to hide scrollbars on horizontal scroll carousels ── */
+/* .no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} */

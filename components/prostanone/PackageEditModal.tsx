@@ -201,9 +201,9 @@ const LiveCardPreview: React.FC<{
 
         <div className="flex flex-col grow p-5">
           <h4 className="text-lg font-bold text-secondary mb-0.5 capitalize">{name}</h4>
-          {form.subtitle?.trim() && (
+          {/* {form.subtitle?.trim() && (
             <p className="text-xs font-semibold text-primary mb-1">{form.subtitle.trim()}</p>
-          )}
+          )} */}
           <p className="text-text-muted text-xs mb-3">
             {form.description?.trim() || `${containers} Pack${containers > 1 ? 's' : ''} · ${containers * 20} Days Supply`}
           </p>
@@ -412,7 +412,7 @@ const PackageEditModal: React.FC<Props> = ({
                 />
               </Field>
 
-              {!isMenoset && (
+              {/* {!isMenoset && (
                   <Field id="pkg-subtitle" label="Subtitle" hint="optional">
                     <input
                       id="pkg-subtitle"
@@ -423,7 +423,7 @@ const PackageEditModal: React.FC<Props> = ({
                       className={inputClass}
                     />
                   </Field>
-              )}
+              )} */}
 
               {/* Pricing */}
               <Section label="Pricing & Badges" />

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { ALL_PACKAGES } from '../lib/constants.ts';
+import { usePackages } from '../hooks/usePackages';
+import { ProductPackage } from '../types';
 import { useSeoMeta } from '../hooks/useSeoMeta';
 import Button from '../components/Button';
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,17 +22,35 @@ const Summary: React.FC = () => {
    const { cart, removeFromCart, updateQuantity, clearCart } = useApp();
    const navigate = useNavigate();
    const { showConfirm } = useModal();
+   const { packages: prostanonePackages } = usePackages('prostanone');
+   const { packages: menosetPackages } = usePackages('menoset');
+
+   const allPackages = useMemo(() => {
+      const map = new Map<string, ProductPackage>();
+      ALL_PACKAGES.forEach(p => map.set(p.id, p));
+      prostanonePackages.forEach(p => map.set(p.id, p));
+      menosetPackages.forEach(p => map.set(p.id, p));
+      return Array.from(map.values());
+   }, [prostanonePackages, menosetPackages]);
+
+   const cartItemsWithPackages = useMemo(() => {
+      return cart
+         .map(item => ({
+            item,
+            pkg: allPackages.find(p => p.id === item.packageId),
+         }))
+         .filter((entry): entry is { item: typeof cart[0]; pkg: ProductPackage } => Boolean(entry.pkg));
+   }, [cart, allPackages]);
 
    // Calculate totals
-   const subtotal = cart.reduce((acc, item) => {
-      const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
-      return acc + (pkg ? pkg.price * item.quantity : 0);
-   }, 0);
+   const subtotal = useMemo(() => {
+      return cartItemsWithPackages.reduce((acc, { item, pkg }) => acc + pkg.price * item.quantity, 0);
+   }, [cartItemsWithPackages]);
 
    const shipping = 0; // Free shipping
    const total = subtotal + shipping;
 
-   if (cart.length === 0) {
+   if (cartItemsWithPackages.length === 0) {
       return (
          <div className="min-h-screen pt-24 flex flex-col items-center justify-center bg-background px-4">
             <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
@@ -50,15 +70,18 @@ const Summary: React.FC = () => {
             </div>
 
             <div className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-100">
-               <div className="">
-                  {cart.map((item, i) => {
-                     const pkg = ALL_PACKAGES.find(p => p.id === item.packageId);
-                     if (!pkg) return null;
+               <div className="divide-y divide-gray-100">
+                  {cartItemsWithPackages.map(({ item, pkg }, i) => {
                      const lineTotal = pkg.price * item.quantity;
                      const lineSavingsText = pkg.savingsText;
 
                      return (
-                        <div key={item.packageId} className={`flex flex-col sm:flex-row gap-6 items-start sm:items-center pb-4 last:border-0 last:pb-0 p-4 sm:p-6 ${i % 2 === 0 ? 'bg-primary/5' : 'bg-inherit'}`}>
+                        <div
+                           key={item.packageId}
+                           className={`flex flex-col sm:flex-row gap-6 items-start sm:items-center p-4 sm:p-6 transition-colors ${
+                              i % 2 === 0 ? 'bg-primary/5' : 'bg-transparent'
+                           }`}
+                        >
                            <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center shrink-0">
                               <img
                                  src={pkg.productId === 'menoset' ? images.menoset : images.prostanone}
@@ -66,10 +89,11 @@ const Summary: React.FC = () => {
                                  className="h-16 w-auto object-contain"
                               />
                            </div>
-                           <div className="grow text-left">
+                           <div className="grow w-full flex sm:block sm:flex-col items-center justify-between gap-2.5 text-left">
+                              <div>
                               <h3 className="text-xl font-bold text-primary mb-2">{pkg.name}</h3>
                               <p className="text-text-muted text-sm mb-4">{pkg.description}</p>
-
+</div>
                               {/* Quantity Controls */}
                               <div className="flex w-fit items-center gap-3 bg-gray-50 rounded-lg p-1 border border-gray-200">
                                  <button
@@ -105,10 +129,11 @@ const Summary: React.FC = () => {
                            </div>
                            <div className="flex flex-row sm:flex-col items-center md:items-end gap-3 shrink-0">
                               <div className="text-xl sm:text-2xl font-bold text-primary">₦{lineTotal.toLocaleString()}</div>
-<div className='grid grid-rows-2'>
-                              {lineSavingsText && (
+                              <div className={`grid ${lineSavingsText !== '0' ? "grid-rows-2" : "grid-rows-1"}`}>
+
+                              {lineSavingsText !== '0' && (
                                  <div className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full border border-green-400">
-                                    {lineSavingsText}
+                                       Save ₦{lineSavingsText}
                                  </div>
                               )}
                               <button
