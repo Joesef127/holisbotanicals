@@ -61,7 +61,7 @@ const TestimonialMenu: React.FC<{
 const TestimonialsSection: React.FC = () => {
   const { testimonials, refetch } = useTestimonials();
   const { isAdmin, token } = useAuth();
-  const { showConfirm } = useModal();
+  const { showConfirm, showAlert } = useModal();
   const [editing, setEditing] = useState<Testimonial | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -77,12 +77,27 @@ const TestimonialsSection: React.FC = () => {
       destructive: true,
     });
     if (!confirmed) return;
-    await fetch(`${API_BASE}/api/testimonials/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-    refetch();
+    try {
+      const res = await fetch(`${API_BASE}/api/testimonials/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        showAlert({
+          title: 'Delete Failed',
+          message: data.error || 'Failed to delete review. Please try again.',
+        });
+        return;
+      }
+      refetch();
+    } catch {
+      showAlert({
+        title: 'Network Error',
+        message: 'Could not connect to the server. Please check your connection and try again.',
+      });
+    }
   };
 
   return (

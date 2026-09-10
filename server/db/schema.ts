@@ -99,6 +99,7 @@ export const contactMessages = pgTable('contact_messages', {
 export const testimonials = pgTable('testimonials', {
   id: serial('id').primaryKey(),
   productId: varchar('product_id', { length: 50 }).default('prostanone').notNull(),
+  seedId: varchar('seed_id', { length: 100 }).unique(),
   name: varchar('name', { length: 255 }).notNull(),
   age: integer('age'),
   location: varchar('location', { length: 255 }),

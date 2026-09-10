@@ -16,7 +16,7 @@ export const MenosetPricingSection: React.FC = () => {
   const { addToCart } = useApp();
   const navigate = useNavigate();
   const { isAdmin, token } = useAuth();
-  const { showConfirm } = useModal();
+  const { showConfirm, showAlert } = useModal();
   const { packages, refetch } = usePackages('menoset');
   const [editingPkg, setEditingPkg] = useState<ProductPackage | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -54,12 +54,27 @@ export const MenosetPricingSection: React.FC = () => {
       destructive: true,
     });
     if (!confirmed) return;
-    await fetch(`${API_BASE}/api/packages/${pkg.id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-    refetch();
+    try {
+      const res = await fetch(`${API_BASE}/api/packages/${pkg.id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        showAlert({
+          title: 'Delete Failed',
+          message: data.error || 'Failed to delete package. Please try again.',
+        });
+        return;
+      }
+      refetch();
+    } catch {
+      showAlert({
+        title: 'Network Error',
+        message: 'Could not connect to the server. Please check your connection and try again.',
+      });
+    }
   };
 
   return (

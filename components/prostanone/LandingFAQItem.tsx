@@ -7,7 +7,9 @@ const LandingFAQItem: React.FC<{ question: string; answer: string }> = ({ questi
   return (
     <div className="border-b border-gray-100 last:border-0">
       <button
+        type="button"
         onClick={() => setOpen(o => !o)}
+        aria-expanded={open}
         className="flex justify-between items-center w-full py-5 text-left gap-4 group"
       >
         <span className="text-base xl:text-lg font-semibold text-secondary group-hover:text-primary transition-colors">

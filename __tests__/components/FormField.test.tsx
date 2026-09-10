@@ -4,19 +4,21 @@ import React from 'react';
 import FormField from '../../components/prostanone/FormField';
 
 describe('FormField component', () => {
-  it('renders the label text', () => {
+  it('renders the label text and associates htmlFor with controlId', () => {
     render(
-      <FormField label="Phone Number">
-        <input />
+      <FormField label="Phone Number" controlId="phone-input">
+        <input id="phone-input" />
       </FormField>,
     );
-    expect(screen.getByText('Phone Number')).toBeInTheDocument();
+    const label = screen.getByText('Phone Number');
+    expect(label).toBeInTheDocument();
+    expect(label).toHaveAttribute('for', 'phone-input');
   });
 
   it('shows an asterisk (*) when required=true', () => {
     render(
-      <FormField label="First Name" required>
-        <input />
+      <FormField label="First Name" controlId="first-name" required>
+        <input id="first-name" />
       </FormField>,
     );
     expect(screen.getByText('*')).toBeInTheDocument();
@@ -24,8 +26,8 @@ describe('FormField component', () => {
 
   it('does NOT show an asterisk when required is omitted', () => {
     render(
-      <FormField label="Alt Phone">
-        <input />
+      <FormField label="Alt Phone" controlId="alt-phone">
+        <input id="alt-phone" />
       </FormField>,
     );
     expect(screen.queryByText('*')).not.toBeInTheDocument();
@@ -33,8 +35,8 @@ describe('FormField component', () => {
 
   it('renders children inside the field wrapper', () => {
     render(
-      <FormField label="Address">
-        <textarea data-testid="addr-input" />
+      <FormField label="Address" controlId="address">
+        <textarea id="address" data-testid="addr-input" />
       </FormField>,
     );
     expect(screen.getByTestId('addr-input')).toBeInTheDocument();
@@ -42,8 +44,8 @@ describe('FormField component', () => {
 
   it('shows an error message when error prop is provided', () => {
     render(
-      <FormField label="Phone Number" error="Enter a valid Nigerian number">
-        <input />
+      <FormField label="Phone Number" controlId="phone" error="Enter a valid Nigerian number">
+        <input id="phone" />
       </FormField>,
     );
     expect(screen.getByText('Enter a valid Nigerian number')).toBeInTheDocument();
@@ -51,8 +53,8 @@ describe('FormField component', () => {
 
   it('does NOT render an error element when error is undefined', () => {
     render(
-      <FormField label="Phone Number">
-        <input />
+      <FormField label="Phone Number" controlId="phone">
+        <input id="phone" />
       </FormField>,
     );
     // No <p> with error class should exist

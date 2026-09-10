@@ -13,7 +13,7 @@ import TestimonialEditModal from '../prostanone/TestimonialEditModal';
 export const MenosetSocialProof: React.FC = () => {
   const { testimonials, refetch } = useTestimonials('menoset');
   const { isAdmin, token } = useAuth();
-  const { showConfirm } = useModal();
+  const { showConfirm, showAlert } = useModal();
   const [editingT, setEditingT] = useState<Testimonial | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
@@ -45,12 +45,27 @@ export const MenosetSocialProof: React.FC = () => {
       destructive: true,
     });
     if (!confirmed) return;
-    await fetch(`${API_BASE}/api/testimonials/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-    refetch();
+    try {
+      const res = await fetch(`${API_BASE}/api/testimonials/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        showAlert({
+          title: 'Delete Failed',
+          message: data.error || 'Failed to delete review. Please try again.',
+        });
+        return;
+      }
+      refetch();
+    } catch {
+      showAlert({
+        title: 'Network Error',
+        message: 'Could not connect to the server. Please check your connection and try again.',
+      });
+    }
   };
 
   return (

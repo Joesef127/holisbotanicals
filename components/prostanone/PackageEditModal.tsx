@@ -20,12 +20,13 @@ const inputClass =
   "placeholder:text-text";
 
 const Field: React.FC<{
+  id?: string;
   label: string;
   hint?: string;
   children: React.ReactNode;
-}> = ({ label, hint, children }) => (
+}> = ({ id, label, hint, children }) => (
   <div>
-    <label className="block text-[11px] font-semibold text-text uppercase tracking-wider mb-1.5">
+    <label htmlFor={id} className="block text-[11px] font-semibold text-text uppercase tracking-wider mb-1.5">
       {label}
       {hint && (
         <span className="normal-case font-normal ml-1 opacity-60">
@@ -114,8 +115,9 @@ const PackageEditModal: React.FC<Props> = ({
             <>
               <Section label="Identity" />
               <div className="grid grid-cols-2 gap-4">
-                <Field label="Package ID" hint='e.g. "option-f"'>
+                <Field id="pkg-id" label="Package ID" hint='e.g. "option-f"'>
                   <input
+                    id="pkg-id"
                     type="text"
                     value={form.id}
                     onChange={set("id")}
@@ -123,8 +125,9 @@ const PackageEditModal: React.FC<Props> = ({
                     className={inputClass}
                   />
                 </Field>
-                <Field label="Boxes">
+                <Field id="pkg-containers" label="Boxes">
                   <input
+                    id="pkg-containers"
                     type="number"
                     value={form.containers}
                     onChange={set("containers")}
@@ -138,8 +141,9 @@ const PackageEditModal: React.FC<Props> = ({
 
           {/* Basic info */}
           <Section label="Basic Info" />
-          <Field label="Package Name">
+          <Field id="pkg-name" label="Package Name">
             <input
+              id="pkg-name"
               type="text"
               value={form.name}
               onChange={set("name")}
@@ -147,8 +151,9 @@ const PackageEditModal: React.FC<Props> = ({
               className={inputClass}
             />
           </Field>
-          <Field label="Description">
+          <Field id="pkg-description" label="Description">
             <input
+              id="pkg-description"
               type="text"
               value={form.description}
               onChange={set("description")}
@@ -160,8 +165,9 @@ const PackageEditModal: React.FC<Props> = ({
           {/* Pricing */}
           <Section label="Pricing" />
           <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Price (₦)">
+            <Field id="pkg-price" label="Price (₦)">
               <input
+                id="pkg-price"
                 type="number"
                 value={form.price}
                 onChange={set("price")}
@@ -169,8 +175,9 @@ const PackageEditModal: React.FC<Props> = ({
                 className={inputClass}
               />
             </Field>
-            <Field label="Original Price (₦)" hint="optional">
+            <Field id="pkg-originalPrice" label="Original Price (₦)" hint="optional">
               <input
+                id="pkg-originalPrice"
                 type="number"
                 value={form.originalPrice}
                 onChange={set("originalPrice")}
@@ -180,16 +187,18 @@ const PackageEditModal: React.FC<Props> = ({
             </Field>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Savings Text" hint='e.g. "Save ₦6,000"'>
+            <Field id="pkg-savingsText" label="Savings Text" hint='e.g. "Save ₦6,000"'>
               <input
+                id="pkg-savingsText"
                 type="text"
                 value={form.savingsText}
                 onChange={set("savingsText")}
                 className={inputClass}
               />
             </Field>
-            <Field label="Badge" hint='e.g. "BEST VALUE"'>
+            <Field id="pkg-badge" label="Badge" hint='e.g. "BEST VALUE"'>
               <input
+                id="pkg-badge"
                 type="text"
                 value={form.badge}
                 onChange={set("badge")}
@@ -200,16 +209,18 @@ const PackageEditModal: React.FC<Props> = ({
 
           {/* Details */}
           <Section label="Details" />
-          <Field label="Delivery Text">
+          <Field id="pkg-deliveryText" label="Delivery Text">
             <input
+              id="pkg-deliveryText"
               type="text"
               value={form.deliveryText}
               onChange={set("deliveryText")}
               className={inputClass}
             />
           </Field>
-          <Field label="Usage Note">
+          <Field id="pkg-usageNote" label="Usage Note">
             <input
+              id="pkg-usageNote"
               type="text"
               value={form.usageNote}
               onChange={set("usageNote")}

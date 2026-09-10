@@ -44,13 +44,15 @@ const PaymentSelector: React.FC<Props> = ({
       <label className="block text-xs font-semibold text-gray-700 mb-2">
         Payment Method <span className="text-red-500">*</span>
       </label>
-      <div className="grid grid-cols-2 gap-3">
+      <div role="radiogroup" aria-label="Payment Method" className="grid grid-cols-2 gap-3">
         {PAYMENT_OPTIONS.map(({ id, label, subtitle, Icon }) => {
           const active = paymentMethod === id;
           return (
             <button
               key={id}
               type="button"
+              role="radio"
+              aria-checked={active}
               onClick={() => {
                 setPaymentMethod(id);
                 setGatewayChoice(null);
@@ -82,13 +84,16 @@ const PaymentSelector: React.FC<Props> = ({
         <label className="block text-xs font-semibold text-gray-700">
           Select Gateway <span className="text-red-500">*</span>
         </label>
-        <div className="grid grid-cols-2 gap-3">
+        <div role="radiogroup" aria-label="Payment Gateway" className="grid grid-cols-2 gap-3">
           {GATEWAY_OPTIONS.map(({ id, label, subtitle, disabled }) => {
             const active = gatewayChoice === id;
             return (
               <button
                 key={id}
                 type="button"
+                role="radio"
+                aria-checked={active}
+                aria-disabled={disabled}
                 disabled={disabled}
                 onClick={disabled ? undefined : () => setGatewayChoice(id)}
                 className={

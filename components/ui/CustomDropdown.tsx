@@ -6,6 +6,7 @@ export type { DropdownOption };
 export type DropdownGroup = DeliveryZoneGroup;
 
 interface CustomDropdownProps {
+  id?: string;
   value: string;
   onChange: (value: string) => void;
   /** Flat list of options. Each item may be a plain string or { value, label }. */
@@ -18,6 +19,7 @@ interface CustomDropdownProps {
 }
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({
+  id,
   value,
   onChange,
   options,
@@ -82,6 +84,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
     <div ref={ref} className={`relative ${className ?? ''}`}>
       {/* ── Trigger ── */}
       <button
+        id={id}
         type="button"
         disabled={disabled}
         onClick={() => setOpen(v => !v)}

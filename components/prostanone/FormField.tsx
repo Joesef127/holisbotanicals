@@ -2,15 +2,16 @@ import React from 'react';
 
 interface FormFieldProps {
   label: string;
+  controlId: string;
   required?: boolean;
   error?: string;
   children: React.ReactNode;
   className?: string;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ label, required, error, children, className }) => (
+const FormField: React.FC<FormFieldProps> = ({ label, controlId, required, error, children, className }) => (
   <div className={className}>
-    <label className="block text-xs font-semibold text-gray-700 mb-1">
+    <label htmlFor={controlId} className="block text-xs font-semibold text-gray-700 mb-1">
       {label}
       {required && <span className="text-red-500"> *</span>}
     </label>

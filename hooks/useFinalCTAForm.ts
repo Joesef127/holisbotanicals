@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PACKAGES, API_BASE } from '../lib/constants.ts';
+import { ProductPackage } from '../types';
 import { calcDeliveryFee } from '../utils/delivery';
 import { useApp } from '../context/AppContext';
 import { useModal } from '../context/ModalContext';
@@ -48,7 +49,7 @@ export const INITIAL_FORM: FormState = {
 const INPUT_BASE =
   'w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 transition-colors';
 
-export function useFinalCTAForm() {
+export function useFinalCTAForm(packages?: ProductPackage[]) {
   const navigate = useNavigate();
   const { paymentMethod, setPaymentMethod, gatewayChoice, setGatewayChoice } = useApp();
   const { showAlert } = useModal();
@@ -59,7 +60,8 @@ export function useFinalCTAForm() {
   const [loading, setLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof FormState, string>>>({});
 
-  const selectedPkg = PACKAGES.find(p => p.id === form.packageId) ?? PACKAGES[0];
+  const packageList = packages && packages.length > 0 ? packages : PACKAGES;
+  const selectedPkg = packageList.find(p => p.id === form.packageId) ?? packageList[0];
 
   const deliveryFee = useMemo(
     () => calcDeliveryFee(form.state, form.address, selectedPkg.containers),

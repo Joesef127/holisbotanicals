@@ -31,12 +31,13 @@ const StarPicker: React.FC<{ value: number; onChange: (v: number) => void }> = (
 );
 
 const Field: React.FC<{
+  id?: string;
   label: string;
   hint?: string;
   children: React.ReactNode;
-}> = ({ label, hint, children }) => (
+}> = ({ id, label, hint, children }) => (
   <div>
-    <label className="block text-[10px] sm:text-xs font-semibold text-text-muted uppercase tracking-wider mb-1.5">
+    <label htmlFor={id} className="block text-[10px] sm:text-xs font-semibold text-text-muted uppercase tracking-wider mb-1.5">
       {label}
       {hint && <span className="normal-case font-normal ml-1 opacity-60">({hint})</span>}
     </label>
@@ -75,11 +76,22 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, defaultProductId =
     if (!form.name.trim()) { setError('Name is required.'); return; }
     if (!form.text.trim()) { setError('Review text is required.'); return; }
 
+    let parsedAge: number | null = null;
+    const trimmedAge = form.age.trim();
+    if (trimmedAge !== '') {
+      const num = Number(trimmedAge);
+      if (!/^\d+$/.test(trimmedAge) || !Number.isInteger(num) || num < 18 || num > 100) {
+        setError('Age must be an integer between 18 and 100.');
+        return;
+      }
+      parsedAge = num;
+    }
+
     setSaving(true);
     const body = {
       ...(!isEdit && { productId: defaultProductId || 'prostanone' }),
       name: form.name.trim(),
-      age: form.age ? parseInt(form.age, 10) : null,
+      age: parsedAge,
       location: form.location.trim() || null,
       text: form.text.trim(),
       rating: form.rating,
@@ -89,23 +101,28 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, defaultProductId =
       ? `${API_BASE}/api/testimonials/${testimonial!.id}`
       : `${API_BASE}/api/testimonials`;
 
-    const res = await fetch(url, {
-      method: isEdit ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      credentials: 'include',
-      body: JSON.stringify(body),
-    });
-    setSaving(false);
+    try {
+      const res = await fetch(url, {
+        method: isEdit ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        credentials: 'include',
+        body: JSON.stringify(body),
+      });
 
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error ?? 'Failed to save. Please try again.');
-      return;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? 'Failed to save. Please try again.');
+        return;
+      }
+
+      const saved: Testimonial = await res.json();
+      onSaved(saved);
+      onClose();
+    } catch (err: any) {
+      setError(err?.message || 'Failed to save. Please try again.');
+    } finally {
+      setSaving(false);
     }
-
-    const saved: Testimonial = await res.json();
-    onSaved(saved);
-    onClose();
   };
 
   return (
@@ -144,8 +161,9 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, defaultProductId =
             </div>
           )}
 
-          <Field label="Customer Name">
+          <Field id="testimonial-name" label="Customer Name">
             <input
+              id="testimonial-name"
               type="text"
               value={form.name}
               onChange={set('name')}
@@ -155,8 +173,9 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, defaultProductId =
           </Field>
 
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Age" hint="optional">
+            <Field id="testimonial-age" label="Age" hint="optional">
               <input
+                id="testimonial-age"
                 type="number"
                 value={form.age}
                 onChange={set('age')}
@@ -166,8 +185,9 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, defaultProductId =
                 className={inputClass}
               />
             </Field>
-            <Field label="Location" hint="optional">
+            <Field id="testimonial-location" label="Location" hint="optional">
               <input
+                id="testimonial-location"
                 type="text"
                 value={form.location}
                 onChange={set('location')}
@@ -177,8 +197,9 @@ const TestimonialEditModal: React.FC<Props> = ({ testimonial, defaultProductId =
             </Field>
           </div>
 
-          <Field label="Review Text">
+          <Field id="testimonial-text" label="Review Text">
             <textarea
+              id="testimonial-text"
               value={form.text}
               onChange={set('text')}
               rows={4}

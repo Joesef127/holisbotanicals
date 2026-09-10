@@ -143,6 +143,7 @@ const MENOSET_PACKAGES_SEED = [
 
 const TESTIMONIALS_SEED = [
   {
+    seedId: 'prostanone-chidi-a',
     productId: 'prostanone',
     name: 'Chidi A.',
     age: 52,
@@ -151,6 +152,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'prostanone-emeka-o',
     productId: 'prostanone',
     name: 'Emeka O.',
     age: 48,
@@ -159,6 +161,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'prostanone-adekunle-t',
     productId: 'prostanone',
     name: 'Adekunle T.',
     age: 55,
@@ -167,6 +170,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'prostanone-tunde-b',
     productId: 'prostanone',
     name: 'Tunde B.',
     age: 61,
@@ -175,6 +179,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'prostanone-ibrahim-k',
     productId: 'prostanone',
     name: 'Ibrahim K.',
     age: 49,
@@ -183,6 +188,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'prostanone-miss-abiodun',
     productId: 'prostanone',
     name: 'Miss Abiodun',
     age: null,
@@ -191,6 +197,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'prostanone-mr-olu',
     productId: 'prostanone',
     name: 'Mr Olu',
     age: null,
@@ -199,6 +206,7 @@ const TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'prostanone-anonymous-patient',
     productId: 'prostanone',
     name: 'Anonymous Patient',
     age: null,
@@ -210,6 +218,7 @@ const TESTIMONIALS_SEED = [
 
 const MENOSET_TESTIMONIALS_SEED = [
   {
+    seedId: 'menoset-amina-b',
     productId: 'menoset',
     name: 'Amina B.',
     age: null,
@@ -218,6 +227,7 @@ const MENOSET_TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'menoset-ifeoma-o',
     productId: 'menoset',
     name: 'Ifeoma O.',
     age: null,
@@ -226,6 +236,7 @@ const MENOSET_TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'menoset-tomi-a',
     productId: 'menoset',
     name: 'Tomi A.',
     age: null,
@@ -234,6 +245,7 @@ const MENOSET_TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'menoset-ngozi-e',
     productId: 'menoset',
     name: 'Ngozi E.',
     age: null,
@@ -242,6 +254,7 @@ const MENOSET_TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'menoset-folake-m',
     productId: 'menoset',
     name: 'Folake M.',
     age: null,
@@ -250,6 +263,7 @@ const MENOSET_TESTIMONIALS_SEED = [
     rating: 5,
   },
   {
+    seedId: 'menoset-zainab-k',
     productId: 'menoset',
     name: 'Zainab K.',
     age: null,
@@ -278,7 +292,10 @@ async function seed() {
   console.log('Seeding testimonials...');
   const allTestimonials = [...TESTIMONIALS_SEED, ...MENOSET_TESTIMONIALS_SEED];
   for (const t of allTestimonials) {
-    await db.insert(testimonials).values(t).onConflictDoNothing();
+    await db
+      .insert(testimonials)
+      .values(t)
+      .onConflictDoNothing({ target: testimonials.seedId });
   }
   console.log(`Seeded ${allTestimonials.length} testimonials.`);
 
