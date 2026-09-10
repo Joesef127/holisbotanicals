@@ -39,7 +39,7 @@ export const menosetPackages = pgTable('menoset_packages', {
   containers: integer('containers').notNull().default(1), // Packs (1, 3, 6, 12)
   price: integer('price').notNull(),
   originalPrice: integer('original_price'),
-  description: varchar('description', { length: 255 }),
+  description: varchar('description', { length: 255 }).notNull().default(''),
   savingsText: varchar('savings_text', { length: 100 }),
   deliveryText: varchar('delivery_text', { length: 255 }),
   usageNote: varchar('usage_note', { length: 255 }),

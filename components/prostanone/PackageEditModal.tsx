@@ -106,7 +106,7 @@ const LiveCardPreview: React.FC<{
           <div>
             {/* Title & Supply */}
             <div className="pt-2">
-              <h4 className="text-lg font-bold text-secondary">{displayName}</h4>
+              <h4 className="text-lg font-bold text-secondary capitalize">{displayName}</h4>
               <p className="mt-0.5 text-[11px] font-semibold text-text-muted uppercase tracking-wider">
                 {containers} {containers === 1 ? 'Pack' : 'Packs'} · {daysCount} Days Supply
               </p>
@@ -199,7 +199,10 @@ const LiveCardPreview: React.FC<{
         )}
 
         <div className="flex flex-col grow p-5">
-          <h4 className="text-lg font-bold text-secondary mb-0.5">{name}</h4>
+          <h4 className="text-lg font-bold text-secondary mb-0.5 capitalize">{name}</h4>
+          {form.subtitle?.trim() && (
+            <p className="text-xs font-semibold text-primary mb-1">{form.subtitle.trim()}</p>
+          )}
           <p className="text-text-muted text-xs mb-3">
             {form.description?.trim() || `${containers} Pack${containers > 1 ? 's' : ''} · ${containers * 20} Days Supply`}
           </p>
@@ -217,9 +220,9 @@ const LiveCardPreview: React.FC<{
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5 mb-3">
-            {form.savingsText?.trim() && (
+            {originalPriceNum && (
               <span className="inline-block bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] px-2 py-0.5 rounded-full font-semibold">
-                {form.savingsText.trim()}
+                Save ₦{(originalPriceNum - priceNum).toLocaleString()}
               </span>
             )}
             <span className="inline-block bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2 py-0.5 rounded-full font-medium">
@@ -413,6 +416,19 @@ const PackageEditModal: React.FC<Props> = ({
                 />
               </Field>
 
+              {!isMenoset && (
+                  <Field id="pkg-subtitle" label="Subtitle" hint="optional">
+                    <input
+                      id="pkg-subtitle"
+                      type="text"
+                      value={form.subtitle}
+                      onChange={set("subtitle")}
+                      placeholder="e.g. Cleansing & Mild Symptoms"
+                      className={inputClass}
+                    />
+                  </Field>
+              )}
+
               {/* Pricing */}
               <Section label="Pricing & Badges" />
               <div className="grid sm:grid-cols-2 gap-3">
@@ -438,15 +454,15 @@ const PackageEditModal: React.FC<Props> = ({
                 </Field>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-3">
-                <Field id="pkg-savingsText" label="Savings Text" hint='e.g. "Save ₦6,000"'>
+                <Field id="pkg-savingsText" label="Savings Text" hint='e.g. "6,000"'>
                   <input
                     id="pkg-savingsText"
                     type="text"
-                    value={`${(Number(form.originalPrice) - Number(form.price)).toLocaleString()}`}
+                    value={`${form.originalPrice && form.price ? Number(form.originalPrice) - Number(form.price) : ''}`}
                     onChange={set("savingsText")}
-                    placeholder="Save ₦5,000"
+                    placeholder="5,000"
                     className={inputClass}
+                    // disabled
                   />
                 </Field>
                 <Field id="pkg-badge" label="Top Badge" hint={isMenoset ? 'e.g. "MOST POPULAR"' : 'e.g. "RECOMMENDED"'}>
@@ -459,7 +475,6 @@ const PackageEditModal: React.FC<Props> = ({
                     className={inputClass}
                   />
                 </Field>
-              </div>
 
               {/* Delivery & Usage */}
               <Section label="Delivery & Usage Details" />

@@ -12,7 +12,7 @@ const Blog: React.FC = () => {
   // SEO configuration for blog page
   useSeoMeta(
     {
-      title: 'Prostate Health Blog - Tips, Research & Wellness Insights',
+      title: 'Holis Wellness Journal - Tips, Research & Wellness Insights',
       description: 'Read the latest articles on prostate health, wellness tips, and research insights. Learn about natural treatments, lifestyle changes, and expert advice for better health.',
       keywords: [
         'prostate health blog',
@@ -21,6 +21,9 @@ const Blog: React.FC = () => {
         'urinary health articles',
         'wellness insights',
         'prostate information',
+        'menopause support',
+        'urinary tract health',
+        'hot flashes'
       ],
       url: PAGE_URLS.blog,
       image: SITE_CONFIG.defaultImage,

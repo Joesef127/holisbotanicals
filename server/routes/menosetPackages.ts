@@ -16,6 +16,7 @@ menosetPackagesRoute.get('/', async (c) => {
 
   const mapped = rows.map((r) => ({
     ...r,
+    description: r.description ?? '',
     productId: 'menoset' as const,
   }));
 
@@ -36,20 +37,24 @@ menosetPackagesRoute.post('/', requireAdmin, async (c) => {
     badge?: string | null;
   }>();
 
-  if (!body.name?.trim()) return c.json({ error: 'Package name is required' }, 400);
-  if (!body.price) return c.json({ error: 'Price is required' }, 400);
+  if (!body.name || typeof body.name !== 'string' || !body.name.trim()) return c.json({ error: 'Package name is required' }, 400);
+  if (body.price === undefined || body.price === null || typeof body.price !== 'number' || Number.isNaN(body.price) || body.price < 0) {
+    return c.json({ error: 'Price is required' }, 400);
+  }
 
   const id = generatePackageId('menoset', body.name);
+  const containers = body.containers ?? 1;
+  const defaultDesc = `${containers} ${containers === 1 ? 'Pack' : 'Packs'} · ${containers * 30} Days Supply`;
 
   const inserted = await db
     .insert(menosetPackages)
     .values({
       id,
       name: body.name.trim(),
-      containers: body.containers ?? 1,
+      containers,
       price: body.price,
       originalPrice: body.originalPrice ?? null,
-      description: body.description?.trim() || `${body.containers ?? 1} Pack · ${(body.containers ?? 1) * 30} Days Supply`,
+      description: body.description?.trim() || defaultDesc,
       savingsText: body.savingsText?.trim() || null,
       deliveryText: body.deliveryText?.trim() || 'Nationwide delivery available',
       usageNote: body.usageNote?.trim() || '1 tablet twice daily, following the product label.',
@@ -78,11 +83,21 @@ menosetPackagesRoute.put('/:id', requireAdmin, async (c) => {
   }>();
 
   const allowedFields: Record<string, unknown> = {};
-  if (body.name !== undefined) allowedFields.name = body.name.trim();
+  if (body.name !== undefined) {
+    if (body.name === null || typeof body.name !== 'string' || !body.name.trim()) {
+      return c.json({ error: 'Package name is required' }, 400);
+    }
+    allowedFields.name = body.name.trim();
+  }
   if (body.containers !== undefined) allowedFields.containers = body.containers;
   if (body.price !== undefined) allowedFields.price = body.price;
   if (body.originalPrice !== undefined) allowedFields.originalPrice = body.originalPrice;
-  if (body.description !== undefined) allowedFields.description = body.description.trim();
+  if (body.description !== undefined) {
+    if (body.description === null || typeof body.description !== 'string') {
+      return c.json({ error: 'Description must be a string' }, 400);
+    }
+    allowedFields.description = body.description.trim();
+  }
   if (body.savingsText !== undefined) allowedFields.savingsText = body.savingsText?.trim() || null;
   if (body.deliveryText !== undefined) allowedFields.deliveryText = body.deliveryText?.trim() ?? '';
   if (body.usageNote !== undefined) allowedFields.usageNote = body.usageNote?.trim() ?? '';

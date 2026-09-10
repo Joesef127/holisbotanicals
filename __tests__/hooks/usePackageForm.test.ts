@@ -176,4 +176,121 @@ describe('usePackageForm Hook', () => {
     expect(onSaved).toHaveBeenCalledWith(mockCreated);
     expect(onClose).toHaveBeenCalled();
   });
+
+  it('should call onDeleted and onClose when remove succeeds with res.ok = true', async () => {
+    const pkg = {
+      id: 'prostanone-starter',
+      name: 'Starter Pack',
+      containers: 1,
+      price: 15000,
+      description: '1 Pack',
+    };
+
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true }),
+    });
+
+    const onDeleted = vi.fn();
+    const onClose = vi.fn();
+
+    const { result } = renderHook(() =>
+      usePackageForm({
+        pkg,
+        defaultProductId: 'prostanone',
+        onSaved: vi.fn(),
+        onDeleted,
+        onClose,
+      })
+    );
+
+    await act(async () => {
+      await result.current.remove();
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/api/packages/prostanone/prostanone-starter'),
+      expect.objectContaining({ method: 'DELETE' })
+    );
+    expect(onDeleted).toHaveBeenCalledWith('prostanone-starter');
+    expect(onClose).toHaveBeenCalled();
+    expect(result.current.deleting).toBe(false);
+  });
+
+  it('should set error and not call onDeleted/onClose when remove fails with res.ok = false', async () => {
+    const pkg = {
+      id: 'prostanone-starter',
+      name: 'Starter Pack',
+      containers: 1,
+      price: 15000,
+      description: '1 Pack',
+    };
+
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ error: 'Cannot delete package with active orders' }),
+    });
+
+    const onDeleted = vi.fn();
+    const onClose = vi.fn();
+
+    const { result } = renderHook(() =>
+      usePackageForm({
+        pkg,
+        defaultProductId: 'prostanone',
+        onSaved: vi.fn(),
+        onDeleted,
+        onClose,
+      })
+    );
+
+    await act(async () => {
+      await result.current.remove();
+    });
+
+    expect(onDeleted).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+    expect(result.current.error).toBe('Cannot delete package with active orders');
+    expect(result.current.deleting).toBe(false);
+  });
+
+  it('should initialize and submit subtitle and recommendedFor for prostanone', async () => {
+    const pkg = {
+      id: 'prostanone-option-b',
+      name: 'Special Pack',
+      containers: 2,
+      price: 25000,
+      description: '2 Packs',
+      subtitle: 'Popular Choice',
+      recommendedFor: 'Moderate Symptoms',
+    };
+
+    (global.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => pkg,
+    });
+
+    const onSaved = vi.fn();
+    const onClose = vi.fn();
+
+    const { result } = renderHook(() =>
+      usePackageForm({
+        pkg,
+        defaultProductId: 'prostanone',
+        onSaved,
+        onClose,
+      })
+    );
+
+    expect(result.current.form.subtitle).toBe('Popular Choice');
+    expect(result.current.form.recommendedFor).toBe('Moderate Symptoms');
+
+    await act(async () => {
+      await result.current.save();
+    });
+
+    const callBody = JSON.parse((global.fetch as any).mock.calls[0][1].body);
+    expect(callBody.subtitle).toBe('Popular Choice');
+    expect(callBody.recommendedFor).toBe('Moderate Symptoms');
+  });
 });

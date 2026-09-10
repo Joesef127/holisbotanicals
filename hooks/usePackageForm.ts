@@ -116,11 +116,17 @@ export function usePackageForm({ pkg, defaultProductId = 'prostanone', onSaved, 
     if (!confirmed) return;
     setDeleting(true);
     try {
-      await fetch(`${API_BASE}/api/packages/${defaultProductId}/${pkg.id}`, {
+      const res = await fetch(`${API_BASE}/api/packages/${defaultProductId}/${pkg.id}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setDeleting(false);
+        setError(data.error ?? 'Failed to delete package');
+        return;
+      }
       setDeleting(false);
       onDeleted?.(pkg.id);
       onClose();

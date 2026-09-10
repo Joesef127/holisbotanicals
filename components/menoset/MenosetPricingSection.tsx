@@ -189,7 +189,7 @@ export const MenosetPricingSection: React.FC = () => {
                 <div>
                   {/* Pack Title & Supply */}
                   <div className="pt-2">
-                    <h3 className="text-xl font-bold text-secondary">
+                    <h3 className="text-xl font-bold text-secondary capitalize">
                       {pkg.name.replace('Menoset ', '')}
                     </h3>
                     <p className="mt-1 text-xs font-semibold text-text-muted uppercase tracking-wider">
@@ -213,7 +213,7 @@ export const MenosetPricingSection: React.FC = () => {
                     <div className="mt-2 flex items-center justify-between">
                       {pkg.savingsText ? (
                         <span className="inline-block rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
-                          {pkg.savingsText}
+                          Save ₦{pkg.savingsText}
                         </span>
                       ) : (
                         <span className="text-xs text-text-muted">Standard Rate</span>

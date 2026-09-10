@@ -154,7 +154,7 @@ const PricingSection: React.FC = () => {
                     <div className="flex flex-wrap items-center gap-2 mb-4">
                       {pkg.savingsText && (
                         <span className="inline-block bg-success/10 text-success text-xs px-2.5 py-1 rounded-full w-fit">
-                          {pkg.savingsText}
+                          Save ₦{pkg.savingsText}
                         </span>
                       )}
                       <span className="inline-block bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2.5 py-1 rounded-full w-fit font-medium">

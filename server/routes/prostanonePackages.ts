@@ -38,8 +38,10 @@ prostanonePackagesRoute.post('/', requireAdmin, async (c) => {
     recommendedFor?: string;
   }>();
 
-  if (!body.name?.trim()) return c.json({ error: 'Package name is required' }, 400);
-  if (!body.price) return c.json({ error: 'Price is required' }, 400);
+  if (!body.name || typeof body.name !== 'string' || !body.name.trim()) return c.json({ error: 'Package name is required' }, 400);
+  if (body.price === undefined || body.price === null || typeof body.price !== 'number' || Number.isNaN(body.price) || body.price < 0) {
+    return c.json({ error: 'Price is required' }, 400);
+  }
 
   const id = generatePackageId('prostanone', body.name);
 
@@ -84,11 +86,21 @@ prostanonePackagesRoute.put('/:id', requireAdmin, async (c) => {
   }>();
 
   const allowedFields: Record<string, unknown> = {};
-  if (body.name !== undefined) allowedFields.name = body.name.trim();
+  if (body.name !== undefined) {
+    if (body.name === null || typeof body.name !== 'string' || !body.name.trim()) {
+      return c.json({ error: 'Package name is required' }, 400);
+    }
+    allowedFields.name = body.name.trim();
+  }
   if (body.containers !== undefined) allowedFields.containers = body.containers;
   if (body.price !== undefined) allowedFields.price = body.price;
   if (body.originalPrice !== undefined) allowedFields.originalPrice = body.originalPrice;
-  if (body.description !== undefined) allowedFields.description = body.description.trim();
+  if (body.description !== undefined) {
+    if (body.description === null || typeof body.description !== 'string') {
+      return c.json({ error: 'Description must be a string' }, 400);
+    }
+    allowedFields.description = body.description.trim();
+  }
   if (body.subtitle !== undefined) allowedFields.subtitle = body.subtitle?.trim() || null;
   if (body.savingsText !== undefined) allowedFields.savingsText = body.savingsText?.trim() || null;
   if (body.deliveryText !== undefined) allowedFields.deliveryText = body.deliveryText?.trim() ?? '';

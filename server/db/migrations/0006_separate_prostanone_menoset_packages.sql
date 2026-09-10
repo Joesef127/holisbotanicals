@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS "menoset_packages" (
 	"containers" integer DEFAULT 1 NOT NULL,
 	"price" integer NOT NULL,
 	"original_price" integer,
-	"description" varchar(255),
+	"description" varchar(255) DEFAULT '' NOT NULL,
 	"savings_text" varchar(100),
 	"delivery_text" varchar(255),
 	"usage_note" varchar(255),
@@ -30,15 +30,15 @@ CREATE TABLE IF NOT EXISTS "menoset_packages" (
 --> statement-breakpoint
 DO $$
 BEGIN
-  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'packages') THEN
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'packages') THEN
     INSERT INTO "prostanone_packages" ("id", "name", "containers", "price", "original_price", "description", "savings_text", "delivery_text", "usage_note", "badge", "updated_at")
-    SELECT "id", "name", "containers", "price", "original_price", "description", "savings_text", "delivery_text", "usage_note", "badge", "updated_at"
+    SELECT "id", "name", "containers", "price", "original_price", COALESCE("description", ''), "savings_text", "delivery_text", "usage_note", "badge", "updated_at"
     FROM "packages"
     WHERE "product_id" = 'prostanone' OR "product_id" IS NULL
     ON CONFLICT ("id") DO NOTHING;
 
     INSERT INTO "menoset_packages" ("id", "name", "containers", "price", "original_price", "description", "savings_text", "delivery_text", "usage_note", "badge", "updated_at")
-    SELECT "id", "name", "containers", "price", "original_price", "description", "savings_text", "delivery_text", "usage_note", "badge", "updated_at"
+    SELECT "id", "name", "containers", "price", "original_price", COALESCE("description", ''), "savings_text", "delivery_text", "usage_note", "badge", "updated_at"
     FROM "packages"
     WHERE "product_id" = 'menoset'
     ON CONFLICT ("id") DO NOTHING;

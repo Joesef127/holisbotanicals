@@ -16,7 +16,7 @@ describe('generatePackageId', () => {
 
   it('should sanitize special characters in package name', () => {
     const id = generatePackageId('prostanone', 'Special & Best Value (Option #5)!');
-    expect(id).toMatch(/^prostanone-special-best-value-opt-[a-z0-9]+$/);
+    expect(id).toMatch(/^prostanone-special-best-value-optio-[a-z0-9]+$/);
     expect(id).not.toContain('&');
     expect(id).not.toContain('(');
     expect(id).not.toContain('!');
