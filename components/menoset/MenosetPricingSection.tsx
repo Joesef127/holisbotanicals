@@ -31,6 +31,11 @@ export const MenosetPricingSection: React.FC = () => {
 
   const handleSelectPackage = (packageId: string) => {
     addToCart(packageId, 1);
+    showAlert({
+      title: 'Package Added',
+      message: 'Package added to cart successfully.',
+    });
+
   };
 
   const openEdit = (pkg: ProductPackage) => {

@@ -127,15 +127,15 @@ const Summary: React.FC = () => {
                                  )}
                               </ul> */}
                            </div>
-                           <div className="flex flex-row sm:flex-col items-center md:items-end gap-3 shrink-0">
+                           <div className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-between md:items-end gap-3 shrink-0">
                               <div className="text-xl sm:text-2xl font-bold text-primary">₦{lineTotal.toLocaleString()}</div>
                               <div className={`grid ${lineSavingsText !== '0' ? "grid-rows-2" : "grid-rows-1"}`}>
 
-                              {lineSavingsText !== '0' && (
+                              {/* {lineSavingsText !== '0' && (
                                  <div className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full border border-green-400">
                                        Save ₦{lineSavingsText}
                                  </div>
-                              )}
+                              )} */}
                               <button
                                  onClick={async () => {
                                     const ok = await showConfirm({
